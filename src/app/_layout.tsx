@@ -15,7 +15,7 @@ export {
 
 export const unstable_settings = {
   // Ensure that reloading on `/modal` keeps a back button present.
-  initialRouteName: '(tabs)',
+  initialRouteName: '(tabs)', // Keep the initial route pointing to the (tabs) navigation
 };
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
@@ -51,7 +51,14 @@ function RootLayoutNav() {
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack>
+        {/* The tab navigator defined in (tabs) folder */}
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        
+        {/* Add the login and signup screens here */}
+        <Stack.Screen name="login" options={{ title: 'Login' }} />
+        <Stack.Screen name="signup" options={{ title: 'Signup' }} />
+        
+        {/* The modal screen */}
         <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
       </Stack>
     </ThemeProvider>
