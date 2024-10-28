@@ -1,12 +1,15 @@
-import React from 'react';
-import { View, Text, Button, StyleSheet } from 'react-native';
+import React from "react";
+import { View, Text, Button, StyleSheet } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 const Login = () => {
+  const navigation = useNavigation();
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Login Page</Text>
       {/* Add mock login form here */}
-      <Button title="Go Back" onPress={() => {}} />
+      <Button title="Go Back" onPress={() => navigation.goBack()} />
     </View>
   );
 };
@@ -14,8 +17,8 @@ const Login = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     padding: 16,
   },
   title: {
