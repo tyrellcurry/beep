@@ -1,57 +1,75 @@
-import React from 'react';
-import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { Link, Tabs } from 'expo-router';
-import { Pressable } from 'react-native';
+import React from "react";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
+import { Link, Tabs } from "expo-router";
+import { Pressable, Image } from "react-native";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import AntDesign from "@expo/vector-icons/AntDesign";
 
-import Colors from '@/src/constants/Colors';
-import { useColorScheme } from '@/src/components/useColorScheme';
-import { useClientOnlyValue } from '@/src/components/useClientOnlyValue';
+import Colors from "@/src/constants/Colors";
+import { useColorScheme } from "@/src/components/useColorScheme";
+import { useClientOnlyValue } from "@/src/components/useClientOnlyValue";
 
 // You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
-function TabBarIcon(props: {
-  name: React.ComponentProps<typeof FontAwesome>['name'];
-  color: string;
-}) {
+function TabBarIcon(props: { name: React.ComponentProps<typeof FontAwesome>["name"]; color: string }) {
   return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
 }
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
+  // need to change real user info
+  const profileImageUrl = "https://i.pravatar.cc/300";
 
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        // Disable the static render of the header on web
-        // to prevent a hydration error in React Navigation v6.
+        tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
         headerShown: useClientOnlyValue(false, true),
-      }}>
+        tabBarStyle: {
+          flexDirection: "row",
+          justifyContent: "center",
+          paddingVertical: 5,
+          backgroundColor: "#F4F0F1",
+          borderRadius: 50,
+          position: "absolute",
+          bottom: 30,
+          width: "95%",
+          alignSelf: "center",
+          left: 10,
+        },
+      }}
+    >
       <Tabs.Screen
-        name="index"
+        name="Location"
         options={{
-          title: 'Tab One',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: "Location",
+          tabBarIcon: ({ color }) => <Ionicons name="location-outline" size={24} color="black" />,
           headerRight: () => (
             <Link href="/modal" asChild>
-              <Pressable>
-                {({ pressed }) => (
-                  <FontAwesome
-                    name="info-circle"
-                    size={25}
-                    color={Colors[colorScheme ?? 'light'].text}
-                    style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-                  />
-                )}
-              </Pressable>
+              <Pressable>{({ pressed }) => <FontAwesome name="info-circle" size={25} color={Colors[colorScheme ?? "light"].text} style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }} />}</Pressable>
             </Link>
           ),
         }}
       />
       <Tabs.Screen
-        name="two"
+        name="Emergency"
         options={{
-          title: 'Tab Two',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: "Emergency",
+          tabBarIcon: ({ color }) => <MaterialIcons name="emergency" size={24} color="black" />,
+        }}
+      />
+      <Tabs.Screen
+        name="SafeZone"
+        options={{
+          title: "SafeZone",
+          tabBarIcon: ({ color }) => <AntDesign name="Safety" size={24} color="black" />,
+        }}
+      />
+      <Tabs.Screen
+        name="Profile"
+        options={{
+          title: "Profile",
+          tabBarIcon: () => <Image source={{ uri: profileImageUrl }} style={{ width: 24, height: 24, borderRadius: 12 }} />,
         }}
       />
     </Tabs>
