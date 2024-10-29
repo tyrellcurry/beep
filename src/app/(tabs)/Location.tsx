@@ -14,6 +14,7 @@ import { GOOGLE_API_KEY } from "@/environments";
 import Constants from "expo-constants";
 import { useRef, useState } from "react";
 import MapViewDirections from "react-native-maps-directions";
+import Colors from "@/src/constants/Colors";
 
 const { width, height } = Dimensions.get("window");
 
@@ -125,7 +126,7 @@ export default function App() {
             origin={origin}
             destination={destination}
             apikey={GOOGLE_API_KEY}
-            strokeColor="#6644ff"
+            strokeColor="#651FD7"
             strokeWidth={4}
             onReady={traceRouteOnReady}
           />
@@ -172,8 +173,8 @@ const styles = StyleSheet.create({
   searchContainer: {
     position: "absolute",
     width: "90%",
-    backgroundColor: "white",
-    shadowColor: "black",
+    backgroundColor: Colors.light.background,
+    shadowColor: Colors.light.tint,
     shadowOffset: { width: 2, height: 2 },
     shadowOpacity: 0.5,
     shadowRadius: 4,
@@ -183,11 +184,11 @@ const styles = StyleSheet.create({
     top: Constants.statusBarHeight,
   },
   input: {
-    borderColor: "#888",
+    borderColor: "#141216",
     borderWidth: 1,
   },
   button: {
-    backgroundColor: "#bbb",
+    backgroundColor: Colors.light.tabIconDefault,
     paddingVertical: 12,
     marginTop: 16,
     borderRadius: 4,
