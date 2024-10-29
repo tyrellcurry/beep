@@ -14,16 +14,63 @@ import Colors from "../constants/Colors";
 
 const { width } = Dimensions.get("window");
 
-const LandingPage = () => {
+const SignUpPage = () => {
   const router = useRouter();
 
   return (
     <View style={styles.container}>
-      <MapView style={styles.map} />
-      <Button
-        title="Landing Page"
-        onPress={() => router.push("/LandingPage" as Href<string>)}
+      <Text style={styles.title}>Create Account</Text>
+
+      <TextInput
+        style={styles.input}
+        placeholder="Full Name"
+        placeholderTextColor="#A0A0A0"
       />
+      <TextInput
+        style={styles.input}
+        placeholder="Email"
+        placeholderTextColor="#A0A0A0"
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Password"
+        placeholderTextColor="#A0A0A0"
+        secureTextEntry
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Confirm Password"
+        placeholderTextColor="#A0A0A0"
+        secureTextEntry
+      />
+
+      <TouchableOpacity style={styles.signUpButton}>
+        <Text style={styles.signUpText}>Sign Up</Text>
+      </TouchableOpacity>
+
+      <View style={styles.separatorContainer}>
+        <View style={styles.separator} />
+        <Text style={styles.orText}>or</Text>
+        <View style={styles.separator} />
+      </View>
+
+      <View style={styles.socialContainer}>
+        <TouchableOpacity style={styles.socialButton}>
+          <FontAwesome5 name="facebook" size={24} color="#1877F2" />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.socialButton}>
+          <FontAwesome5 name="google" size={24} color="#EA4335" />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.socialButton}>
+          <Ionicons name="logo-apple" size={24} color="white" />
+        </TouchableOpacity>
+      </View>
+
+      <TouchableOpacity onPress={() => router.push("/")}>
+        <Text style={styles.loginText}>
+          Already have an account? <Text style={styles.loginLink}>Log in</Text>
+        </Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -55,13 +102,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#3e3e3e",
   },
-  forgotPassword: {
-    color: "#A0A0A0",
-    alignSelf: "flex-end",
-    marginRight: width * 0.1,
-    marginVertical: 10,
-  },
-  signInButton: {
+  signUpButton: {
     backgroundColor: "#651FD7",
     width: width * 0.8,
     height: 50,
@@ -70,7 +111,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginVertical: 20,
   },
-  signInText: {
+  signUpText: {
     color: "#FFFFFF",
     fontSize: 16,
     fontWeight: "bold",
@@ -102,14 +143,14 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  signupText: {
+  loginText: {
     color: "#A0A0A0",
     marginTop: 20,
   },
-  signupLink: {
+  loginLink: {
     color: "#FFFFFF",
     fontWeight: "bold",
   },
 });
 
-export default LandingPage;
+export default SignUpPage;
