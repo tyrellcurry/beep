@@ -2,14 +2,14 @@ import React from "react";
 import { View, Text, Button, StyleSheet } from "react-native";
 import { useRouter } from "expo-router";
 
-const LandingPage = () => {
-  const router = useRouter(); // Expo Router for navigation
+const LandingPage: React.FC = () => {
+  const router = useRouter();
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Welcome to Beep</Text>
-      <Button title="Log in" onPress={() => router.push("/login" as Href<string>)} />
-      <Button title="Sign up" onPress={() => router.push("/login" as Href<string>)} />
+      <Button title="Log in" onPress={() => router.push("/login")} />
+      <Button title="Sign up" onPress={() => router.push("/signup")} />
     </View>
   );
 };
