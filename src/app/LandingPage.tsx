@@ -1,6 +1,6 @@
-import React from 'react';
-import { View, Text, Button, StyleSheet } from 'react-native';
-import { useRouter } from 'expo-router';
+import React from "react";
+import { View, Text, Button, StyleSheet } from "react-native";
+import { useRouter } from "expo-router";
 
 const LandingPage = () => {
   const router = useRouter(); // Expo Router for navigation
@@ -8,8 +8,8 @@ const LandingPage = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Welcome to Beep</Text>
-      <Button title="Log in" onPress={() => router.push('/login')} />
-      <Button title="Sign up" onPress={() => router.push('/signup')} />
+      <Button title="Log in" onPress={() => router.push("/login" as Href<string>)} />
+      <Button title="Sign up" onPress={() => router.push("/login" as Href<string>)} />
     </View>
   );
 };
@@ -17,8 +17,8 @@ const LandingPage = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     padding: 16,
   },
   title: {
@@ -28,4 +28,3 @@ const styles = StyleSheet.create({
 });
 
 export default LandingPage;
-
