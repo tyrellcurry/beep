@@ -22,10 +22,16 @@ const ASPECT_RATIO = width / height;
 const LATITUDE_DELTA = 0.02;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 const INITIAL_POSITION = {
-  latitude: 40.76711,
-  longitude: -73.979704,
+  latitude: 49.2488,
+  longitude: -123.0016,
   latitudeDelta: LATITUDE_DELTA,
   longitudeDelta: LONGITUDE_DELTA,
+};
+
+// TODO: Static coordinates for 3700 Willingdon Ave, Burnaby, BC V5G 3H2 (This is only for midterm presentation)
+const STATIC_ORIGIN = {
+  latitude: 49.2488,
+  longitude: -123.0016,
 };
 
 type InputAutocompleteProps = {
@@ -59,7 +65,7 @@ function InputAutocomplete({
 }
 
 export default function App() {
-  const [origin, setOrigin] = useState<LatLng | null>();
+  const [origin, setOrigin] = useState<LatLng>(STATIC_ORIGIN);
   const [destination, setDestination] = useState<LatLng | null>();
   const [showDirections, setShowDirections] = useState(false);
   const [distance, setDistance] = useState(0);
@@ -101,14 +107,13 @@ export default function App() {
 
   const onPlaceSelected = (
     details: GooglePlaceDetail | null,
-    flag: "origin" | "destination"
+    flag: "destination"
   ) => {
-    const set = flag === "origin" ? setOrigin : setDestination;
     const position = {
       latitude: details?.geometry.location.lat || 0,
       longitude: details?.geometry.location.lng || 0,
     };
-    set(position);
+    setDestination(position);
     moveTo(position);
   };
   return (
@@ -119,7 +124,7 @@ export default function App() {
         provider={PROVIDER_GOOGLE}
         initialRegion={INITIAL_POSITION}
       >
-        {origin && <Marker coordinate={origin} />}
+        {origin && <Marker coordinate={origin} title="3700 Willingdon Ave" />}
         {destination && <Marker coordinate={destination} />}
         {showDirections && origin && destination && (
           <MapViewDirections
@@ -134,13 +139,8 @@ export default function App() {
       </MapView>
       <View style={styles.searchContainer}>
         <InputAutocomplete
-          label="Origin"
-          onPlaceSelected={(details) => {
-            onPlaceSelected(details, "origin");
-          }}
-        />
-        <InputAutocomplete
-          label="Destination"
+          label=""
+          placeholder="Search Maps"
           onPlaceSelected={(details) => {
             onPlaceSelected(details, "destination");
           }}
@@ -179,13 +179,17 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.5,
     shadowRadius: 4,
     elevation: 4,
-    padding: 8,
-    borderRadius: 8,
-    top: Constants.statusBarHeight,
+    padding: 12,
+    borderRadius: 24,
+    flexDirection: "row",
+    alignItems: "center",
+    top: Constants.statusBarHeight + 10,
   },
   input: {
+    flex: 1,
     borderColor: "#141216",
     borderWidth: 1,
+    fontSize: 16,
   },
   button: {
     backgroundColor: Colors.light.tabIconDefault,
