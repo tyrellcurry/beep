@@ -44,13 +44,18 @@ export default function ProfileScreen() {
       <View style={styles.settingsContainer}>
         <View style={styles.settingsBox}>
           <Text style={styles.settingsText}>Settings</Text>
-          <TouchableOpacity style={styles.settingsButton}>
+          <View style={styles.settingsIcon}>
+            <Text style={styles.moonIcon}>⚙️</Text>
+          </View>
+          <TouchableOpacity style={styles.settingsArrowContainer}>
             <Text style={styles.settingsArrow}>→</Text>
           </TouchableOpacity>
         </View>
         <View style={styles.nightModeBox}>
           <Text style={styles.settingsText}>Night Mode</Text>
-          <Text style={styles.moonIcon}>🌙</Text>
+          <View style={styles.nightModeIcon}>
+            <Text style={styles.moonIcon}>🌙</Text>
+          </View>
         </View>
       </View>
 
@@ -68,8 +73,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   profileImage: {
-    width: 150,
-    height: 150,
+    width: 130,
+    height: 130,
     borderRadius: 70,
     marginTop: 20,
   },
@@ -112,6 +117,7 @@ const styles = StyleSheet.create({
   contacts: {
     flexDirection: "row",
     justifyContent: "space-around",
+    backgroundColor: "#F5F5F5",
   },
   contactImage: {
     width: 50,
@@ -120,13 +126,13 @@ const styles = StyleSheet.create({
   },
   contactItem: {
     alignItems: "center",
+    backgroundColor: "#F5F5F5",
   },
   contactName: {
     marginTop: 5,
     fontSize: 12,
     color: "#333",
   },
-
   addContactButton: {
     width: 50,
     height: 50,
@@ -149,34 +155,65 @@ const styles = StyleSheet.create({
   settingsBox: {
     width: "45%",
     backgroundColor: "#651FD7",
-    borderRadius: 10,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    borderBottomLeftRadius: 20,
     padding: 20,
+    position: "relative",
+  },
+  settingsText: {
+    color: "#FFF",
+    fontWeight: "bold",
+    fontSize: 18,
+  },
+  settingsIcon: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    position: "absolute",
+    bottom: 15,
+    left: 15,
+    backgroundColor: "#FFF",
+    justifyContent: "center",
     alignItems: "center",
+  },
+  settingsArrowContainer: {
+    position: "absolute",
+    bottom: -10,
+    right: -10,
+    backgroundColor: "#FF005C",
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  settingsArrow: {
+    fontSize: 20,
+    color: "#FFF",
   },
   nightModeBox: {
     width: "45%",
     backgroundColor: "#1A1A1A",
     borderColor: "#FFF",
     borderWidth: 1,
-    borderRadius: 10,
+    borderRadius: 20,
     padding: 20,
     alignItems: "center",
   },
-  settingsText: {
-    color: "#FFF",
-    fontWeight: "bold",
-  },
-  settingsButton: {
-    marginTop: 10,
-  },
-  settingsArrow: {
-    fontSize: 20,
-    color: "#FFF",
+  nightModeIcon: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    // borderColor: "#FFF",
+    borderWidth: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 15,
   },
   moonIcon: {
-    fontSize: 24,
-    color: "#FFF",
-    marginTop: 10,
+    fontSize: 20,
+    // color: "#FFF",
   },
   signOutButton: {
     backgroundColor: "#FF005C",
@@ -188,6 +225,6 @@ const styles = StyleSheet.create({
   signOutText: {
     color: "#FFF",
     fontWeight: "bold",
-    fontSize: 20,
+    fontSize: 16,
   },
 });

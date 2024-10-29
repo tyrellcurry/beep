@@ -4,7 +4,7 @@ import { Ionicons } from "@expo/vector-icons";
 export default function EmergencyScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>BCIT School of Business + Media</Text>
+      <Text style={styles.header}>📍BCIT School of Business + Media</Text>
       <Text style={styles.title}>Activate Alarm</Text>
       <Text style={styles.subtitle}>Sound a loud alarm and send your location to emergency contacts.</Text>
 
@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     marginBottom: 5,
     backgroundColor: "#F4F0F1",
-    borderRadius: 50,
+    borderRadius: 25,
     width: "60%",
     alignItems: "center",
     justifyContent: "center",
