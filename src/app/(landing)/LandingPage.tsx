@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, Button, StyleSheet } from "react-native";
-import { Href, useRouter } from "expo-router";
+import { useRouter, Href } from "expo-router";
 
 const LandingPage = () => {
   const router = useRouter(); // Expo Router for navigation
@@ -8,8 +8,8 @@ const LandingPage = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Welcome to Beep</Text>
-      <Button title="Log in" onPress={() => router.push("/login" as Href<string>)} />
-      <Button title="Sign up" onPress={() => router.push("/login" as Href<string>)} />
+      <Button title="Log in" onPress={() => router.push("/(auth)/login" as Href<string>)} />
+      <Button title="Sign up" onPress={() => router.push("/(auth)/signup" as Href<string>)} />
     </View>
   );
 };
