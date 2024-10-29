@@ -12,7 +12,8 @@ const SafeZoneScreen: React.FC = () => {
         <Text style={styles.headerSubtitle}>Share your location or record surroundings, and access saved media easily.</Text>
       </View>
 
-      {/* Map Section */}
+      {/* Map Section with Overlay */}
+
       <View style={styles.mapContainer}>
         <MapView
           style={styles.map}
@@ -26,20 +27,27 @@ const SafeZoneScreen: React.FC = () => {
           {/* Placeholder for current location marker */}
           <Marker coordinate={{ latitude: 37.78825, longitude: -122.4324 }} />
         </MapView>
-        <TouchableOpacity style={styles.mapButton}>
-          <Ionicons name="arrow-forward-circle" size={24} color="white" />
-        </TouchableOpacity>
-        <Text style={styles.mapTitle}>Live Location Sharing</Text>
-        <Text style={styles.mapSubtitle}>Share your location with emergency contacts.</Text>
+        {/* Overlay with Text and Button */}
+        <View style={styles.mapOverlay}>
+          <View>
+            <Text style={styles.mapOverlayTitle}>Live Location Sharing</Text>
+            <Text style={styles.mapOverlaySubtitle}>Share your location with emergency contacts.</Text>
+          </View>
+          <TouchableOpacity style={styles.mapOverlayButton}>
+            <Ionicons name="arrow-forward" size={20} color="white" />
+          </TouchableOpacity>
+        </View>
       </View>
 
       {/* Features Section */}
       <View style={styles.featuresContainer}>
         <TouchableOpacity style={styles.featureBoxPurple}>
           <Text style={styles.featureTitle}>Snap & Record</Text>
+
           <Text style={styles.featureSubtitle}>Snap photos or record videos for safety</Text>
           <View style={styles.featureIcons}>
             <FontAwesome name="camera" size={20} color="white" style={styles.iconSpacing} />
+
             <FontAwesome name="video-camera" size={20} color="white" />
           </View>
           <TouchableOpacity style={styles.arrowButtonPurple}>
@@ -49,8 +57,10 @@ const SafeZoneScreen: React.FC = () => {
 
         <TouchableOpacity style={styles.featureBoxBlack}>
           <Text style={styles.featureTitle}>Media History</Text>
+
           <Text style={styles.featureSubtitle}>Access past photos and videos</Text>
           <FontAwesome name="file-image-o" size={20} color="white" style={styles.mediaIcon} />
+
           <TouchableOpacity style={styles.arrowButtonBlack}>
             <Ionicons name="arrow-forward" size={20} color="white" />
           </TouchableOpacity>
@@ -90,28 +100,36 @@ const styles = StyleSheet.create({
   map: {
     ...StyleSheet.absoluteFillObject,
   },
-  mapButton: {
+
+  mapOverlay: {
     position: "absolute",
-    bottom: 10,
-    right: 10,
-    backgroundColor: "#FF4D4D",
-    borderRadius: 50,
-    padding: 10,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
   },
-  mapTitle: {
-    position: "absolute",
-    bottom: 40,
-    left: 10,
+  mapOverlayTitle: {
     color: "white",
     fontSize: 16,
     fontWeight: "bold",
   },
-  mapSubtitle: {
-    position: "absolute",
-    bottom: 20,
-    left: 10,
+
+  mapOverlaySubtitle: {
     color: "white",
     fontSize: 12,
+    marginTop: 4,
+  },
+  mapOverlayButton: {
+    backgroundColor: "#FF4D4D",
+    borderRadius: 25,
+    padding: 10,
   },
   featuresContainer: {
     flexDirection: "row",
@@ -123,7 +141,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#651Fd7",
     padding: 16,
     borderRadius: 20,
-    borderBottomRightRadius: 60, // Additional styling to match the image
+    borderBottomRightRadius: 60,
     position: "relative",
   },
   featureBoxBlack: {
@@ -131,7 +149,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#000",
     padding: 16,
     borderRadius: 20,
-    borderTopLeftRadius: 60, // Additional styling to match the image
+    borderTopLeftRadius: 60,
     borderColor: "#FFFFFF",
     borderWidth: 1,
     position: "relative",
