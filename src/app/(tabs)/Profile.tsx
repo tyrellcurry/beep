@@ -42,7 +42,7 @@ export default function ProfileScreen() {
       </View>
 
       <View style={styles.settingsContainer}>
-        <Image source={require("../../assets/setting.png")} style={styles.iconImage} />
+        {/* <Image source={require("../../assets/setting.png")} style={styles.iconImage} /> */}
         <View style={styles.settingsBox}>
           <Text style={styles.settingsText}>Settings</Text>
           <View style={styles.settingsIcon}>
