@@ -42,6 +42,7 @@ export default function ProfileScreen() {
       </View>
 
       <View style={styles.settingsContainer}>
+        <Image source={require("../../assets/setting.png")} style={styles.iconImage} />
         <View style={styles.settingsBox}>
           <Text style={styles.settingsText}>Settings</Text>
           <View style={styles.settingsIcon}>
@@ -57,6 +58,7 @@ export default function ProfileScreen() {
             <Text style={styles.moonIcon}>🌙</Text>
           </View>
         </View>
+        {/* <Image source={require("../../assets/nightmode.png")} style={styles.iconImage} /> */}
       </View>
 
       <TouchableOpacity style={styles.signOutButton}>
@@ -191,6 +193,10 @@ const styles = StyleSheet.create({
   settingsArrow: {
     fontSize: 20,
     color: "#FFF",
+  },
+  iconImage: {
+    width: 150,
+    height: 150,
   },
   nightModeBox: {
     width: "45%",
