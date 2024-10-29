@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, Button, StyleSheet } from "react-native";
-import { Href, useRouter } from "expo-router";
+import { useRouter, Href } from "expo-router";
 
 const LandingPage = () => {
   const router = useRouter(); // Expo Router for navigation
