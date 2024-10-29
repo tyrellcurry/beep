@@ -110,7 +110,6 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     width: "60%",
     alignItems: "center",
-    justifyContent: "center",
   },
   optionButton: {
     backgroundColor: "#651Fd7",
