@@ -1,18 +1,9 @@
 import MapView, { LatLng, Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import React from "react";
-import {
-  StyleSheet,
-  View,
-  Dimensions,
-  Text,
-  TouchableOpacity,
-} from "react-native";
-import {
-  GooglePlaceDetail,
-  GooglePlacesAutocomplete,
-} from "react-native-google-places-autocomplete";
+import { StyleSheet, View, Dimensions, Text, TouchableOpacity } from "react-native";
+import { GooglePlaceDetail, GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 // import { GOOGLE_API_KEY } from "@env";
-import { GOOGLE_API_KEY } from "@env";
+import { GOOGLE_API_KEY } from "@/environments";
 
 import Constants from "expo-constants";
 import { useRef, useState } from "react";
@@ -37,11 +28,7 @@ type InputAutocompleteProps = {
   onPlaceSelected: (details: GooglePlaceDetail | null) => void;
 };
 
-function InputAutocomplete({
-  label,
-  placeholder,
-  onPlaceSelected,
-}: InputAutocompleteProps) {
+function InputAutocomplete({ label, placeholder, onPlaceSelected }: InputAutocompleteProps) {
   return (
     <>
       <Text>{label}</Text>
@@ -102,10 +89,7 @@ export default function App() {
     }
   };
 
-  const onPlaceSelected = (
-    details: GooglePlaceDetail | null,
-    flag: "origin" | "destination"
-  ) => {
+  const onPlaceSelected = (details: GooglePlaceDetail | null, flag: "origin" | "destination") => {
     const set = flag === "origin" ? setOrigin : setDestination;
     const position = {
       latitude: details?.geometry.location.lat || 0,
@@ -116,24 +100,10 @@ export default function App() {
   };
   return (
     <View style={styles.container}>
-      <MapView
-        ref={mapRef}
-        style={styles.map}
-        provider={PROVIDER_GOOGLE}
-        initialRegion={INITIAL_POSITION}
-      >
+      <MapView ref={mapRef} style={styles.map} provider={PROVIDER_GOOGLE} initialRegion={INITIAL_POSITION}>
         {origin && <Marker coordinate={origin} />}
         {destination && <Marker coordinate={destination} />}
-        {showDirections && origin && destination && (
-          <MapViewDirections
-            origin={origin}
-            destination={destination}
-            apikey={GOOGLE_API_KEY}
-            strokeColor="#651FD7"
-            strokeWidth={4}
-            onReady={traceRouteOnReady}
-          />
-        )}
+        {showDirections && origin && destination && <MapViewDirections origin={origin} destination={destination} apikey={GOOGLE_API_KEY} strokeColor="#651FD7" strokeWidth={4} onReady={traceRouteOnReady} />}
       </MapView>
       <View style={styles.searchContainer}>
         <InputAutocomplete
