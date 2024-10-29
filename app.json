@@ -13,7 +13,11 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "config": {
+        "googleMapsApiKey": "AIzaSyBulEPkGED3kRHue-LK3nJwgSPWnrpgh_Q"
+      },
+      "bundleIdentifier": "com.idspbeep.IDSP2Beep"
     },
     "android": {
       "adaptiveIcon": {
@@ -31,6 +35,11 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "eas": {
+        "projectId": "9337c450-4f93-4470-9472-a27be8391b00"
+      }
     }
   }
 }
