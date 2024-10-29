@@ -52,6 +52,7 @@ function RootLayoutNav() {
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack>
         {/* The tab navigator defined in (tabs) folder */}
+        <Stack.Screen name="(landing)" options={{ headerShown: false }} />
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
 
         {/* Add the login and signup screens here */}
