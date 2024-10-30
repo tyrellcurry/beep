@@ -81,6 +81,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignSelf: "center",
     marginBottom: 10,
+    shadowColor: "#F7185B",
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 1,
+    shadowRadius: 20,
+    elevation: 10,
   },
 
   sosText: {
