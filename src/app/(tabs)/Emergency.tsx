@@ -1,16 +1,20 @@
 import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
 
 export default function EmergencyScreen() {
+  const router = useRouter();
+
   return (
     <View style={styles.container}>
       <Text style={styles.header}>📍BCIT School of Business + Media</Text>
       <Text style={styles.title}>Activate Alarm</Text>
       <Text style={styles.subtitle}>Sound a loud alarm and send your location to emergency contacts.</Text>
 
-      <TouchableOpacity style={styles.sosButton}>
+      <TouchableOpacity style={styles.sosButton} onPress={() => router.push("/sos")}>
         <Text style={styles.sosText}>SOS</Text>
       </TouchableOpacity>
+
       <Text style={styles.instructions}>Tap 2 times on button to activate</Text>
 
       <View style={styles.optionsContainer}>
