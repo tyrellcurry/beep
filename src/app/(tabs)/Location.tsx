@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import {
   GooglePlaceDetail,
-  GooglePlacesAutocomplete,
+  GooglePlacesAutocomplete, GooglePlacesAutocompleteRef
 } from "react-native-google-places-autocomplete";
 import { GOOGLE_API_KEY } from "@/environments";
 import Constants from "expo-constants";
@@ -41,25 +41,33 @@ type InputAutocompleteProps = {
   label: string;
   placeholder?: string;
   onPlaceSelected: (details: GooglePlaceDetail | null) => void;
+  clearDestination: () => void;
 };
 
 function InputAutocomplete({
   label,
   placeholder,
   onPlaceSelected,
+  clearDestination,
 }: InputAutocompleteProps) {
   const [inputText, setInputText] = useState("");
+  const autocompleteRef = useRef<any>(null);
 
   const handleClearInput = () => {
     setInputText("");
-    onPlaceSelected(null);
+    autocompleteRef.current?.setAddressText("");
+    clearDestination();
   };
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={styles.autocompleteContainer}>
       {label ? <Text>{label}</Text> : null}
       <GooglePlacesAutocomplete
-        styles={{ textInput: styles.input }}
+        ref={autocompleteRef}
+        styles={{
+          textInput: styles.input,
+          container: styles.inputContainer,
+        }}
         placeholder={placeholder || "Search Maps"}
         fetchDetails
         textInputProps={{
@@ -75,13 +83,20 @@ function InputAutocomplete({
           language: "pt-BR",
         }}
       />
+
+      {/* Conditionally Render "X" Icon */}
+      {inputText.length > 0 && (
+        <TouchableOpacity onPress={handleClearInput} style={styles.clearIcon}>
+          <EvilIcons name="close" size={24} color="black" />
+        </TouchableOpacity>
+      )}
     </View>
   );
 }
 
 export default function App() {
   const [origin, setOrigin] = useState<LatLng>(STATIC_ORIGIN);
-  const [destination, setDestination] = useState<LatLng | null>();
+  const [destination, setDestination] = useState<LatLng | null>(null);
   const [showDirections, setShowDirections] = useState(false);
   const [distance, setDistance] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -132,6 +147,15 @@ export default function App() {
     setDestination(position);
     moveTo(position);
   };
+
+  const clearDestination = () => {
+    setDestination(null);
+    moveTo(STATIC_ORIGIN);
+  };
+
+
+
+
   return (
     <View style={styles.container}>
 
@@ -165,6 +189,7 @@ export default function App() {
             onPlaceSelected(details, "destination");
             traceRoute();
           }}
+          clearDestination={clearDestination}
         />
       </View>
 
@@ -406,5 +431,22 @@ const styles = StyleSheet.create({
     color: "#FFF",
     fontSize: 16,
     fontWeight: "900",
+  },
+  autocompleteContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    position: "relative",
+  },
+  inputContainer: {
+    flex: 1,
+    paddingRight: 30,
+  },
+  clearIcon: {
+    position: "absolute",
+    right: 10,
+    top: 8,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 5,
   },
 });

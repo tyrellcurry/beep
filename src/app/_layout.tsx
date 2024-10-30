@@ -56,8 +56,9 @@ function RootLayoutNav() {
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
 
         {/* Add the login and signup screens here */}
-        <Stack.Screen name="login" options={{ title: 'Login' }} />
-        <Stack.Screen name="signup" options={{ title: 'Signup' }} />
+        <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+
+        <Stack.Screen name="+not-found" options={{ title: 'not-found' }} />
 
         {/* The modal screen */}
         <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
