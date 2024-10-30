@@ -54,7 +54,7 @@ function RootLayoutNav() {
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
       <Stack>
-        <Stack.Screen name="(landing)" options={{ title: "Landing Page" }} />
+        <Stack.Screen name="(landing)" options={{ title: "Landing Page", headerShown: false }} />
 
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
 
