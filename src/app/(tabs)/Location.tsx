@@ -192,7 +192,7 @@ export default function App() {
         </TouchableOpacity>
 
         {/* SOS button */}
-        <TouchableOpacity style={styles.SOSButton} onPress={() => router.push("/(tabs)/Emergency")}>
+        <TouchableOpacity style={styles.SOSButton} onPress={() => router.push("/sos")}>
           <Image source={require("../../../assets/map/SOSWhiteHollow.png")} style={styles.SOSiconImageSmall} />
           <Text style={styles.SOSText}>SOS</Text>
         </TouchableOpacity>
