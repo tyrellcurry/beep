@@ -6,14 +6,14 @@ import { Href, useRouter } from "expo-router";
 import { useRouter, Href } from "expo-router";
 >>>>>>> 43b6d97bf8132114a8e880099229207e4456dae0:src/app/(landing)/LandingPage.tsx
 
-const LandingPage = () => {
-  const router = useRouter(); // Expo Router for navigation
+const LandingPage: React.FC = () => {
+  const router = useRouter();
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Welcome to Beep</Text>
-      <Button title="Log in" onPress={() => router.push("/(auth)/login" as Href<string>)} />
-      <Button title="Sign up" onPress={() => router.push("/(auth)/signup" as Href<string>)} />
+      <Button title="Log in" onPress={() => router.push("/login")} />
+      <Button title="Sign up" onPress={() => router.push("/signup")} />
     </View>
   );
 };
