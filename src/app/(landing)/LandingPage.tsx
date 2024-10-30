@@ -1,10 +1,6 @@
 import React from "react";
 import { View, Text, Button, StyleSheet } from "react-native";
-<<<<<<< HEAD:src/app/LandingPage.tsx
-import { Href, useRouter } from "expo-router";
-=======
 import { useRouter, Href } from "expo-router";
->>>>>>> 43b6d97bf8132114a8e880099229207e4456dae0:src/app/(landing)/LandingPage.tsx
 
 const LandingPage: React.FC = () => {
   const router = useRouter();
