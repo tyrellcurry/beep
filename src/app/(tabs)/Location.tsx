@@ -17,6 +17,7 @@ import { useRef, useState } from "react";
 import MapViewDirections from "react-native-maps-directions";
 import Colors from "@/src/constants/Colors";
 import EvilIcons from '@expo/vector-icons/EvilIcons';
+import { useRouter } from "expo-router";
 
 const { width, height } = Dimensions.get("window");
 
@@ -85,6 +86,7 @@ export default function App() {
   const [distance, setDistance] = useState(0);
   const [duration, setDuration] = useState(0);
   const mapRef = useRef<MapView>(null);
+  const router = useRouter();
 
   const moveTo = async (position: LatLng) => {
     const camera = await mapRef.current?.getCamera();
@@ -164,12 +166,6 @@ export default function App() {
             traceRoute();
           }}
         />
-        {/* <TouchableOpacity
-          onPress={inputText ? () => setInputText("") : null} // Clear input if text is present
-          style={styles.icon}
-        >
-          <EvilIcons name={inputText ? "close" : "search"} size={35} color="black" />
-        </TouchableOpacity> */}
       </View>
 
       {/* Scrollable tabs */}
@@ -189,12 +185,21 @@ export default function App() {
           <Image source={require("../../../assets/map/locationArrowWhite.png")} style={styles.iconImage} />
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.centerGPSButton} onPress={traceRoute}>
+        {/* Center GPS button */}
+        <TouchableOpacity style={styles.centerGPSButton} onPress={() => moveTo(STATIC_ORIGIN)}>
           <Image source={require("../../../assets/map/Black.png")} style={styles.iconImageSmall} />
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.layerButton} onPress={traceRoute}>
+        {/* Toggle Layers button */}
+        {/* TODO: Add functionality to have layer options. onPress={ } */}
+        <TouchableOpacity style={styles.layerButton} >
           <Image source={require("../../../assets/map/layerBlack.png")} style={styles.iconImageSmall} />
+        </TouchableOpacity>
+
+        {/* SOS button */}
+        <TouchableOpacity style={styles.SOSButton} onPress={() => router.push("/(tabs)/Emergency")}>
+          <Image source={require("../../../assets/map/SOSWhiteHollow.png")} style={styles.SOSiconImageSmall} />
+          <Text style={styles.SOSText}>SOS</Text>
         </TouchableOpacity>
       </View>
 
@@ -205,14 +210,6 @@ export default function App() {
           <Text>Duration: {Math.ceil(duration)} min</Text>
         </View>
       ) : null}
-
-      {/* SOS button */}
-      <View >
-        <TouchableOpacity style={styles.SOSButton} onPress={traceRoute}>
-          <Image source={require("../../../assets/map/SOSWhiteHollow.png")} style={styles.SOSiconImageSmall} />
-          <Text style={styles.SOSText}>SOS</Text>
-        </TouchableOpacity>
-      </View>
 
     </View>
 
@@ -370,7 +367,7 @@ const styles = StyleSheet.create({
   actionButtonsContainer: {
     position: "absolute",
     bottom: 0,
-    right: 50,
+    right: 0,
     alignItems: "center",
   },
   iconImage: {
@@ -389,9 +386,8 @@ const styles = StyleSheet.create({
     marginRight: 8,
   },
   SOSButton: {
-    position: "absolute",
-    bottom: 117,
-    right: 70,
+    bottom: 90,
+    right: 250,
     height: 52,
     flexDirection: "row",
     alignItems: "center",
