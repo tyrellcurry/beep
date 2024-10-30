@@ -1,70 +1,73 @@
-import { StyleSheet, Image, TouchableOpacity } from "react-native";
+import { StyleSheet, Image, TouchableOpacity, ScrollView } from "react-native";
 import { Text, View } from "@/src/components/Themed";
 
 export default function ProfileScreen() {
   return (
-    <View style={styles.container}>
-      <Image source={{ uri: "https://i.pravatar.cc/300" }} style={styles.profileImage} />
-      <Text style={styles.status}>Stay safe,</Text>
-      <Text style={styles.name}>Dora</Text>
-      <Text style={styles.username}>@dora.the.explorer</Text>
+    <ScrollView style={styles.container}>
+      <View style={styles.editHeader}>
+        <TouchableOpacity style={styles.editButton}>
+          <Text style={styles.editButtonText}>Edit</Text>
+        </TouchableOpacity>
+      </View>
+      <View style={styles.header}>
+        <Image source={{ uri: "https://i.pravatar.cc/300" }} style={styles.profileImage} />
+        <View style={styles.profileInfo}>
+          <Text style={styles.name}>Dora Lee</Text>
+          <Text style={styles.username}>@dora123</Text>
+          <Text style={styles.address}>🏡 3700 Willingdon Ave...</Text>
+        </View>
+      </View>
 
-      <TouchableOpacity style={styles.editButton}>
-        <Text style={styles.editButtonText}>Edit Profile</Text>
-      </TouchableOpacity>
-
-      <View style={styles.contactContainer}>
-        <Text style={styles.sectionTitle}>Emergency Contacts</Text>
+      <Text style={styles.sectionTitle}>☎️ Emergency Contacts</Text>
+      <View style={styles.sectionContainer}>
         <View style={styles.contacts}>
-          <View style={styles.contactItem}>
-            <Image source={{ uri: "https://i.pravatar.cc/300" }} style={styles.contactImage} />
-            <Text style={styles.contactName}>Mom</Text>
-          </View>
-          <View style={styles.contactItem}>
-            <Image source={{ uri: "https://i.pravatar.cc/300" }} style={styles.contactImage} />
-            <Text style={styles.contactName}>Dad</Text>
-          </View>
-          <View style={styles.contactItem}>
-            <Image source={{ uri: "https://i.pravatar.cc/300" }} style={styles.contactImage} />
-            <Text style={styles.contactName}>Deluka</Text>
-          </View>
-          <View style={styles.contactItem}>
-            <Image source={{ uri: "https://i.pravatar.cc/300" }} style={styles.contactImage} />
-            <Text style={styles.contactName}>Brian</Text>
-          </View>
           <TouchableOpacity style={styles.contactItem}>
             <View style={styles.addContactButton}>
               <Text style={styles.addContactText}>+</Text>
             </View>
             <Text style={styles.contactName}>Add</Text>
           </TouchableOpacity>
+          <View style={styles.contactItem}>
+            <View style={styles.contactCircle}>
+              <Text style={styles.contactInitial}>D</Text>
+            </View>
+            <Text style={styles.contactName}>Dad</Text>
+          </View>
+          <View style={styles.contactItem}>
+            <View style={styles.contactCircle}>
+              <Text style={styles.contactInitial}>M</Text>
+            </View>
+            <Text style={styles.contactName}>Mom</Text>
+          </View>
+          <View style={styles.contactItem}>
+            <View style={styles.contactCircle}>
+              <Text style={styles.contactInitial}>J</Text>
+            </View>
+            <Text style={styles.contactName}>Jane</Text>
+          </View>
+          <TouchableOpacity style={styles.arrowContainer}>
+            <Text style={styles.arrowText}>→</Text>
+          </TouchableOpacity>
         </View>
       </View>
 
-      <View style={styles.settingsContainer}>
-        {/* <Image source={require("../../assets/setting.png")} style={styles.iconImage} /> */}
-        <View style={styles.settingsBox}>
-          <Text style={styles.settingsText}>Settings</Text>
-          <View style={styles.settingsIcon}>
-            <Text style={styles.moonIcon}>⚙️</Text>
-          </View>
-          <TouchableOpacity style={styles.settingsArrowContainer}>
+      <Text style={styles.sectionTitle}>⚙️ Settings</Text>
+      <View style={styles.settingContainer}>
+        {["Languages", "Notifications", "Password", "Parental Control", "Text Sizing", "Theme", "Content Policy", "Privacy Policy", "User Agreement", "Our Team", "Report Issue"].map((setting, index) => (
+          <TouchableOpacity key={index} style={styles.settingsRow}>
+            <Text style={styles.settingsText}>{setting}</Text>
             <Text style={styles.settingsArrow}>→</Text>
           </TouchableOpacity>
-        </View>
-        <View style={styles.nightModeBox}>
-          <Text style={styles.settingsText}>Night Mode</Text>
-          <View style={styles.nightModeIcon}>
-            <Text style={styles.moonIcon}>🌙</Text>
-          </View>
-        </View>
-        {/* <Image source={require("../../assets/nightmode.png")} style={styles.iconImage} /> */}
+        ))}
       </View>
 
       <TouchableOpacity style={styles.signOutButton}>
         <Text style={styles.signOutText}>Sign Out</Text>
       </TouchableOpacity>
-    </View>
+      <TouchableOpacity style={styles.deleteButton}>
+        <Text style={styles.deleteButtonText}>Delete account</Text>
+      </TouchableOpacity>
+    </ScrollView>
   );
 }
 
@@ -72,74 +75,95 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#1A1A1A",
+    paddingHorizontal: 16,
+  },
+  editHeader: {
+    backgroundColor: "#1A1A1A",
+    flexDirection: "row",
     alignItems: "center",
+    marginTop: 20,
+    marginBottom: 5,
+    justifyContent: "flex-end",
+  },
+  header: {
+    backgroundColor: "#1A1A1A",
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 20,
+    marginBottom: 10,
+    justifyContent: "space-between",
   },
   profileImage: {
-    width: 130,
-    height: 130,
-    borderRadius: 70,
-    marginTop: 20,
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    marginRight: 12,
   },
-  status: {
-    color: "#AAA",
-    marginTop: 10,
+  profileInfo: {
+    flex: 1,
+    marginLeft: 10,
+    backgroundColor: "#1A1A1A",
   },
   name: {
-    fontSize: 24,
+    fontSize: 18,
     fontWeight: "bold",
     color: "#FFF",
   },
   username: {
     color: "#AAA",
-    marginBottom: 20,
+    fontSize: 14,
+  },
+  address: {
+    color: "#AAA",
+    fontSize: 12,
   },
   editButton: {
-    borderColor: "#651FD7",
-    borderWidth: 2,
-    borderRadius: 20,
+    backgroundColor: "#333",
+    borderRadius: 12,
+    paddingHorizontal: 12,
     paddingVertical: 5,
-    paddingHorizontal: 20,
-    marginBottom: 20,
+    width: 50,
   },
   editButtonText: {
     color: "#FFF",
+    fontSize: 12,
   },
-  contactContainer: {
-    width: "90%",
-    backgroundColor: "#F5F5F5",
+  sectionContainer: {
+    backgroundColor: "#333",
     borderRadius: 10,
-    padding: 10,
+    padding: 16,
     marginBottom: 20,
   },
-  sectionTitle: {
-    fontWeight: "bold",
-    color: "#333",
+  settingContainer: {
+    backgroundColor: "#1A1A1A",
+    borderRadius: 10,
+    padding: 16,
     marginBottom: 10,
+  },
+  sectionTitle: {
+    color: "#FFF",
+    fontSize: 16,
+    fontWeight: "bold",
+    marginTop: 10,
+    marginBottom: 5,
   },
   contacts: {
     flexDirection: "row",
+    alignItems: "center",
     justifyContent: "space-around",
-    backgroundColor: "#F5F5F5",
-  },
-  contactImage: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
+    backgroundColor: "#333",
   },
   contactItem: {
     alignItems: "center",
-    backgroundColor: "#F5F5F5",
-  },
-  contactName: {
-    marginTop: 5,
-    fontSize: 12,
-    color: "#333",
+    backgroundColor: "#333",
   },
   addContactButton: {
     width: 50,
     height: 50,
     borderRadius: 25,
     backgroundColor: "#1A1A1A",
+    borderColor: "#FFF",
+    borderWidth: 1,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -147,91 +171,78 @@ const styles = StyleSheet.create({
     fontSize: 24,
     color: "#FFF",
   },
-  settingsContainer: {
-    backgroundColor: "#1A1A1A",
-    flexDirection: "row",
-    width: "90%",
-    justifyContent: "space-between",
-    marginBottom: 20,
+  contactCircle: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    backgroundColor: "#4B0082",
+    alignItems: "center",
+    justifyContent: "center",
   },
-  settingsBox: {
-    width: "45%",
-    backgroundColor: "#651FD7",
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    borderBottomLeftRadius: 20,
-    padding: 20,
-    position: "relative",
+  contactInitial: {
+    color: "#FFF",
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+  contactName: {
+    color: "#FFF",
+    fontSize: 12,
+    marginTop: 5,
+  },
+  arrowContainer: {
+    width: 30,
+    height: 30,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#444",
+    borderRadius: 15,
+    marginLeft: 5,
+  },
+  arrowText: {
+    color: "#FFF",
+    fontSize: 16,
+  },
+  settingsRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingVertical: 15,
+    borderRadius: 10,
+    backgroundColor: "#444",
+    paddingHorizontal: 16,
+    marginVertical: 5,
   },
   settingsText: {
+    fontSize: 16,
     color: "#FFF",
-    fontWeight: "bold",
-    fontSize: 18,
-  },
-  settingsIcon: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    position: "absolute",
-    bottom: 15,
-    left: 15,
-    backgroundColor: "#FFF",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  settingsArrowContainer: {
-    position: "absolute",
-    bottom: -10,
-    right: -10,
-    backgroundColor: "#FF005C",
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    justifyContent: "center",
-    alignItems: "center",
   },
   settingsArrow: {
-    fontSize: 20,
-    color: "#FFF",
-  },
-  iconImage: {
-    width: 150,
-    height: 150,
-  },
-  nightModeBox: {
-    width: "45%",
-    backgroundColor: "#1A1A1A",
-    borderColor: "#FFF",
-    borderWidth: 1,
-    borderRadius: 20,
-    padding: 20,
-    alignItems: "center",
-  },
-  nightModeIcon: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    borderColor: "#FFF",
-    borderWidth: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    marginTop: 15,
-    bottom: -10,
-    right: -40,
-  },
-  moonIcon: {
-    fontSize: 20,
-    color: "#FFF",
+    fontSize: 16,
+    color: "#AAA",
   },
   signOutButton: {
     backgroundColor: "#FF005C",
-    paddingVertical: 10,
-    paddingHorizontal: 60,
-    borderRadius: 20,
-    marginBottom: 20,
+    paddingVertical: 12,
+    borderRadius: 25,
+    alignItems: "center",
+    marginBottom: 10,
   },
   signOutText: {
     color: "#FFF",
+    fontWeight: "bold",
+    fontSize: 16,
+  },
+  deleteButton: {
+    backgroundColor: "#1A1A1A",
+    paddingVertical: 12,
+    borderRadius: 25,
+    borderWidth: 1,
+    borderColor: "#FF005C",
+    alignItems: "center",
+    marginBottom: 20,
+  },
+  deleteButtonText: {
+    color: "#FF005C",
     fontWeight: "bold",
     fontSize: 16,
   },
