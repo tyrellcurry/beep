@@ -7,8 +7,6 @@ import { useEffect } from "react";
 import "react-native-reanimated";
 import "react-native-get-random-values";
 import { useColorScheme } from "@/src/components/useColorScheme";
-import LandingPage from "./(landing)/LandingPage";
-import LoginPage from "./(auth)/login";
 import SignupPage from "./(auth)/signup";
 
 export {
@@ -54,12 +52,13 @@ function RootLayoutNav() {
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
       <Stack>
-        <Stack.Screen name="(landing)" options={{ title: "Landing Page" }} />
+        <Stack.Screen name="(landing)/index" options={{ headerShown: false }} />
 
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
 
-        <Stack.Screen name="login" options={{ title: "Login" }} />
-        <Stack.Screen name="signup" options={{ title: "Signup" }} />
+        <Stack.Screen name="(auth)/signup" options={{ headerShown: false }} />
+
+        <Stack.Screen name="sos/index" options={{ headerShown: false }} />
 
         <Stack.Screen name="modal" options={{ presentation: "modal" }} />
       </Stack>
