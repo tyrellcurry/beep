@@ -1,5 +1,5 @@
-import React from "react";
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Dimensions } from "react-native";
+import React, { useState } from "react";
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Dimensions, Image } from "react-native";
 import { Link } from "expo-router";
 import { useRouter } from "expo-router";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
@@ -9,46 +9,55 @@ import Colors from "../../constants/Colors";
 const { width } = Dimensions.get("window");
 
 const LandingPage = () => {
+  const [showLogo, setShowLogo] = useState(true);
   const router = useRouter();
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Hey,{"\n"}Welcome Back 💜</Text>
-
-      <TextInput style={styles.input} placeholder="Email" placeholderTextColor="#A0A0A0" />
-      <TextInput style={styles.input} placeholder="Password" placeholderTextColor="#A0A0A0" secureTextEntry />
-
-      <TouchableOpacity>
-        <Text style={styles.forgotPassword}>Forgot password?</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity style={styles.signInButton} onPress={() => router.push("/(tabs)/Location")}>
-        <Text style={styles.signInText}>Sign In</Text>
-      </TouchableOpacity>
-
-      <View style={styles.separatorContainer}>
-        <View style={styles.separator} />
-        <Text style={styles.orText}>or</Text>
-        <View style={styles.separator} />
-      </View>
-
-      <View style={styles.socialContainer}>
-        <TouchableOpacity style={styles.socialButton}>
-          <FontAwesome5 name="facebook" size={24} color="#1877F2" />
+      {showLogo ? (
+        <TouchableOpacity onPress={() => setShowLogo(false)} style={styles.logoContainer}>
+          <Image source={require("@/assets/images/white-logo.png")} style={styles.logo} />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.socialButton}>
-          <FontAwesome5 name="google" size={24} color="#EA4335" />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.socialButton}>
-          <Ionicons name="logo-apple" size={24} color="white" />
-        </TouchableOpacity>
-      </View>
+      ) : (
+        <View style={styles.loginContainer}>
+          <Text style={styles.title}>Hey,{"\n"}Welcome Back 💜</Text>
 
-      <TouchableOpacity onPress={() => router.push("/(auth)/signup")}>
-        <Text style={styles.signupText}>
-          Don’t have an account? <Text style={styles.signupLink}>Create your account</Text>
-        </Text>
-      </TouchableOpacity>
+          <TextInput style={styles.input} placeholder="Email" placeholderTextColor="#A0A0A0" />
+          <TextInput style={styles.input} placeholder="Password" placeholderTextColor="#A0A0A0" secureTextEntry />
+
+          <TouchableOpacity>
+            <Text style={styles.forgotPassword}>Forgot password?</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.signInButton} onPress={() => router.push("/(tabs)/Location")}>
+            <Text style={styles.signInText}>Sign In</Text>
+          </TouchableOpacity>
+
+          <View style={styles.separatorContainer}>
+            <View style={styles.separator} />
+            <Text style={styles.orText}>or</Text>
+            <View style={styles.separator} />
+          </View>
+
+          <View style={styles.socialContainer}>
+            <TouchableOpacity style={styles.socialButton}>
+              <FontAwesome5 name="facebook" size={24} color="#1877F2" />
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.socialButton}>
+              <FontAwesome5 name="google" size={24} color="#EA4335" />
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.socialButton}>
+              <Ionicons name="logo-apple" size={24} color="white" />
+            </TouchableOpacity>
+          </View>
+
+          <TouchableOpacity onPress={() => router.push("/(auth)/signup")}>
+            <Text style={styles.signupText}>
+              Don’t have an account? <Text style={styles.signupLink}>Create your account</Text>
+            </Text>
+          </TouchableOpacity>
+        </View>
+      )}
     </View>
   );
 };
@@ -60,6 +69,27 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     padding: 16,
+  },
+  logoContainer: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#651fd7",
+    zIndex: 1,
+  },
+  logo: {
+    width: 150,
+    height: 150,
+    resizeMode: "contain",
+  },
+  loginContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
   title: {
     color: "#FFFFFF",
