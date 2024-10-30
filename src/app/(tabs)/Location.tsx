@@ -151,6 +151,7 @@ export default function App() {
   const clearDestination = () => {
     setDestination(null);
     moveTo(STATIC_ORIGIN);
+    setShowDirections(false);
   };
 
 
@@ -229,7 +230,7 @@ export default function App() {
       </View>
 
       {/* Distance and Duration Information */}
-      {distance && duration ? (
+      {showDirections && distance && duration ? (
         <View style={styles.distanceNduration}>
           <Text>Distance: {distance.toFixed(2)}</Text>
           <Text>Duration: {Math.ceil(duration)} min</Text>
