@@ -3,7 +3,7 @@ import { Text, View } from "@/src/components/Themed";
 
 export default function ProfileScreen() {
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView contentContainerStyle={{ paddingBottom: 100 }} style={styles.container}>
       <View style={styles.editHeader}>
         <TouchableOpacity style={styles.editButton}>
           <Text style={styles.editButtonText}>Edit</Text>
