@@ -1,9 +1,10 @@
 import React from "react";
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Dimensions } from "react-native";
-import { Href, useRouter } from "expo-router";
+import { Link } from "expo-router";
+import { useRouter } from "expo-router";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import Colors from "../constants/Colors";
+import Colors from "../../constants/Colors";
 
 const { width } = Dimensions.get("window");
 
@@ -21,7 +22,7 @@ const LandingPage = () => {
         <Text style={styles.forgotPassword}>Forgot password?</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.signInButton}>
+      <TouchableOpacity style={styles.signInButton} onPress={() => router.push("/(tabs)/Location")}>
         <Text style={styles.signInText}>Sign In</Text>
       </TouchableOpacity>
 
@@ -43,7 +44,7 @@ const LandingPage = () => {
         </TouchableOpacity>
       </View>
 
-      <TouchableOpacity onPress={() => router.push("/signup" as Href<string>)}>
+      <TouchableOpacity onPress={() => router.push("/(auth)/signup")}>
         <Text style={styles.signupText}>
           Don’t have an account? <Text style={styles.signupLink}>Create your account</Text>
         </Text>

@@ -3,7 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, Dimensions } from 
 import { useRouter } from "expo-router";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import Colors from "../constants/Colors";
+import Colors from "../../constants/Colors";
 
 const { width } = Dimensions.get("window");
 
