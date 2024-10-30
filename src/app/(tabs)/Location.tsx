@@ -139,7 +139,12 @@ export default function App() {
   return (
     <View style={styles.container}>
       {/* The Map View */}
-      <MapView ref={mapRef} style={styles.map} provider={PROVIDER_GOOGLE} initialRegion={INITIAL_POSITION}>
+      <MapView
+        ref={mapRef}
+        style={styles.map}
+        // provider={PROVIDER_GOOGLE}
+        initialRegion={INITIAL_POSITION}
+      >
         {origin && <Marker coordinate={origin} title="3700 Willingdon Ave" />}
         {destination && <Marker coordinate={destination} />}
         {showDirections && origin && destination && <MapViewDirections origin={origin} destination={destination} apikey={GOOGLE_API_KEY} strokeColor="#651FD7" strokeWidth={4} onReady={traceRouteOnReady} />}
