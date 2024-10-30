@@ -18,14 +18,14 @@ const SafeZoneScreen: React.FC = () => {
         <MapView
           style={styles.map}
           initialRegion={{
-            latitude: 37.78825,
-            longitude: -122.4324,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421,
+            latitude: 49.2835,
+            longitude: -123.1153,
+            latitudeDelta: 0.01,
+            longitudeDelta: 0.01,
           }}
         >
           {/* Placeholder for current location marker */}
-          <Marker coordinate={{ latitude: 37.78825, longitude: -122.4324 }} />
+          <Marker coordinate={{ latitude: 49.2835, longitude: -123.1153 }} />
         </MapView>
         {/* Overlay with Text and Button */}
         <View style={styles.mapOverlay}>
