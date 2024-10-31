@@ -1,7 +1,9 @@
 import { StyleSheet, Image, TouchableOpacity, ScrollView } from "react-native";
 import { Text, View } from "@/src/components/Themed";
+import { useRouter } from "expo-router";
 
 export default function ProfileScreen() {
+  const router = useRouter();
   return (
     <ScrollView contentContainerStyle={{ paddingBottom: 100 }} style={styles.container}>
       <View style={styles.editHeader}>
@@ -61,7 +63,7 @@ export default function ProfileScreen() {
         ))}
       </View>
 
-      <TouchableOpacity style={styles.signOutButton}>
+      <TouchableOpacity style={styles.signOutButton} onPress={() => router.push("/")}>
         <Text style={styles.signOutText}>Sign Out</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.deleteButton}>
