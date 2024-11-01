@@ -1,5 +1,5 @@
 import MapView, { LatLng, Marker, PROVIDER_GOOGLE } from "react-native-maps";
-import { StyleSheet, View, Dimensions, Text, TouchableOpacity, ScrollView, Image } from "react-native";
+import { StyleSheet, View, Dimensions, Text, TouchableOpacity, ScrollView, Image, Platform } from "react-native";
 import { GooglePlaceDetail, GooglePlacesAutocomplete, GooglePlacesAutocompleteRef } from "react-native-google-places-autocomplete";
 import { GOOGLE_API_KEY } from "@/environments";
 import Constants from "expo-constants";
@@ -358,7 +358,7 @@ const styles = StyleSheet.create({
   },
   actionButtonsContainer: {
     position: "absolute",
-    bottom: 25,
+    bottom: Platform.OS === "ios" ? 25 : 0,
     right: 0,
     alignItems: "center",
   },

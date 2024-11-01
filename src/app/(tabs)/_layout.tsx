@@ -5,6 +5,7 @@ import { Pressable, Image } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import AntDesign from "@expo/vector-icons/AntDesign";
+import { Platform } from "react-native";
 
 import Colors from "@/src/constants/Colors";
 import { useColorScheme } from "@/src/components/useColorScheme";
@@ -26,16 +27,18 @@ export default function TabLayout() {
         tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
         headerShown: useClientOnlyValue(false, true),
         tabBarStyle: {
-          flexDirection: "row",
+          height: Platform.OS === "ios" ? 90 : 65,
+          paddingVertical: Platform.OS === "ios" ? 10 : 5,
+          paddingHorizontal: 5,
           justifyContent: "center",
-          paddingVertical: 5,
+          alignItems: "center",
           backgroundColor: "#F4F0F1",
           borderRadius: 50,
           position: "absolute",
-          bottom: 30,
-          width: "95%",
+          bottom: Platform.OS === "ios" ? 15 : 10,
+          width: "90%",
           alignSelf: "center",
-          left: 10, //nav center for iphone devices
+          left: 20,
         },
       }}
     >

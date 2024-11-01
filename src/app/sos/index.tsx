@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     width: "100%",
     paddingHorizontal: 20,
-    paddingBottom: 20,
+    paddingBottom: 50,
   },
   cancelButton: {
     backgroundColor: "transparent",
@@ -133,7 +133,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     alignItems: "center",
     justifyContent: "center",
-    flex: 1,
     marginRight: 10,
   },
   notifyButton: {
@@ -143,7 +142,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     alignItems: "center",
     justifyContent: "center",
-    flex: 1,
     marginLeft: 10,
   },
   cancelText: {
