@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     paddingHorizontal: 12,
     paddingVertical: 5,
-    width: 50,
+    width: 55,
   },
   editButtonText: {
     color: "#FFF",

@@ -35,7 +35,7 @@ export default function TabLayout() {
           bottom: 30,
           width: "95%",
           alignSelf: "center",
-          left: 10,
+          left: 10, //nav center for iphone devices
         },
       }}
     >

@@ -1,17 +1,31 @@
 import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
+import * as Haptics from "expo-haptics";
+import { useRef } from "react";
 
 export default function EmergencyScreen() {
   const router = useRouter();
 
+  const lastTap = useRef(0);
+
+  const handleDoubleTap = () => {
+    const now = Date.now();
+    if (lastTap.current && now - lastTap.current < 300) {
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning);
+      router.push("/sos");
+    } else {
+      lastTap.current = now;
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
+    }
+  };
   return (
     <View style={styles.container}>
       <Text style={styles.header}>📍BCIT School of Business + Media</Text>
       <Text style={styles.title}>Activate Alarm</Text>
       <Text style={styles.subtitle}>Sound a loud alarm and send your location to emergency contacts.</Text>
 
-      <TouchableOpacity style={styles.sosButton} onPress={() => router.push("/sos")}>
+      <TouchableOpacity style={styles.sosButton} onPress={handleDoubleTap}>
         <Text style={styles.sosText}>SOS</Text>
       </TouchableOpacity>
 
@@ -20,7 +34,9 @@ export default function EmergencyScreen() {
       <View style={styles.optionsContainer}>
         <View style={styles.option}>
           <TouchableOpacity style={styles.optionButton}>
-            <Text style={styles.optionTitle}>Authorities</Text>
+            <View style={styles.optionTitleSet}>
+              <Text style={styles.optionTitle}>Authorities</Text>
+            </View>
             <Text style={styles.optionButtonText}>Dial 911</Text>
             <Text style={styles.optionDescription}>Directly contact 911 for urgent assistance</Text>
             <View style={styles.contactInfo}>
@@ -32,7 +48,9 @@ export default function EmergencyScreen() {
 
         <View style={styles.option}>
           <TouchableOpacity style={styles.optionButton}>
-            <Text style={styles.optionTitle}>Contacts</Text>
+            <View style={styles.optionTitleSet}>
+              <Text style={styles.optionTitle}>Contacts</Text>
+            </View>
             <Text style={styles.optionButtonText}>SMS Friend</Text>
             <Text style={styles.optionDescription}>Send alert to your emergency contacts</Text>
             <View style={styles.contactIcons}>
@@ -111,19 +129,25 @@ const styles = StyleSheet.create({
   option: {
     width: "48%",
   },
+  optionTitleSet: {
+    backgroundColor: "#F4F0F1",
+    borderRadius: 25,
+    width: "70%",
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 5,
+  },
   optionTitle: {
     color: "#141216",
     fontSize: 14,
     marginBottom: 5,
-    backgroundColor: "#F4F0F1",
-    borderRadius: 25,
-    width: "60%",
     alignItems: "center",
   },
   optionButton: {
     backgroundColor: "#651Fd7",
     borderRadius: 12,
     padding: 15,
+    height: "55%",
   },
   optionButtonText: {
     color: "#FFFFFF",

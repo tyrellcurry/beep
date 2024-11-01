@@ -19,7 +19,7 @@ export default function EmergencyScreen() {
         staysActiveInBackground: true,
       });
 
-      const { sound } = await Audio.Sound.createAsync(require("../../assets/alarm.wav"), { shouldPlay: true });
+      const { sound } = await Audio.Sound.createAsync(require("../../assets/police.wav"), { shouldPlay: true });
       setSound(sound);
       await sound.playAsync();
     };
