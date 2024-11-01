@@ -1,11 +1,15 @@
-import { StyleSheet, Text, View, TouchableOpacity, Image, Platform } from "react-native";
+import React, { useRef } from "react";
+import { StyleSheet, Text, View, TouchableOpacity, Image, Alert, Platform } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { useRouter } from "expo-router";
 import * as Haptics from "expo-haptics";
-import { useRef } from "react";
+import * as Location from "expo-location";
+import { useRouter } from "expo-router";
+import { sendSms } from "@/src/components/sendSms";
 
-export default function EmergencyScreen() {
+
+const EmergencyScreen: React.FC = () => {
   const router = useRouter();
+
 
   const lastTap = useRef(0);
 
@@ -19,11 +23,33 @@ export default function EmergencyScreen() {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
     }
   };
+  // Function to handle sending location via SMS
+  const handleSendLocationSms = async () => {
+    // Request permission for location access
+    const { status } = await Location.requestForegroundPermissionsAsync();
+    if (status !== "granted") {
+      Alert.alert(
+        "Permission Denied",
+        "Permission to access location was denied"
+      );
+      return;
+    }
+
+    // Get the current location
+    const location = await Location.getCurrentPositionAsync({});
+    const message = `Dora has sent an urgent alert through Beep. Their location has been shared with you. Please check on them by viewing their location: https://maps.google.com/?q=${location.coords.latitude},${location.coords.longitude}`;
+
+    // TODO: this num will be coming from database once the emergency contact has set up
+    await sendSms(message, ["1234567890"]);
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.header}>📍BCIT School of Business + Media</Text>
       <Text style={styles.title}>Activate Alarm</Text>
-      <Text style={styles.subtitle}>Sound a loud alarm and send your location to emergency contacts.</Text>
+      <Text style={styles.subtitle}>
+        Sound a loud alarm and send your location to emergency contacts.
+      </Text>
 
       <TouchableOpacity style={styles.sosButton} onPress={handleDoubleTap}>
         <Text style={styles.sosText}>SOS</Text>
@@ -38,21 +64,31 @@ export default function EmergencyScreen() {
               <Text style={styles.optionTitle}>Authorities</Text>
             </View>
             <Text style={styles.optionButtonText}>Dial 911</Text>
-            <Text style={styles.optionDescription}>Directly contact 911 for urgent assistance</Text>
+            <Text style={styles.optionDescription}>
+              Directly contact 911 for urgent assistance
+            </Text>
             <View style={styles.contactInfo}>
-              <Image source={{ uri: "https://i.pravatar.cc/300" }} style={styles.profileImage} />
-              <Text style={styles.contactText}>dora123{"\n"}(604) 123-5678</Text>
+              <Image
+                source={{ uri: "https://i.pravatar.cc/300" }}
+                style={styles.profileImage}
+              />
+              <Text style={styles.contactText}>
+                dora123{"\n"}(604) 123-5678
+              </Text>
             </View>
           </TouchableOpacity>
         </View>
 
         <View style={styles.option}>
-          <TouchableOpacity style={styles.optionButton}>
-            <View style={styles.optionTitleSet}>
-              <Text style={styles.optionTitle}>Contacts</Text>
-            </View>
+          <TouchableOpacity
+            style={styles.optionButton}
+            onPress={handleSendLocationSms}
+          >
+            <Text style={styles.optionTitle}>Contacts</Text>
             <Text style={styles.optionButtonText}>SMS Friend</Text>
-            <Text style={styles.optionDescription}>Send alert to your emergency contacts</Text>
+            <Text style={styles.optionDescription}>
+              Send alert to your emergency contacts
+            </Text>
             <View style={styles.contactIcons}>
               <View style={styles.contactCircle}>
                 <Text style={styles.contactInitial}>D</Text>
@@ -67,7 +103,9 @@ export default function EmergencyScreen() {
       </View>
     </View>
   );
-}
+};
+
+export default EmergencyScreen;
 
 const styles = StyleSheet.create({
   container: {
@@ -109,7 +147,6 @@ const styles = StyleSheet.create({
     shadowRadius: 20,
     elevation: 50,
   },
-
   sosText: {
     color: "#FFFFFF",
     fontSize: 36,
