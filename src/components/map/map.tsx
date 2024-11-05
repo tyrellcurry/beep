@@ -1,4 +1,3 @@
-// components/Map.tsx
 import React from 'react';
 import MapView, { LatLng, Marker } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
@@ -9,6 +8,8 @@ const { width, height } = Dimensions.get('window');
 const ASPECT_RATIO = width / height;
 const LATITUDE_DELTA = 0.02;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
+
+// This is only temp if GPS does not work.
 const INITIAL_POSITION = {
     latitude: 49.2488,
     longitude: -123.0016,
@@ -17,7 +18,7 @@ const INITIAL_POSITION = {
 };
 
 type MapProps = {
-    origin: LatLng;
+    origin: LatLng | null;
     destination: LatLng | null;
     showDirections: boolean;
     onDirectionsReady: (args: any) => void;
@@ -29,9 +30,14 @@ const Map: React.FC<MapProps> = ({ origin, destination, showDirections, onDirect
         <MapView
             ref={mapRef}
             style={styles.map}
-            initialRegion={INITIAL_POSITION}
+            region={origin ? {
+                latitude: origin.latitude,
+                longitude: origin.longitude,
+                latitudeDelta: LATITUDE_DELTA,
+                longitudeDelta: LONGITUDE_DELTA
+            } : INITIAL_POSITION}
         >
-            {origin && <Marker coordinate={origin} title="3700 Willingdon Ave" />}
+            {origin && <Marker coordinate={origin} title="Your Location" />}
             {destination && <Marker coordinate={destination} />}
             {showDirections && origin && destination && (
                 <MapViewDirections

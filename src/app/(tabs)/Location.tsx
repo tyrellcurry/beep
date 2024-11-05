@@ -1,5 +1,5 @@
 // location.tsx
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { StyleSheet, View, Dimensions, Text } from "react-native";
 import MapView, { LatLng } from "react-native-maps";
 import { useRouter } from "expo-router";
@@ -17,13 +17,31 @@ const STATIC_ORIGIN = {
 };
 
 export default function Location() {
-  const [origin, setOrigin] = useState<LatLng>(STATIC_ORIGIN);
+  const [origin, setOrigin] = useState<LatLng | null>(null);
   const [destination, setDestination] = useState<LatLng | null>(null);
   const [showDirections, setShowDirections] = useState(false);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [distance, setDistance] = useState(0);
   const [duration, setDuration] = useState(0);
+
   const mapRef = useRef<MapView>(null);
   const router = useRouter();
+
+  // This is used for GPS location tracking
+  useEffect(() => {
+    (async () => {
+      let { status } = await GPSLocation.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        setErrorMsg('Permission to access location was denied');
+        return;
+      }
+
+      let location = await GPSLocation.getCurrentPositionAsync({});
+      const { latitude, longitude } = location.coords;
+      setOrigin({ latitude, longitude });
+      console.log("Location:", location)
+    })();
+  }, []);
 
   const handleMoveTo = async (position: LatLng) => {
     const camera = await mapRef.current?.getCamera();
