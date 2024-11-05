@@ -5,6 +5,7 @@ import { useRouter } from "expo-router";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import Colors from "../../constants/Colors";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 const { width } = Dimensions.get("window");
 
@@ -13,52 +14,56 @@ const LandingPage = () => {
   const router = useRouter();
 
   return (
-    <View style={styles.container}>
-      {showLogo ? (
-        <TouchableOpacity onPress={() => setShowLogo(false)} style={styles.logoContainer}>
-          <Image source={require("@/assets/images/white-logo.png")} style={styles.logo} />
-        </TouchableOpacity>
-      ) : (
-        <View style={styles.loginContainer}>
-          <Text style={styles.title}>Hey,{"\n"}Welcome Back 💜</Text>
+    <GestureHandlerRootView style={{ flex: 1 }}>
 
-          <TextInput style={styles.input} placeholder="Email" placeholderTextColor="#A0A0A0" />
-          <TextInput style={styles.input} placeholder="Password" placeholderTextColor="#A0A0A0" secureTextEntry />
 
-          <TouchableOpacity>
-            <Text style={styles.forgotPassword}>Forgot password?</Text>
+      <View style={styles.container}>
+        {showLogo ? (
+          <TouchableOpacity onPress={() => setShowLogo(false)} style={styles.logoContainer}>
+            <Image source={require("@/assets/images/white-logo.png")} style={styles.logo} />
           </TouchableOpacity>
+        ) : (
+          <View style={styles.loginContainer}>
+            <Text style={styles.title}>Hey,{"\n"}Welcome Back 💜</Text>
 
-          <TouchableOpacity style={styles.signInButton} onPress={() => router.push("/(tabs)/Location")}>
-            <Text style={styles.signInText}>Sign In</Text>
-          </TouchableOpacity>
+            <TextInput style={styles.input} placeholder="Email" placeholderTextColor="#A0A0A0" />
+            <TextInput style={styles.input} placeholder="Password" placeholderTextColor="#A0A0A0" secureTextEntry />
 
-          <View style={styles.separatorContainer}>
-            <View style={styles.separator} />
-            <Text style={styles.orText}>or</Text>
-            <View style={styles.separator} />
+            <TouchableOpacity>
+              <Text style={styles.forgotPassword}>Forgot password?</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.signInButton} onPress={() => router.push("/(tabs)/Location")}>
+              <Text style={styles.signInText}>Sign In</Text>
+            </TouchableOpacity>
+
+            <View style={styles.separatorContainer}>
+              <View style={styles.separator} />
+              <Text style={styles.orText}>or</Text>
+              <View style={styles.separator} />
+            </View>
+
+            <View style={styles.socialContainer}>
+              <TouchableOpacity style={styles.socialButton}>
+                <FontAwesome5 name="facebook" size={24} color="#1877F2" />
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.socialButton}>
+                <FontAwesome5 name="google" size={24} color="#EA4335" />
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.socialButton}>
+                <Ionicons name="logo-apple" size={24} color="white" />
+              </TouchableOpacity>
+            </View>
+
+            <TouchableOpacity onPress={() => router.push("/(auth)/signup")}>
+              <Text style={styles.signupText}>
+                Don’t have an account? <Text style={styles.signupLink}>Create your account</Text>
+              </Text>
+            </TouchableOpacity>
           </View>
-
-          <View style={styles.socialContainer}>
-            <TouchableOpacity style={styles.socialButton}>
-              <FontAwesome5 name="facebook" size={24} color="#1877F2" />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.socialButton}>
-              <FontAwesome5 name="google" size={24} color="#EA4335" />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.socialButton}>
-              <Ionicons name="logo-apple" size={24} color="white" />
-            </TouchableOpacity>
-          </View>
-
-          <TouchableOpacity onPress={() => router.push("/(auth)/signup")}>
-            <Text style={styles.signupText}>
-              Don’t have an account? <Text style={styles.signupLink}>Create your account</Text>
-            </Text>
-          </TouchableOpacity>
-        </View>
-      )}
-    </View>
+        )}
+      </View>
+    </GestureHandlerRootView>
   );
 };
 
