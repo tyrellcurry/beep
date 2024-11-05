@@ -6,6 +6,7 @@ import { useRouter } from "expo-router";
 import * as GPSLocation from 'expo-location';
 import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { GooglePlaceDetail } from 'react-native-google-places-autocomplete';
 
 // Import components
 import Map from "@/src/components/map/map";
@@ -25,6 +26,10 @@ export default function Location() {
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [distance, setDistance] = useState(0);
   const [duration, setDuration] = useState(0);
+
+  const [selectedPlaceDetails, setSelectedPlaceDetails] = useState<GooglePlaceDetail | null>(null);
+  const [isBottomSheetVisible, setIsBottomSheetVisible] = useState(false);
+
 
   const mapRef = useRef<MapView>(null);
   const router = useRouter();
@@ -47,6 +52,19 @@ export default function Location() {
     })();
   }, []);
 
+  // Function to center map on the user's current GPS location
+  const handleCenterGPS = async () => {
+    try {
+      const location = await GPSLocation.getCurrentPositionAsync({});
+      const { latitude, longitude } = location.coords;
+      setOrigin({ latitude, longitude });
+      handleMoveTo({ latitude, longitude });
+    } catch (error) {
+      console.error("Error getting current location:", error);
+      setErrorMsg("Failed to get current location.");
+    }
+  };
+
   const handleMoveTo = async (position: LatLng) => {
     const camera = await mapRef.current?.getCamera();
     if (camera) {
@@ -61,12 +79,15 @@ export default function Location() {
       longitude: details?.geometry.location.lng || 0,
     };
     setDestination(position);
+    setSelectedPlaceDetails(details); // Store the place details
+    setIsBottomSheetVisible(true); // Show BottomSheet when a place is selected
     handleMoveTo(position);
   };
 
   const handleClearDestination = () => {
     setDestination(null);
-    handleMoveTo(STATIC_ORIGIN);
+    setIsBottomSheetVisible(false); // Hide BottomSheet when clearing the destination
+    handleCenterGPS();
     setShowDirections(false);
   };
 
@@ -92,6 +113,9 @@ export default function Location() {
 
   const handleSheetChanges = useCallback((index: number) => {
     console.log('handleSheetChanges', index);
+    if (index === -1) { // Fully collapsed or hidden
+      setIsBottomSheetVisible(false);
+    }
   }, []);
 
   return (
@@ -120,7 +144,7 @@ export default function Location() {
 
       <ActionButtons
         onTraceRoute={handleTraceRoute}
-        onCenterGPS={() => handleMoveTo(STATIC_ORIGIN)}
+        onCenterGPS={handleCenterGPS}
         onLayerToggle={() => console.log("Toggle layers")}
         onSOS={() => router.push("/sos")}
       />
@@ -137,10 +161,18 @@ export default function Location() {
         ref={bottomSheetRef}
         onChange={handleSheetChanges}
         snapPoints={snapPoints}
-        index={0} // Ensure this is set to a visible snap point
+        enablePanDownToClose={true} // Enable pan down to close
+        index={isBottomSheetVisible ? 0 : -1} // Toggle BottomSheet visibility
       >
         <BottomSheetView style={styles.bottomSheetContentContainer}>
-          <Text>Hello there</Text>
+          {selectedPlaceDetails ? (
+            <>
+              <Text>Place Name: {selectedPlaceDetails.name}</Text>
+              <Text>Address: {selectedPlaceDetails.formatted_address}</Text>
+            </>
+          ) : (
+            <Text>No place selected</Text>
+          )}
         </BottomSheetView>
       </BottomSheet>
     </GestureHandlerRootView>
