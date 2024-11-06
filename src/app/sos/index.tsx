@@ -1,8 +1,42 @@
+import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { useRouter } from "expo-router";
+import { Audio, InterruptionModeIOS, InterruptionModeAndroid } from "expo-av";
 
 export default function EmergencyScreen() {
   const router = useRouter();
+  const [sound, setSound] = useState<Audio.Sound | null>(null);
+
+  useEffect(() => {
+    const initializeSound = async () => {
+      await Audio.setAudioModeAsync({
+        allowsRecordingIOS: false,
+        interruptionModeIOS: InterruptionModeIOS.DoNotMix,
+        playsInSilentModeIOS: true,
+        interruptionModeAndroid: InterruptionModeAndroid.DoNotMix,
+        playThroughEarpieceAndroid: false,
+        shouldDuckAndroid: true,
+        staysActiveInBackground: true,
+      });
+
+      const { sound } = await Audio.Sound.createAsync(require("../../assets/police.wav"), { shouldPlay: true });
+      setSound(sound);
+      await sound.playAsync();
+    };
+
+    initializeSound();
+
+    return () => {
+      // left page and stop sound didn't work
+      sound && sound.stopAsync().then(() => sound.unloadAsync());
+    };
+  }, []);
+  const stopSound = async () => {
+    if (sound) {
+      await sound.stopAsync();
+      await sound.unloadAsync();
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -19,7 +53,13 @@ export default function EmergencyScreen() {
       </View>
 
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.cancelButton} onPress={() => router.push("/(tabs)/Emergency")}>
+        <TouchableOpacity
+          style={styles.cancelButton}
+          onPress={async () => {
+            await stopSound();
+            router.push("/(tabs)/Emergency");
+          }}
+        >
           <Text style={styles.cancelText}>Cancel SOS</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.notifyButton}>
@@ -39,7 +79,7 @@ const styles = StyleSheet.create({
   topContainer: {
     alignItems: "center",
     justifyContent: "flex-start",
-    marginTop: 50, // Adjust this value to control how close to the top it appears
+    marginTop: 50,
   },
   alarmText: {
     color: "#FFFFFF",
@@ -82,7 +122,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     width: "100%",
     paddingHorizontal: 20,
-    paddingBottom: 20,
+    paddingBottom: 50,
   },
   cancelButton: {
     backgroundColor: "transparent",
@@ -93,7 +133,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     alignItems: "center",
     justifyContent: "center",
-    flex: 1,
     marginRight: 10,
   },
   notifyButton: {
@@ -103,7 +142,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     alignItems: "center",
     justifyContent: "center",
-    flex: 1,
     marginLeft: 10,
   },
   cancelText: {

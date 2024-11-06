@@ -1,9 +1,45 @@
-import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
+import React, { useRef } from "react";
+import { StyleSheet, Text, View, TouchableOpacity, Image, Alert, Platform } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import * as Haptics from "expo-haptics";
+import * as Location from "expo-location";
 import { useRouter } from "expo-router";
+import { sendSms } from "@/src/components/sendSms";
 
-export default function EmergencyScreen() {
+const EmergencyScreen: React.FC = () => {
   const router = useRouter();
+
+  const lastTap = useRef(0);
+
+  const handleDoubleTap = () => {
+    const now = Date.now();
+    if (lastTap.current && now - lastTap.current < 300) {
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning);
+      router.push("/sos");
+    } else {
+      lastTap.current = now;
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
+    }
+  };
+  // Function to handle sending location via SMS
+  const handleSendLocationSms = async () => {
+    // Request permission for location access
+    const { status } = await Location.requestForegroundPermissionsAsync();
+    if (status !== "granted") {
+      Alert.alert("Permission Denied", "Permission to access location was denied");
+      return;
+    }
+
+    // Get the current location
+    const location = await Location.getCurrentPositionAsync({});
+    // todo : [username]
+    const message = `Dora has sent an urgent alert through Beep. 
+    Their location has been shared with you. 
+    Please check on them by viewing their location: https://maps.google.com/?q=${location.coords.latitude},${location.coords.longitude}`;
+
+    // TODO: this num will be coming from database once the emergency contact has set up
+    await sendSms(message, ["1234567890"]);
+  };
 
   return (
     <View style={styles.container}>
@@ -11,7 +47,7 @@ export default function EmergencyScreen() {
       <Text style={styles.title}>Activate Alarm</Text>
       <Text style={styles.subtitle}>Sound a loud alarm and send your location to emergency contacts.</Text>
 
-      <TouchableOpacity style={styles.sosButton} onPress={() => router.push("/sos")}>
+      <TouchableOpacity style={styles.sosButton} onPress={handleDoubleTap}>
         <Text style={styles.sosText}>SOS</Text>
       </TouchableOpacity>
 
@@ -20,7 +56,9 @@ export default function EmergencyScreen() {
       <View style={styles.optionsContainer}>
         <View style={styles.option}>
           <TouchableOpacity style={styles.optionButton}>
-            <Text style={styles.optionTitle}>Authorities</Text>
+            <View style={styles.optionTitleSet}>
+              <Text style={styles.optionTitle}>Authorities</Text>
+            </View>
             <Text style={styles.optionButtonText}>Dial 911</Text>
             <Text style={styles.optionDescription}>Directly contact 911 for urgent assistance</Text>
             <View style={styles.contactInfo}>
@@ -31,8 +69,10 @@ export default function EmergencyScreen() {
         </View>
 
         <View style={styles.option}>
-          <TouchableOpacity style={styles.optionButton}>
-            <Text style={styles.optionTitle}>Contacts</Text>
+          <TouchableOpacity style={styles.optionButton} onPress={handleSendLocationSms}>
+            <View style={styles.optionTitleSet}>
+              <Text style={styles.optionTitle}>Contacts</Text>
+            </View>
             <Text style={styles.optionButtonText}>SMS Friend</Text>
             <Text style={styles.optionDescription}>Send alert to your emergency contacts</Text>
             <View style={styles.contactIcons}>
@@ -49,7 +89,9 @@ export default function EmergencyScreen() {
       </View>
     </View>
   );
-}
+};
+
+export default EmergencyScreen;
 
 const styles = StyleSheet.create({
   container: {
@@ -91,7 +133,6 @@ const styles = StyleSheet.create({
     shadowRadius: 20,
     elevation: 50,
   },
-
   sosText: {
     color: "#FFFFFF",
     fontSize: 36,
@@ -111,19 +152,27 @@ const styles = StyleSheet.create({
   option: {
     width: "48%",
   },
+  optionTitleSet: {
+    backgroundColor: "#F4F0F1",
+    borderRadius: 25,
+    width: "70%",
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: Platform.OS === "ios" ? 10 : 5,
+    paddingVertical: Platform.OS === "ios" ? 1 : 0,
+    paddingHorizontal: 1,
+  },
   optionTitle: {
     color: "#141216",
     fontSize: 14,
     marginBottom: 5,
-    backgroundColor: "#F4F0F1",
-    borderRadius: 25,
-    width: "60%",
     alignItems: "center",
   },
   optionButton: {
     backgroundColor: "#651Fd7",
     borderRadius: 12,
     padding: 15,
+    height: Platform.OS === "ios" ? 150 : 200,
   },
   optionButtonText: {
     color: "#FFFFFF",

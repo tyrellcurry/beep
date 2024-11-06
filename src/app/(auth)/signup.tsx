@@ -41,7 +41,7 @@ const SignUpPage = () => {
         </TouchableOpacity>
       </View>
 
-      <TouchableOpacity onPress={() => router.push("/")}>
+      <TouchableOpacity onPress={() => router.push("/(tabs)/Location")}>
         <Text style={styles.loginText}>
           Already have an account? <Text style={styles.loginLink}>Log in</Text>
         </Text>
