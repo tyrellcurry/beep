@@ -21,10 +21,6 @@ const LandingPage = () => {
       alert("Please enter both email and password.");
       return;
     }
-    if (!email.includes("@") || password.length < 5) {
-      alert("Invalid email format or password is too short (minimum 6 characters).");
-      return;
-    }
     try {
       await signInWithEmailAndPassword(FIREBASE_AUTH, email, password);
       console.log("Login successful!");
