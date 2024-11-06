@@ -25,7 +25,7 @@ export default function TabLayout() {
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
-        headerShown: useClientOnlyValue(false, true),
+        headerShown: useClientOnlyValue(false, false),
         tabBarStyle: {
           height: Platform.OS === "ios" ? 90 : 65,
           paddingVertical: Platform.OS === "ios" ? 10 : 5,

@@ -55,7 +55,7 @@ export default function ProfileScreen() {
 
       <Text style={styles.sectionTitle}>⚙️ Settings</Text>
       <View style={styles.settingContainer}>
-        {["Languages", "Notifications", "Password", "Parental Control", "Text Sizing", "Theme", "Content Policy", "Privacy Policy", "User Agreement", "Our Team", "Report Issue"].map((setting, index) => (
+        {["Notifications", "Parental Control", "Theme", "Content Policy", "Privacy Policy", "User Agreement", "Our Team", "Report Issue"].map((setting, index) => (
           <TouchableOpacity key={index} style={styles.settingsRow}>
             <Text style={styles.settingsText}>{setting}</Text>
             <Text style={styles.settingsArrow}>→</Text>
@@ -76,23 +76,22 @@ export default function ProfileScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#1A1A1A",
+    backgroundColor: "#141216",
     paddingHorizontal: 16,
   },
   editHeader: {
-    backgroundColor: "#1A1A1A",
+    backgroundColor: "#141216",
     flexDirection: "row",
     alignItems: "center",
-    marginTop: 20,
+    marginTop: 80,
     marginBottom: 5,
     justifyContent: "flex-end",
   },
   header: {
-    backgroundColor: "#1A1A1A",
+    backgroundColor: "#141216",
     flexDirection: "row",
     alignItems: "center",
-    marginTop: 20,
-    marginBottom: 10,
+    marginBottom: 15,
     justifyContent: "space-between",
   },
   profileImage: {
@@ -104,7 +103,7 @@ const styles = StyleSheet.create({
   profileInfo: {
     flex: 1,
     marginLeft: 10,
-    backgroundColor: "#1A1A1A",
+    backgroundColor: "#141216",
   },
   name: {
     fontSize: 18,
@@ -134,10 +133,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#333",
     borderRadius: 10,
     padding: 16,
+    marginTop: 10,
     marginBottom: 20,
   },
   settingContainer: {
-    backgroundColor: "#1A1A1A",
+    backgroundColor: "#141216",
     borderRadius: 10,
     padding: 16,
     marginBottom: 10,
@@ -163,7 +163,7 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 25,
-    backgroundColor: "#1A1A1A",
+    backgroundColor: "#141216",
     borderColor: "#FFF",
     borderWidth: 1,
     alignItems: "center",
@@ -235,7 +235,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   deleteButton: {
-    backgroundColor: "#1A1A1A",
+    backgroundColor: "#141216",
     paddingVertical: 12,
     borderRadius: 25,
     borderWidth: 1,

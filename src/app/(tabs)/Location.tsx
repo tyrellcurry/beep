@@ -221,6 +221,7 @@ const styles = StyleSheet.create({
     height: Dimensions.get("window").height,
   },
   searchContainer: {
+    marginTop: 50,
     position: "absolute",
     width: "90%",
     alignSelf: "center",
@@ -256,7 +257,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "flex-start",
     width: "100%",
-    marginTop: -30,
+    marginTop: 20,
     height: 40,
   },
   tabButtonsContent: {

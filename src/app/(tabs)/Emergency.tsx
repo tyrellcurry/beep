@@ -96,10 +96,11 @@ export default EmergencyScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#1E1E1E",
+    backgroundColor: "#141216",
     padding: 20,
   },
   header: {
+    marginTop: 50,
     color: "#FF4C60",
     fontSize: 16,
     fontWeight: "600",
