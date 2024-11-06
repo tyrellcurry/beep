@@ -32,7 +32,7 @@ const SignUpPage = () => {
         <Text style={styles.icon}>⚠️</Text>
       </View> */}
       <View style={styles.textContainer}>
-        <TouchableOpacity onPress={() => router.push("/")}>
+        <TouchableOpacity onPress={() => router.push("/(auth)/signin")}>
           <Text style={styles.title}>Hi Dora,</Text>
           <Text style={styles.subtitle}>You're </Text>
           <Text style={styles.subtitle}>All Set!</Text>

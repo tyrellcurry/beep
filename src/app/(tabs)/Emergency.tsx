@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   header: {
-    marginTop: 50,
+    marginTop: 100,
     color: "#FF4C60",
     fontSize: 16,
     fontWeight: "600",
@@ -91,12 +91,14 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
     marginBottom: 8,
+    marginTop: 15,
   },
   subtitle: {
     color: "#CCCCCC",
     fontSize: 14,
     textAlign: "center",
     marginBottom: 30,
+    marginTop: 15,
   },
   sosButton: {
     width: 180,
@@ -107,6 +109,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignSelf: "center",
     marginBottom: 10,
+    marginTop: 10,
     shadowColor: "#F7185B",
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 1,
@@ -128,6 +131,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     marginBottom: 40,
+    marginTop: 15,
   },
   option: {
     width: "48%",
