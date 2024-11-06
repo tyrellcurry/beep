@@ -7,10 +7,11 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import Colors from "../../constants/Colors";
 import { FIREBASE_AUTH } from "@/firebaseConfig";
 import { signInWithEmailAndPassword } from "firebase/auth";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const { width } = Dimensions.get("window");
 
-const LandingPage = () => {
+const SignInPage = () => {
   const [showLogo, setShowLogo] = useState(true);
   const router = useRouter();
   const [email, setEmail] = useState("");
@@ -32,51 +33,47 @@ const LandingPage = () => {
   };
 
   return (
-    <View style={styles.container}>
-      {showLogo ? (
-        <TouchableOpacity onPress={() => setShowLogo(false)} style={styles.logoContainer}>
-          <Image source={require("@/assets/images/white-logo.png")} style={styles.logo} />
+    <KeyboardAwareScrollView contentContainerStyle={styles.container} enableOnAndroid extraScrollHeight={0} bounces={false}>
+      {/* <View style={styles.container}> */}
+      <View style={styles.loginContainer}>
+        <Text style={styles.title}>Hey,{"\n"}Welcome Back 💜</Text>
+
+        <TextInput style={styles.input} placeholder="Email" placeholderTextColor="#A0A0A0" value={email} onChangeText={setEmail} />
+        <TextInput style={styles.input} placeholder="Password" placeholderTextColor="#A0A0A0" secureTextEntry value={password} onChangeText={setPassword} />
+        <TouchableOpacity>
+          <Text style={styles.forgotPassword}>Forgot password?</Text>
         </TouchableOpacity>
-      ) : (
-        <View style={styles.loginContainer}>
-          <Text style={styles.title}>Hey,{"\n"}Welcome Back 💜</Text>
 
-          <TextInput style={styles.input} placeholder="Email" placeholderTextColor="#A0A0A0" value={email} onChangeText={setEmail} />
-          <TextInput style={styles.input} placeholder="Password" placeholderTextColor="#A0A0A0" secureTextEntry value={password} onChangeText={setPassword} />
-          <TouchableOpacity>
-            <Text style={styles.forgotPassword}>Forgot password?</Text>
+        <TouchableOpacity style={styles.signInButton} onPress={handleSignIn}>
+          <Text style={styles.signInText}>Sign In</Text>
+        </TouchableOpacity>
+
+        <View style={styles.separatorContainer}>
+          <View style={styles.separator} />
+          <Text style={styles.orText}>or</Text>
+          <View style={styles.separator} />
+        </View>
+
+        <View style={styles.socialContainer}>
+          <TouchableOpacity style={styles.socialButton}>
+            <FontAwesome5 name="facebook" size={24} color="#1877F2" />
           </TouchableOpacity>
-
-          <TouchableOpacity style={styles.signInButton} onPress={handleSignIn}>
-            <Text style={styles.signInText}>Sign In</Text>
+          <TouchableOpacity style={styles.socialButton}>
+            <FontAwesome5 name="google" size={24} color="#EA4335" />
           </TouchableOpacity>
-
-          <View style={styles.separatorContainer}>
-            <View style={styles.separator} />
-            <Text style={styles.orText}>or</Text>
-            <View style={styles.separator} />
-          </View>
-
-          <View style={styles.socialContainer}>
-            <TouchableOpacity style={styles.socialButton}>
-              <FontAwesome5 name="facebook" size={24} color="#1877F2" />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.socialButton}>
-              <FontAwesome5 name="google" size={24} color="#EA4335" />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.socialButton}>
-              <Ionicons name="logo-apple" size={24} color="white" />
-            </TouchableOpacity>
-          </View>
-
-          <TouchableOpacity onPress={() => router.push("/(auth)/name")}>
-            <Text style={styles.signupText}>
-              Don’t have an account? <Text style={styles.signupLink}>Create your account</Text>
-            </Text>
+          <TouchableOpacity style={styles.socialButton}>
+            <Ionicons name="logo-apple" size={24} color="white" />
           </TouchableOpacity>
         </View>
-      )}
-    </View>
+
+        <TouchableOpacity onPress={() => router.push("/(auth)/name")}>
+          <Text style={styles.signupText}>
+            Don’t have an account? <Text style={styles.signupLink}>Create your account</Text>
+          </Text>
+        </TouchableOpacity>
+      </View>
+      {/* </View> */}
+    </KeyboardAwareScrollView>
   );
 };
 
@@ -87,22 +84,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     padding: 16,
-  },
-  logoContainer: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#651fd7",
-    zIndex: 1,
-  },
-  logo: {
-    width: 150,
-    height: 150,
-    resizeMode: "contain",
   },
   loginContainer: {
     flex: 1,
@@ -185,4 +166,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LandingPage;
+export default SignInPage;
