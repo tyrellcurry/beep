@@ -33,8 +33,8 @@ const SignInPage = () => {
   };
 
   return (
-    <KeyboardAwareScrollView contentContainerStyle={styles.container} enableOnAndroid extraScrollHeight={0} bounces={false}>
-      {/* <View style={styles.container}> */}
+    // <KeyboardAwareScrollView contentContainerStyle={styles.container} enableOnAndroid extraScrollHeight={0} bounces={false}>
+    <View style={styles.container}>
       <View style={styles.loginContainer}>
         <Text style={styles.title}>Hey,{"\n"}Welcome Back 💜</Text>
 
@@ -72,8 +72,8 @@ const SignInPage = () => {
           </Text>
         </TouchableOpacity>
       </View>
-      {/* </View> */}
-    </KeyboardAwareScrollView>
+    </View>
+    // </KeyboardAwareScrollView>
   );
 };
 
