@@ -5,12 +5,35 @@ import { useRouter } from "expo-router";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import Colors from "../../constants/Colors";
+import { FIREBASE_AUTH } from "@/firebaseConfig";
+import { signInWithEmailAndPassword } from "firebase/auth";
 
 const { width } = Dimensions.get("window");
 
 const LandingPage = () => {
   const [showLogo, setShowLogo] = useState(true);
   const router = useRouter();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleSignIn = async () => {
+    if (!email || !password) {
+      alert("Please enter both email and password.");
+      return;
+    }
+    if (!email.includes("@") || password.length < 5) {
+      alert("Invalid email format or password is too short (minimum 6 characters).");
+      return;
+    }
+    try {
+      await signInWithEmailAndPassword(FIREBASE_AUTH, email, password);
+      console.log("Login successful!");
+      router.push("/(tabs)/Location");
+    } catch (error) {
+      console.error("Login failed:", error);
+      alert("Login failed. Please check your email and password.");
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -22,14 +45,13 @@ const LandingPage = () => {
         <View style={styles.loginContainer}>
           <Text style={styles.title}>Hey,{"\n"}Welcome Back 💜</Text>
 
-          <TextInput style={styles.input} placeholder="Email" placeholderTextColor="#A0A0A0" />
-          <TextInput style={styles.input} placeholder="Password" placeholderTextColor="#A0A0A0" secureTextEntry />
-
+          <TextInput style={styles.input} placeholder="Email" placeholderTextColor="#A0A0A0" value={email} onChangeText={setEmail} />
+          <TextInput style={styles.input} placeholder="Password" placeholderTextColor="#A0A0A0" secureTextEntry value={password} onChangeText={setPassword} />
           <TouchableOpacity>
             <Text style={styles.forgotPassword}>Forgot password?</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.signInButton} onPress={() => router.push("/(tabs)/Location")}>
+          <TouchableOpacity style={styles.signInButton} onPress={handleSignIn}>
             <Text style={styles.signInText}>Sign In</Text>
           </TouchableOpacity>
 
@@ -51,7 +73,7 @@ const LandingPage = () => {
             </TouchableOpacity>
           </View>
 
-          <TouchableOpacity onPress={() => router.push("/(auth)/signup")}>
+          <TouchableOpacity onPress={() => router.push("/(auth)/name")}>
             <Text style={styles.signupText}>
               Don’t have an account? <Text style={styles.signupLink}>Create your account</Text>
             </Text>

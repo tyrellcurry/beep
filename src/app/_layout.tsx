@@ -56,7 +56,13 @@ function RootLayoutNav() {
 
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
 
-        <Stack.Screen name="(auth)/signup" options={{ headerShown: false }} />
+        {/* <Stack.Screen name="(auth)/signup" options={{ headerShown: false }} /> */}
+        <Stack.Screen name="(auth)/name" options={{ headerShown: false }} />
+        <Stack.Screen name="(auth)/phone" options={{ headerShown: false }} />
+        <Stack.Screen name="(auth)/email" options={{ headerShown: false }} />
+        <Stack.Screen name="(auth)/password" options={{ headerShown: false }} />
+        <Stack.Screen name="(auth)/address" options={{ headerShown: false }} />
+        <Stack.Screen name="(auth)/signupDone" options={{ headerShown: false }} />
 
         <Stack.Screen name="sos/index" options={{ headerShown: false }} />
 
