@@ -151,6 +151,7 @@ export default function Location() {
         isVisible={isBottomSheetVisible}
         bottomSheetRef={bottomSheetRef}
         snapPoints={snapPoints}
+        onTraceRoute={handleTraceRoute}
       />
     </GestureHandlerRootView>
   );

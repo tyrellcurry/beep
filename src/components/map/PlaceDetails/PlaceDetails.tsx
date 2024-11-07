@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, Text, Image, ScrollView } from 'react-native';
-import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
+import BottomSheet, { BottomSheetView, BottomSheetBackdrop } from '@gorhom/bottom-sheet';
 import { Ionicons } from '@expo/vector-icons';
 import { GooglePlaceDetail } from 'react-native-google-places-autocomplete';
 import PlaceDetailsActionButtons from './PlaceDetailsActionButtons';
@@ -12,6 +12,7 @@ type PlaceDetailsBottomSheetProps = {
     isVisible: boolean;
     bottomSheetRef: React.RefObject<BottomSheet>;
     snapPoints: string[];
+    onTraceRoute: () => void;
 };
 
 type PlacePhoto = {
@@ -51,6 +52,7 @@ const PlaceDetailsBottomSheet: React.FC<PlaceDetailsBottomSheetProps> = ({
     isVisible,
     bottomSheetRef,
     snapPoints,
+    onTraceRoute,
 }) => {
     const [details, setDetails] = useState<ExtendedGooglePlaceDetail | null>(null);
     console.log("starts here", details?.photos)
@@ -102,7 +104,7 @@ const PlaceDetailsBottomSheet: React.FC<PlaceDetailsBottomSheetProps> = ({
                         </View>
 
 
-                        <PlaceDetailsActionButtons onTraceRoute={() => { }} />
+                        <PlaceDetailsActionButtons onTraceRoute={onTraceRoute} />
                         {/* Image Thumbnails */}
                         <NativeViewGestureHandler disallowInterruption={true}>
 
