@@ -23,7 +23,7 @@ export default function Location() {
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [distance, setDistance] = useState(0);
   const [duration, setDuration] = useState(0);
-
+  const [isCrimeDataVisible, setIsCrimeDataVisible] = useState(false);
   const [selectedPlaceDetails, setSelectedPlaceDetails] = useState<GooglePlaceDetail | null>(null);
   const [isBottomSheetVisible, setIsBottomSheetVisible] = useState(false);
 
@@ -115,6 +115,11 @@ export default function Location() {
     }
   }, []);
 
+  const handleCrimeDataToggle = () => {
+    setIsCrimeDataVisible(!isCrimeDataVisible);
+    console.log("Toggle layers");
+  };
+
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
 
@@ -140,9 +145,9 @@ export default function Location() {
       <TabButtons onTabPress={handleTabPress} />
 
       <ActionButtons
-        onTraceRoute={handleTraceRoute}
         onCenterGPS={handleCenterGPS}
-        onLayerToggle={() => console.log("Toggle layers")}
+        onCrimeDataToggle={handleCrimeDataToggle}
+        isCrimeDataVisible={isCrimeDataVisible}
         onSOS={() => router.push("/sos")}
       />
 

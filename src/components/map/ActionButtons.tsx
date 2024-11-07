@@ -1,21 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, TouchableOpacity, Image, Text, StyleSheet, Platform } from 'react-native';
 import { LatLng } from 'react-native-maps';
 
 type ActionButtonsProps = {
-    onTraceRoute: () => void;
+
     onCenterGPS: () => void;
-    onLayerToggle?: () => void;
+    onCrimeDataToggle?: () => void;
+    isCrimeDataVisible: boolean;
     onSOS: () => void;
 };
 
-const ActionButtons: React.FC<ActionButtonsProps> = ({ onTraceRoute, onCenterGPS, onLayerToggle, onSOS }) => {
+const ActionButtons: React.FC<ActionButtonsProps> = ({ onCenterGPS, onCrimeDataToggle, isCrimeDataVisible, onSOS }) => {
+
     return (
         <View style={styles.actionButtonsContainer}>
-            {/* Trace Route Button */}
-            <TouchableOpacity style={styles.traceButton} onPress={onTraceRoute}>
-                <Image source={require("../../../assets/map/locationArrowWhite.png")} style={styles.iconImage} />
-            </TouchableOpacity>
 
             {/* Center GPS Button */}
             <TouchableOpacity style={styles.centerGPSButton} onPress={onCenterGPS}>
@@ -23,8 +21,15 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({ onTraceRoute, onCenterGPS
             </TouchableOpacity>
 
             {/* Layer Toggle Button */}
-            <TouchableOpacity style={styles.layerButton} onPress={onLayerToggle}>
-                <Image source={require("../../../assets/map/layerBlack.png")} style={styles.iconImageSmall} />
+            <TouchableOpacity style={styles.layerButton} onPress={onCrimeDataToggle}>
+                <Image
+                    source={
+                        isCrimeDataVisible
+                            ? require("../../../assets/map/ExclaimationMarkFilled.png")
+                            : require("../../../assets/map/ExclaimationMark.png")
+                    }
+                    style={styles.iconImageSmall}
+                />
             </TouchableOpacity>
 
             {/* SOS Button */}
