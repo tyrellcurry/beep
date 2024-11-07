@@ -4,7 +4,7 @@ import { StyleSheet, View, Dimensions, Text } from "react-native";
 import MapView, { LatLng } from "react-native-maps";
 import { useRouter } from "expo-router";
 import * as GPSLocation from 'expo-location';
-import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
+import BottomSheet from '@gorhom/bottom-sheet';
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { GooglePlaceDetail } from 'react-native-google-places-autocomplete';
 
@@ -13,11 +13,8 @@ import Map from "@/src/components/map/map";
 import SearchBar from "@/src/components/map/SearchBar";
 import TabButtons from "@/src/components/map/TabButtons";
 import ActionButtons from "@/src/components/map/ActionButtons";
+import PlaceDetailsBottomSheet from "@/src/components/map/PlaceDetails/PlaceDetails";
 
-const STATIC_ORIGIN = {
-  latitude: 49.2488,
-  longitude: -123.0016,
-};
 
 export default function Location() {
   const [origin, setOrigin] = useState<LatLng | null>(null);
@@ -34,7 +31,7 @@ export default function Location() {
   const mapRef = useRef<MapView>(null);
   const router = useRouter();
 
-  const snapPoints = useMemo(() => ["35%", "50%", "70%"], []);
+  const snapPoints = useMemo(() => ["50%", "70%"], []);
 
   // This is used for GPS location tracking
   useEffect(() => {
@@ -149,32 +146,12 @@ export default function Location() {
         onSOS={() => router.push("/sos")}
       />
 
-      {showDirections && distance && duration ? (
-        <View style={styles.distanceNduration}>
-          <Text>Distance: {distance.toFixed(2)} km</Text>
-          <Text>Duration: {Math.ceil(duration)} min</Text>
-        </View>
-      ) : null}
-
-      {/* Place BottomSheet directly under GestureHandlerRootView */}
-      <BottomSheet
-        ref={bottomSheetRef}
-        onChange={handleSheetChanges}
+      <PlaceDetailsBottomSheet
+        placeDetails={selectedPlaceDetails}
+        isVisible={isBottomSheetVisible}
+        bottomSheetRef={bottomSheetRef}
         snapPoints={snapPoints}
-        enablePanDownToClose={true} // Enable pan down to close
-        index={isBottomSheetVisible ? 0 : -1} // Toggle BottomSheet visibility
-      >
-        <BottomSheetView style={styles.bottomSheetContentContainer}>
-          {selectedPlaceDetails ? (
-            <>
-              <Text>Place Name: {selectedPlaceDetails.name}</Text>
-              <Text>Address: {selectedPlaceDetails.formatted_address}</Text>
-            </>
-          ) : (
-            <Text>No place selected</Text>
-          )}
-        </BottomSheetView>
-      </BottomSheet>
+      />
     </GestureHandlerRootView>
   );
 }
