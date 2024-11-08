@@ -33,6 +33,21 @@ export default function Location() {
   const snapPoints = useMemo(() => ["40%", "50%"], []);
 
   // This is used for GPS location tracking
+  // useEffect(() => {
+  //   (async () => {
+  //     let { status } = await GPSLocation.requestForegroundPermissionsAsync();
+  //     if (status !== 'granted') {
+  //       setErrorMsg('Permission to access location was denied');
+  //       return;
+  //     }
+
+  //     let location = await GPSLocation.getCurrentPositionAsync({});
+  //     const { latitude, longitude } = location.coords;
+  //     setOrigin({ latitude, longitude });
+  //     console.log("Location:", location)
+  //   })();
+  // }, []);
+
   useEffect(() => {
     (async () => {
       let { status } = await GPSLocation.requestForegroundPermissionsAsync();
@@ -41,10 +56,19 @@ export default function Location() {
         return;
       }
 
-      let location = await GPSLocation.getCurrentPositionAsync({});
-      const { latitude, longitude } = location.coords;
-      setOrigin({ latitude, longitude });
-      console.log("Location:", location)
+      const locationSubscription = await GPSLocation.watchPositionAsync(
+        {
+          accuracy: GPSLocation.Accuracy.High,
+          timeInterval: 100000, // Update every second
+          distanceInterval: 1, // Update for every meter moved
+        },
+        (location) => {
+          const { latitude, longitude } = location.coords;
+          setOrigin({ latitude, longitude });
+        }
+      );
+
+      return () => locationSubscription.remove(); // Cleanup on component unmount
     })();
   }, []);
 
@@ -112,6 +136,26 @@ export default function Location() {
     setIsCrimeDataVisible(!isCrimeDataVisible);
     console.log("Toggle layers");
   };
+
+  const adjustCameraPosition = () => {
+    if (mapRef.current && origin) {
+      mapRef.current.animateCamera({
+        center: {
+          latitude: origin.latitude,
+          longitude: origin.longitude,
+        },
+        pitch: 0,
+        heading: 0,
+        zoom: 14,
+      });
+    }
+  };
+
+  useEffect(() => {
+    if (origin) {
+      adjustCameraPosition();
+    }
+  }, [origin]);
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>

@@ -3,11 +3,13 @@ import MapView, { LatLng, Marker } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 import { StyleSheet, Dimensions } from 'react-native';
 import { GOOGLE_API_KEY } from "@/environments";
+import CustomMarker from './CustomMarker';
 
 const { width, height } = Dimensions.get('window');
 const ASPECT_RATIO = width / height;
 const LATITUDE_DELTA = 0.02;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
+
 
 // This is only temp if GPS does not work.
 const INITIAL_POSITION = {
@@ -25,6 +27,8 @@ type MapProps = {
     mapRef: React.RefObject<MapView>;
 };
 
+
+
 const Map: React.FC<MapProps> = ({ origin, destination, showDirections, onDirectionsReady, mapRef }) => {
     return (
         <MapView
@@ -37,8 +41,13 @@ const Map: React.FC<MapProps> = ({ origin, destination, showDirections, onDirect
                 longitudeDelta: LONGITUDE_DELTA
             } : INITIAL_POSITION}
         >
-            {origin && <Marker coordinate={origin} title="Your Location" />}
-            {destination && <Marker coordinate={destination} />}
+            {origin && (
+                <Marker coordinate={origin} anchor={{ x: 0.5, y: 0.5 }}
+                    calloutAnchor={{ x: 0.5, y: 0.5 }}>
+                    <CustomMarker />
+                </Marker>
+            )}
+            {destination && <Marker coordinate={destination} pinColor='#F7185B' />}
             {showDirections && origin && destination && (
                 <MapViewDirections
                     origin={origin}
