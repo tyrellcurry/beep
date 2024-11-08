@@ -161,6 +161,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
   searchContainer: {
+    marginTop: 50,
     position: "absolute",
     width: "90%",
     alignSelf: "center",

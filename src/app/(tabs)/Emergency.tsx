@@ -2,13 +2,11 @@ import React, { useRef } from "react";
 import { StyleSheet, Text, View, TouchableOpacity, Image, Alert, Platform } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
-import * as Location from "expo-location";
 import { useRouter } from "expo-router";
-import { sendSms } from "@/src/components/sendSms";
+import { sendLocationSms } from "@/src/components/sendLocationSms";
 
 const EmergencyScreen: React.FC = () => {
   const router = useRouter();
-
   const lastTap = useRef(0);
 
   const handleDoubleTap = () => {
@@ -20,25 +18,6 @@ const EmergencyScreen: React.FC = () => {
       lastTap.current = now;
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
     }
-  };
-  // Function to handle sending location via SMS
-  const handleSendLocationSms = async () => {
-    // Request permission for location access
-    const { status } = await Location.requestForegroundPermissionsAsync();
-    if (status !== "granted") {
-      Alert.alert("Permission Denied", "Permission to access location was denied");
-      return;
-    }
-
-    // Get the current location
-    const location = await Location.getCurrentPositionAsync({});
-    // todo : [username]
-    const message = `Dora has sent an urgent alert through Beep. 
-    Their location has been shared with you. 
-    Please check on them by viewing their location: https://maps.google.com/?q=${location.coords.latitude},${location.coords.longitude}`;
-
-    // TODO: this num will be coming from database once the emergency contact has set up
-    await sendSms(message, ["1234567890"]);
   };
 
   return (
@@ -57,19 +36,19 @@ const EmergencyScreen: React.FC = () => {
         <View style={styles.option}>
           <TouchableOpacity style={styles.optionButton}>
             <View style={styles.optionTitleSet}>
-              <Text style={styles.optionTitle}>Authorities</Text>
+              <Text style={styles.optionTitle}>processing</Text>
             </View>
-            <Text style={styles.optionButtonText}>Dial 911</Text>
-            <Text style={styles.optionDescription}>Directly contact 911 for urgent assistance</Text>
+            <Text style={styles.optionButtonText}>update</Text>
+            <Text style={styles.optionDescription}>remove direct call</Text>
             <View style={styles.contactInfo}>
-              <Image source={{ uri: "https://i.pravatar.cc/300" }} style={styles.profileImage} />
-              <Text style={styles.contactText}>dora123{"\n"}(604) 123-5678</Text>
+              {/* <Image source={{ uri: "https://i.pravatar.cc/300" }} style={styles.profileImage} />
+              <Text style={styles.contactText}>dora123{"\n"}(604) 123-5678</Text> */}
             </View>
           </TouchableOpacity>
         </View>
 
         <View style={styles.option}>
-          <TouchableOpacity style={styles.optionButton} onPress={handleSendLocationSms}>
+          <TouchableOpacity style={styles.optionButton} onPress={sendLocationSms}>
             <View style={styles.optionTitleSet}>
               <Text style={styles.optionTitle}>Contacts</Text>
             </View>
@@ -96,10 +75,11 @@ export default EmergencyScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#1E1E1E",
+    backgroundColor: "#141216",
     padding: 20,
   },
   header: {
+    marginTop: 100,
     color: "#FF4C60",
     fontSize: 16,
     fontWeight: "600",
@@ -111,12 +91,14 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
     marginBottom: 8,
+    marginTop: 15,
   },
   subtitle: {
     color: "#CCCCCC",
     fontSize: 14,
     textAlign: "center",
     marginBottom: 30,
+    marginTop: 15,
   },
   sosButton: {
     width: 180,
@@ -127,6 +109,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignSelf: "center",
     marginBottom: 10,
+    marginTop: 10,
     shadowColor: "#F7185B",
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 1,
@@ -148,6 +131,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     marginBottom: 40,
+    marginTop: 15,
   },
   option: {
     width: "48%",

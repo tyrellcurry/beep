@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { useRouter } from "expo-router";
 import { Audio, InterruptionModeIOS, InterruptionModeAndroid } from "expo-av";
+import { sendLocationSms } from "@/src/components/sendLocationSms";
 
 export default function EmergencyScreen() {
   const router = useRouter();
   const [sound, setSound] = useState<Audio.Sound | null>(null);
+  const smsTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     const initializeSound = async () => {
@@ -19,22 +21,43 @@ export default function EmergencyScreen() {
         staysActiveInBackground: true,
       });
 
-      const { sound } = await Audio.Sound.createAsync(require("../../assets/police.wav"), { shouldPlay: true });
+      const { sound } = await Audio.Sound.createAsync(require("../../assets/police.wav"));
+      await sound.setIsLoopingAsync(true);
       setSound(sound);
       await sound.playAsync();
+
+      // Set up the 2-minute timer to send SMS
+      smsTimerRef.current = setTimeout(() => {
+        sendLocationSms();
+      }, 60 * 1000);
     };
 
     initializeSound();
 
     return () => {
-      // left page and stop sound didn't work
-      sound && sound.stopAsync().then(() => sound.unloadAsync());
+      if (sound) {
+        sound.stopAsync().then(() => sound.unloadAsync());
+      }
+      if (smsTimerRef.current) {
+        clearTimeout(smsTimerRef.current);
+      }
     };
   }, []);
+
   const stopSound = async () => {
     if (sound) {
       await sound.stopAsync();
       await sound.unloadAsync();
+    }
+    if (smsTimerRef.current) {
+      clearTimeout(smsTimerRef.current);
+    }
+  };
+
+  const notifyContactsImmediately = () => {
+    sendLocationSms();
+    if (smsTimerRef.current) {
+      clearTimeout(smsTimerRef.current);
     }
   };
 
@@ -62,7 +85,7 @@ export default function EmergencyScreen() {
         >
           <Text style={styles.cancelText}>Cancel SOS</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.notifyButton}>
+        <TouchableOpacity style={styles.notifyButton} onPress={notifyContactsImmediately}>
           <Text style={styles.notifyText}>Notify Contacts</Text>
         </TouchableOpacity>
       </View>

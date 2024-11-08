@@ -73,11 +73,11 @@ const SafeZoneScreen: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#0D0D0D",
+    backgroundColor: "#141216",
   },
   header: {
     padding: 16,
-    marginTop: 20,
+    marginTop: 100,
   },
   headerTitle: {
     color: "white",
