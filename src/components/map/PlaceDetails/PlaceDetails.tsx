@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, Text, Image, ScrollView } from 'react-native';
-import BottomSheet, { BottomSheetView, BottomSheetBackdrop } from '@gorhom/bottom-sheet';
+import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
 import { Ionicons } from '@expo/vector-icons';
 import { GooglePlaceDetail } from 'react-native-google-places-autocomplete';
 import PlaceDetailsActionButtons from './PlaceDetailsActionButtons';
@@ -22,14 +22,16 @@ type PlacePhoto = {
 interface ExtendedGooglePlaceDetail extends Omit<GooglePlaceDetail, 'types'> {
     rating?: number;
     user_ratings_total?: number;
-    types?: string[]; // Make this optional and compatible
+    types?: string[];
     opening_hours?: { open_now: boolean };
     photos?: PlacePhoto[];
+    formatted_phone_number?: string;
+    website?: string;
 }
 
 const fetchPlaceDetails = async (placeId: string): Promise<ExtendedGooglePlaceDetail | null> => {
     const apiKey = GOOGLE_API_KEY;
-    const fields = 'name,rating,user_ratings_total,types,opening_hours,photos';
+    const fields = 'formatted_phone_number,website,name,rating,user_ratings_total,types,opening_hours,photos';
     const url = `https://maps.googleapis.com/maps/api/place/details/json?fields=${fields}&place_id=${placeId}&key=${apiKey}`;
 
     try {
@@ -55,7 +57,7 @@ const PlaceDetailsBottomSheet: React.FC<PlaceDetailsBottomSheetProps> = ({
     onTraceRoute,
 }) => {
     const [details, setDetails] = useState<ExtendedGooglePlaceDetail | null>(null);
-    console.log("starts here", details?.photos)
+    console.log("DETAILS**********", details?.website)
     const apiKey = GOOGLE_API_KEY;
 
     useEffect(() => {
@@ -83,10 +85,14 @@ const PlaceDetailsBottomSheet: React.FC<PlaceDetailsBottomSheetProps> = ({
                     <>
                         {/* Header */}
                         <View style={styles.header}>
+
+                            {/* Place icon image */}
                             <Image
                                 source={{ uri: details.photos?.[0]?.photo_reference ? getPhotoUrl(details.photos[0].photo_reference, apiKey) : 'default_image_url' }}
                                 style={styles.placeImage}
                             />
+
+                            {/* Place details */}
                             <View style={styles.headerTextContainer}>
                                 <Text style={styles.placeName}>{details.name}</Text>
                                 <View style={styles.ratingContainer}>
@@ -103,11 +109,11 @@ const PlaceDetailsBottomSheet: React.FC<PlaceDetailsBottomSheetProps> = ({
                             </View>
                         </View>
 
+                        {/* Actions like Directions, Website, Call */}
+                        <PlaceDetailsActionButtons onTraceRoute={onTraceRoute} phoneNumber={details.formatted_phone_number} website={details.website} />
 
-                        <PlaceDetailsActionButtons onTraceRoute={onTraceRoute} />
                         {/* Image Thumbnails */}
                         <NativeViewGestureHandler disallowInterruption={true}>
-
                             <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.thumbnailContainer}>
                                 {details.photos?.map((photo, index) => (
                                     <Image
@@ -115,11 +121,9 @@ const PlaceDetailsBottomSheet: React.FC<PlaceDetailsBottomSheetProps> = ({
                                         source={{ uri: getPhotoUrl(photo.photo_reference, apiKey) }}
                                         style={styles.thumbnail}
                                     />
-
                                 ))}
                             </ScrollView>
                         </NativeViewGestureHandler>
-
                     </>
                 ) : (
                     <Text style={styles.noPlaceText}>No place selected</Text>
