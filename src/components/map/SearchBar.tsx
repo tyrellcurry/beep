@@ -27,12 +27,24 @@ const SearchBar: React.FC<SearchBarProps> = ({ placeholder, onPlaceSelected, cle
                 styles={{
                     textInput: styles.input,
                     container: styles.inputContainer,
+                    row: {
+                        backgroundColor: 'transparent',
+                        color: "white",
+                    },
+                    poweredContainer: {
+                        backgroundColor: 'transparent',
+                    },
+                    description: {
+                        color: 'white',
+                    },
+
                 }}
                 placeholder={placeholder || 'Search Maps'}
                 fetchDetails
                 textInputProps={{
                     value: inputText,
                     onChangeText: (text) => setInputText(text),
+                    placeholderTextColor: 'grey',
                 }}
                 onPress={(data, details = null) => {
                     onPlaceSelected(details);
@@ -66,6 +78,7 @@ const styles = StyleSheet.create({
         flex: 1,
         fontSize: 16,
         height: 40,
+        color: "white",
         backgroundColor: 'transparent',
         textAlignVertical: 'center',
         marginTop: 4,

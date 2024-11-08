@@ -1,6 +1,7 @@
 // components/TabButtons.tsx
 import React from 'react';
 import { View, ScrollView, TouchableOpacity, Text, StyleSheet } from 'react-native';
+import { Platform } from "react-native";
 
 type TabButtonsProps = {
     onTabPress: (label: string) => void;
@@ -25,11 +26,11 @@ const TabButtons: React.FC<TabButtonsProps> = ({ onTabPress }) => {
 const styles = StyleSheet.create({
     tabButtonsContainer: {
         position: 'absolute',
-        top: 100,
+        top: Platform.OS === "ios" ? "10%" : "14%",
         flexDirection: 'row',
         justifyContent: 'flex-start',
         width: '100%',
-        marginTop: -30,
+        left: Platform.OS === "ios" ? "3%" : 0,
         height: 40,
     },
     tabButtonsContent: {
@@ -37,20 +38,15 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     tabButton: {
-        backgroundColor: '#fff',
+        backgroundColor: '#141216',
         paddingHorizontal: 15,
         paddingVertical: 5,
         borderRadius: 24,
         marginRight: 10,
-        shadowColor: '#000',
-        shadowOffset: { width: 2, height: 2 },
-        shadowOpacity: 0.3,
-        shadowRadius: 4,
-        elevation: 5,
         height: 30,
     },
     tabButtonText: {
-        color: '#000',
+        color: '#fff',
         fontSize: 14,
     },
 });

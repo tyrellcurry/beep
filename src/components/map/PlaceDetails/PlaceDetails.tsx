@@ -57,7 +57,7 @@ const PlaceDetailsBottomSheet: React.FC<PlaceDetailsBottomSheetProps> = ({
     onTraceRoute,
 }) => {
     const [details, setDetails] = useState<ExtendedGooglePlaceDetail | null>(null);
-    // console.log("DETAILS**********", details?.website)
+    console.log("DETAILS**********", details?.website)
     const apiKey = GOOGLE_API_KEY;
 
     useEffect(() => {

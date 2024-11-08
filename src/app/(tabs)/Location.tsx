@@ -166,41 +166,10 @@ const styles = StyleSheet.create({
     width: "90%",
     alignSelf: "center",
     top: 10,
-    backgroundColor: "#fff",
+    backgroundColor: "#141216",
     borderRadius: 24,
     paddingHorizontal: 15,
-    shadowColor: "#000",
-    shadowOffset: { width: 5, height: 5 },
-    shadowOpacity: 0.7,
-    shadowRadius: 4,
-    elevation: 3,
     zIndex: 1,
   },
-  distanceNduration: {
-    position: "absolute",
-    top: 150,
-    left: 20,
-    backgroundColor: "#fff",
-    padding: 10,
-    borderRadius: 10,
-    shadowColor: "#000",
-    shadowOffset: { width: 2, height: 2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  bottomSheetContainer: {
-
-    zIndex: 1,
-    flex: 1,
-    padding: 24,
-    backgroundColor: 'grey'
-  },
-  bottomSheetContentContainer: {
-    zIndex: 1,
-    flex: 1,
-    padding: 36,
-    alignItems: 'center',
-  }
 });
 

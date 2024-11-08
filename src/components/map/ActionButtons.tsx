@@ -17,7 +17,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({ onCenterGPS, onCrimeDataT
 
             {/* Center GPS Button */}
             <TouchableOpacity style={styles.centerGPSButton} onPress={onCenterGPS}>
-                <Image source={require("../../../assets/icons/Black.png")} style={styles.iconImageSmall} />
+                <Image source={require("../../../assets/icons/GPSWhite.png")} style={styles.iconImageSmall} />
             </TouchableOpacity>
 
             {/* Layer Toggle Button */}
@@ -25,8 +25,8 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({ onCenterGPS, onCrimeDataT
                 <Image
                     source={
                         isCrimeDataVisible
-                            ? require("../../../assets/icons/ExclaimationMarkFilled.png")
-                            : require("../../../assets/icons/ExclaimationMark.png")
+                            ? require("../../../assets/icons/ExclaimationMarkWhiteFilled.png")
+                            : require("../../../assets/icons/ExclaimationMarkWhite.png")
                     }
                     style={styles.iconImageSmall}
                 />
@@ -44,7 +44,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({ onCenterGPS, onCrimeDataT
 const styles = StyleSheet.create({
     actionButtonsContainer: {
         position: "absolute",
-        bottom: Platform.OS === "ios" ? "9%" : 60,
+        bottom: Platform.OS === "ios" ? "7%" : 60,
         right: "5%",
         left: "5%",
         alignItems: "center",
@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
         width: 50,
         height: 50,
         borderRadius: 30,
-        backgroundColor: "#fff",
+        backgroundColor: "#141216",
         alignItems: "center",
         justifyContent: "center",
         shadowColor: "#000",
@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
         width: 50,
         height: 50,
         borderRadius: 30,
-        backgroundColor: "#fff",
+        backgroundColor: "#141216",
         alignItems: "center",
         justifyContent: "center",
         shadowColor: "#000",

@@ -1,10 +1,7 @@
 import React from "react";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { Link, Tabs } from "expo-router";
-import { Pressable, Image } from "react-native";
-import Ionicons from "@expo/vector-icons/Ionicons";
-import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-import AntDesign from "@expo/vector-icons/AntDesign";
+import { Tabs } from "expo-router";
+import { Image } from "react-native";
 import { Platform } from "react-native";
 
 import Colors from "@/src/constants/Colors";
