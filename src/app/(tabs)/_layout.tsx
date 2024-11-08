@@ -27,8 +27,8 @@ export default function TabLayout() {
         tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
         headerShown: useClientOnlyValue(false, false),
         tabBarStyle: {
-          height: Platform.OS === "ios" ? 90 : 65,
-          paddingVertical: Platform.OS === "ios" ? 10 : 5,
+          height: Platform.OS === "ios" ? 70 : 60,
+          paddingVertical: Platform.OS === "ios" ? 12 : 8,
           paddingHorizontal: 5,
           justifyContent: "center",
           alignItems: "center",
@@ -36,9 +36,11 @@ export default function TabLayout() {
           borderRadius: 50,
           position: "absolute",
           bottom: Platform.OS === "ios" ? 15 : 10,
+          left: "5%",
+          right: "5%",
           width: "90%",
           alignSelf: "center",
-          left: 20,
+          zIndex: 1,
         },
       }}
     >
@@ -46,33 +48,62 @@ export default function TabLayout() {
         name="Location"
         options={{
           title: "Location",
-          tabBarIcon: ({ color }) => <Ionicons name="location-outline" size={24} color="black" />,
-          headerRight: () => (
-            <Link href="/modal" asChild>
-              <Pressable>{({ pressed }) => <FontAwesome name="info-circle" size={25} color={Colors[colorScheme ?? "light"].text} style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }} />}</Pressable>
-            </Link>
-          ),
+          tabBarIcon: ({ focused }) => <Image
+            source={
+              focused
+                ? require("../../../assets/icons/LocationNavPinkFilled.png") // Image for active state
+                : require("../../../assets/icons/LocationNavBlack.png") // Image for inactive state
+            }
+            style={{ width: 24, height: 24, resizeMode: "contain" }}
+          />,
+          // headerRight: () => (
+          //   <Link href="/modal" asChild>
+          //     <Pressable>{({ pressed }) => <FontAwesome name="info-circle" size={25} color={Colors[colorScheme ?? "light"].text} style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }} />}</Pressable>
+          //   </Link>
+          // ),
         }}
       />
       <Tabs.Screen
         name="Emergency"
         options={{
           title: "Emergency",
-          tabBarIcon: ({ color }) => <MaterialIcons name="emergency" size={24} color="black" />,
+          tabBarIcon: ({ focused }) => <Image
+            source={
+              focused
+                ? require("../../../assets/icons/SOSPinkFilled.png") // Image for active state
+                : require("../../../assets/icons/SOSBlackHollow.png") // Image for inactive state
+            }
+            style={{ width: 24, height: 24, resizeMode: "contain" }}
+          />,
         }}
       />
       <Tabs.Screen
         name="SafeZone"
         options={{
           title: "SafeZone",
-          tabBarIcon: ({ color }) => <AntDesign name="Safety" size={24} color="black" />,
+          tabBarIcon: ({ focused }) => <Image
+            source={
+              focused
+                ? require("../../../assets/icons/EmergencyPinkFilled.png") // Image for active state
+                : require("../../../assets/icons/EmergencyBlack.png") // Image for inactive state
+            }
+            style={{ width: 30, height: 25, resizeMode: "contain" }}
+          />,
         }}
       />
       <Tabs.Screen
         name="Profile"
         options={{
           title: "Profile",
-          tabBarIcon: () => <Image source={{ uri: profileImageUrl }} style={{ width: 24, height: 24, borderRadius: 12 }} />,
+          tabBarIcon: () => (
+            <Image
+              source={{ uri: profileImageUrl }}
+              style={{ width: 24, height: 24, borderRadius: 12 }}
+            />
+          ), tabBarItemStyle: {
+            flex: 1,
+            marginLeft: -5,
+          },
         }}
       />
     </Tabs>

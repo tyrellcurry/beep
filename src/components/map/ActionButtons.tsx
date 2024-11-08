@@ -17,7 +17,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({ onCenterGPS, onCrimeDataT
 
             {/* Center GPS Button */}
             <TouchableOpacity style={styles.centerGPSButton} onPress={onCenterGPS}>
-                <Image source={require("../../../assets/map/Black.png")} style={styles.iconImageSmall} />
+                <Image source={require("../../../assets/icons/Black.png")} style={styles.iconImageSmall} />
             </TouchableOpacity>
 
             {/* Layer Toggle Button */}
@@ -25,8 +25,8 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({ onCenterGPS, onCrimeDataT
                 <Image
                     source={
                         isCrimeDataVisible
-                            ? require("../../../assets/map/ExclaimationMarkFilled.png")
-                            : require("../../../assets/map/ExclaimationMark.png")
+                            ? require("../../../assets/icons/ExclaimationMarkFilled.png")
+                            : require("../../../assets/icons/ExclaimationMark.png")
                     }
                     style={styles.iconImageSmall}
                 />
@@ -34,7 +34,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({ onCenterGPS, onCrimeDataT
 
             {/* SOS Button */}
             <TouchableOpacity style={styles.SOSButton} onPress={onSOS}>
-                <Image source={require("../../../assets/map/SOSWhiteHollow.png")} style={styles.SOSiconImageSmall} />
+                <Image source={require("../../../assets/icons/SOSWhiteHollow.png")} style={styles.SOSiconImageSmall} />
                 <Text style={styles.SOSText}>SOS</Text>
             </TouchableOpacity>
         </View>
@@ -44,28 +44,15 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({ onCenterGPS, onCrimeDataT
 const styles = StyleSheet.create({
     actionButtonsContainer: {
         position: "absolute",
-        bottom: Platform.OS === "ios" ? 25 : 0,
-        right: 0,
+        bottom: Platform.OS === "ios" ? "9%" : 60,
+        right: "5%",
+        left: "5%",
         alignItems: "center",
-    },
-    traceButton: {
-        position: "absolute",
-        bottom: 210,
-        width: 70,
-        height: 70,
-        borderRadius: 35,
-        backgroundColor: "#651FD7",
-        alignItems: "center",
-        justifyContent: "center",
-        shadowColor: "#000",
-        shadowOffset: { width: 2, height: 2 },
-        shadowOpacity: 0.3,
-        shadowRadius: 4,
-        elevation: 5,
     },
     centerGPSButton: {
         position: "absolute",
-        bottom: 150,
+        bottom: Platform.OS === "ios" ? 20 : 22,
+        right: Platform.OS === "ios" ? 0 : 0,
         width: 50,
         height: 50,
         borderRadius: 30,
@@ -81,6 +68,7 @@ const styles = StyleSheet.create({
     layerButton: {
         position: "absolute",
         bottom: 90,
+        right: 0,
         width: 50,
         height: 50,
         borderRadius: 30,
@@ -94,9 +82,10 @@ const styles = StyleSheet.create({
         elevation: 5,
     },
     SOSButton: {
-        bottom: 90,
-        right: 250,
-        height: 52,
+        position: "absolute",
+        bottom: Platform.OS === "ios" ? 20 : 22,
+        left: 0,
+        height: 50,
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "center",
