@@ -1,4 +1,3 @@
-// location.tsx
 import React, { useRef, useState, useEffect, useMemo, useCallback } from "react";
 import { StyleSheet, View, Dimensions, Text } from "react-native";
 import MapView, { LatLng } from "react-native-maps";
@@ -83,7 +82,8 @@ export default function Location() {
 
   const handleClearDestination = () => {
     setDestination(null);
-    setIsBottomSheetVisible(false); // Hide BottomSheet when clearing the destination
+    setIsBottomSheetVisible(false);
+    bottomSheetRef.current?.close();
     handleCenterGPS();
     setShowDirections(false);
   };
@@ -107,13 +107,6 @@ export default function Location() {
   };
 
   const bottomSheetRef = useRef<BottomSheet>(null);
-
-  const handleSheetChanges = useCallback((index: number) => {
-    console.log('handleSheetChanges', index);
-    if (index === -1) { // Fully collapsed or hidden
-      setIsBottomSheetVisible(false);
-    }
-  }, []);
 
   const handleCrimeDataToggle = () => {
     setIsCrimeDataVisible(!isCrimeDataVisible);

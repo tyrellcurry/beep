@@ -57,7 +57,7 @@ const PlaceDetailsBottomSheet: React.FC<PlaceDetailsBottomSheetProps> = ({
     onTraceRoute,
 }) => {
     const [details, setDetails] = useState<ExtendedGooglePlaceDetail | null>(null);
-    console.log("DETAILS**********", details?.website)
+    // console.log("DETAILS**********", details?.website)
     const apiKey = GOOGLE_API_KEY;
 
     useEffect(() => {
@@ -70,6 +70,10 @@ const PlaceDetailsBottomSheet: React.FC<PlaceDetailsBottomSheetProps> = ({
 
     const getPhotoUrl = (photoReference: string, apiKey: string) => {
         return `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${photoReference}&key=${apiKey}`;
+    };
+
+    const getStatusColor = (isOpen: boolean | undefined) => {
+        return isOpen ? '#4CAF50' : '#FF0000';
     };
 
     return (
@@ -103,7 +107,10 @@ const PlaceDetailsBottomSheet: React.FC<PlaceDetailsBottomSheetProps> = ({
                                 <Text style={styles.placeDetails}>
                                     {details.types && details.types[0] ? details.types[0] : 'Unknown Type'}
                                 </Text>
-                                <Text style={styles.statusText}>
+                                <Text style={[
+                                    styles.statusText,
+                                    { color: getStatusColor(details.opening_hours?.open_now) },
+                                ]}>
                                     {details.opening_hours?.open_now ? 'Open' : 'Closed'}
                                 </Text>
                             </View>
@@ -129,7 +136,7 @@ const PlaceDetailsBottomSheet: React.FC<PlaceDetailsBottomSheetProps> = ({
                     <Text style={styles.noPlaceText}>No place selected</Text>
                 )}
             </BottomSheetView>
-        </BottomSheet>
+        </BottomSheet >
     );
 };
 
@@ -185,7 +192,6 @@ const styles = StyleSheet.create({
     },
     statusText: {
         fontSize: 12,
-        color: '#4CAF50',
     },
     thumbnailContainer: {
         marginTop: 12,
