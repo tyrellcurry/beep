@@ -3,6 +3,7 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Tabs } from "expo-router";
 import { Image } from "react-native";
 import { Platform } from "react-native";
+import { useNavigationState } from '@react-navigation/native';
 
 import Colors from "@/src/constants/Colors";
 import { useColorScheme } from "@/src/components/useColorScheme";
@@ -15,8 +16,26 @@ function TabBarIcon(props: { name: React.ComponentProps<typeof FontAwesome>["nam
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
-  // need to change real user info
+
+  // TODO: need to change real user info
   const profileImageUrl = "https://i.pravatar.cc/300";
+
+
+  // TODO: change tab background color based on which screen it is on but the route is showing (tab)
+  const currentRouteName = useNavigationState((state) => {
+    const route = state.routes[state.index];
+    return route.name;
+  });
+  console.log(currentRouteName)
+
+  const getTabBarBackgroundColor = () => {
+    switch (currentRouteName) {
+      case 'Location':
+        return '#000'; // Background color for Location screen
+      default:
+        return '#FFF'; // Default background color
+    }
+  };
 
   return (
     <Tabs
@@ -29,8 +48,9 @@ export default function TabLayout() {
           paddingHorizontal: 5,
           justifyContent: "center",
           alignItems: "center",
-          backgroundColor: "#F4F0F1",
+          backgroundColor: getTabBarBackgroundColor(),
           borderRadius: 50,
+          borderWidth: 0,
           position: "absolute",
           bottom: Platform.OS === "ios" ? 15 : 10,
           left: "5%",
@@ -39,6 +59,9 @@ export default function TabLayout() {
           alignSelf: "center",
           zIndex: 1,
         },
+        tabBarItemStyle: {
+          marginBottom: Platform.OS === "ios" ? 0 : 10,
+        }
       }}
     >
       <Tabs.Screen
@@ -100,6 +123,7 @@ export default function TabLayout() {
           ), tabBarItemStyle: {
             flex: 1,
             marginLeft: -5,
+            marginBottom: Platform.OS === "ios" ? 0 : 10,
           },
         }}
       />

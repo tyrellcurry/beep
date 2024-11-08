@@ -57,7 +57,7 @@ const PlaceDetailsBottomSheet: React.FC<PlaceDetailsBottomSheetProps> = ({
     onTraceRoute,
 }) => {
     const [details, setDetails] = useState<ExtendedGooglePlaceDetail | null>(null);
-    console.log("DETAILS**********", details?.website)
+    // console.log("DETAILS**********", details?.website)
     const apiKey = GOOGLE_API_KEY;
 
     useEffect(() => {
@@ -83,6 +83,12 @@ const PlaceDetailsBottomSheet: React.FC<PlaceDetailsBottomSheetProps> = ({
             enablePanDownToClose={true}
             index={isVisible ? 0 : -1}
             backgroundStyle={styles.bottomSheetBackground}
+            onChange={(index) => {
+                console.log('Bottom sheet state changed. Current index:', index);
+                if (index >= 0) {
+                    console.log('Bottom sheet is triggered');
+                }
+            }}
         >
             <BottomSheetView style={styles.bottomSheetContent}>
                 {details ? (

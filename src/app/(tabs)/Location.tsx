@@ -30,7 +30,7 @@ export default function Location() {
   const mapRef = useRef<MapView>(null);
   const router = useRouter();
 
-  const snapPoints = useMemo(() => ["50%", "70%"], []);
+  const snapPoints = useMemo(() => ["40%", "50%"], []);
 
   // This is used for GPS location tracking
   useEffect(() => {
