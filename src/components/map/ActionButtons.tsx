@@ -121,8 +121,8 @@ const styles = StyleSheet.create({
         resizeMode: "contain",
     },
     iconImageSmall: {
-        width: 25,
-        height: 25,
+        width: 26,
+        height: 26,
         resizeMode: "contain",
     },
     SOSiconImageSmall: {
