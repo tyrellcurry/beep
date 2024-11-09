@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import MapView, { Marker } from "react-native-maps";
+import MapView, { Marker, Circle } from "react-native-maps";
 import { Ionicons, FontAwesome } from "@expo/vector-icons";
 
 const SafeZoneScreen: React.FC = () => {
