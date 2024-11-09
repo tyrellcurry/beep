@@ -141,7 +141,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#651Fd7",
     padding: 16,
     borderRadius: 20,
-    borderBottomRightRadius: 60,
     position: "relative",
   },
   featureBoxBlack: {
@@ -149,7 +148,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#000",
     padding: 16,
     borderRadius: 20,
-    borderTopLeftRadius: 60,
     borderColor: "#FFFFFF",
     borderWidth: 1,
     position: "relative",
