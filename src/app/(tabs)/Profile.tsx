@@ -1,8 +1,8 @@
 import React from "react";
-import { StyleSheet, Image, TouchableOpacity, ScrollView, View } from "react-native";
+import { StyleSheet, Image, TouchableOpacity, ScrollView, View, Platform } from "react-native";
 import { Text } from "@/src/components/Themed";
 import { useRouter } from "expo-router";
-import { FontAwesome5, MaterialIcons, Ionicons } from "@expo/vector-icons"; // 아이콘 라이브러리 추가
+import { FontAwesome5, Ionicons, AntDesign, FontAwesome6, Foundation, Entypo, MaterialCommunityIcons } from "@expo/vector-icons";
 
 export default function ProfileScreen() {
   const router = useRouter();
@@ -52,35 +52,31 @@ export default function ProfileScreen() {
             <Text style={styles.contactName}>Jane</Text>
           </View>
           <TouchableOpacity style={styles.arrowContainer}>
-            <Text style={styles.arrowText}>→</Text>
+            <Ionicons name="chevron-forward-outline" size={20} color="#AAA" />
           </TouchableOpacity>
         </View>
       </View>
 
-      {/* Settings Section */}
       <Text style={styles.sectionTitle}>⚙️ Settings</Text>
       <View style={styles.settingContainer}>
         {[
-          { icon: <FontAwesome5 name="user" size={24} color="white" />, title: "   Profile & Account" },
-          { icon: <MaterialIcons name="brush" size={24} color="white" />, title: "   Customizations" },
-          { icon: <Ionicons name="notifications-outline" size={24} color="white" />, title: "   Notifications" },
-          { icon: <FontAwesome5 name="baby" size={24} color="white" />, title: "   Parental Control" },
-          { icon: <FontAwesome5 name="file-alt" size={24} color="white" />, title: "   Policies & Legal" },
-          { icon: <Ionicons name="chatbox-ellipses-outline" size={24} color="white" />, title: "  Support & Feedback" },
+          { icon: <FontAwesome6 name="circle-user" size={20} color="white" />, title: "   Profile & Account" },
+          { icon: <Foundation name="paint-bucket" size={20} color="white" />, title: "   Customizations" },
+          { icon: <Entypo name="notification" size={20} color="white" />, title: "   Notifications" },
+          { icon: <MaterialCommunityIcons name="baby-face-outline" size={20} color="white" />, title: "   Parental Control" },
+          { icon: <FontAwesome5 name="file-alt" size={20} color="white" />, title: "   Policies & Legal" },
+          { icon: <AntDesign name="exclamationcircleo" size={20} color="white" />, title: "  Support & Feedback" },
         ].map((setting, index) => (
           <TouchableOpacity key={index} style={styles.settingsRow}>
-            {/* 아이콘과 텍스트를 함께 보여주는 구조 */}
             <View style={styles.iconAndText}>
               {setting.icon}
               <Text style={styles.settingsText}>{setting.title}</Text>
             </View>
-            {/* 화살표 */}
             <Ionicons name="chevron-forward-outline" size={20} color="#AAA" />
           </TouchableOpacity>
         ))}
       </View>
 
-      {/* Sign Out and Delete Buttons */}
       <TouchableOpacity style={styles.signOutButton} onPress={() => router.push("/")}>
         <Text style={styles.signOutText}>Sign Out</Text>
       </TouchableOpacity>
@@ -110,7 +106,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#141216",
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 15,
+    marginBottom: 20,
     justifyContent: "space-between",
   },
   profileImage: {
@@ -125,7 +121,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#141216",
   },
   name: {
-    fontSize: 18,
+    fontSize: 30,
     fontWeight: "bold",
     color: "#FFF",
   },
@@ -158,11 +154,11 @@ const styles = StyleSheet.create({
   settingContainer: {
     backgroundColor: "#141216",
     marginBottom: 10,
-    marginTop: 5,
+    marginTop: 10,
   },
   sectionTitle: {
     color: "#FFF",
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: "bold",
     marginTop: 10,
     marginBottom: 5,
@@ -218,10 +214,6 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     marginLeft: 5,
   },
-  arrowText: {
-    color: "#FFF",
-    fontSize: 16,
-  },
   settingsRow: {
     flexDirection: "row",
     alignItems: "center",
@@ -237,7 +229,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   settingsText: {
-    fontSize: 16,
+    fontSize: 14,
     color: "#FFF",
   },
   settingsArrow: {
@@ -254,7 +246,7 @@ const styles = StyleSheet.create({
   signOutText: {
     color: "#FFF",
     fontWeight: "bold",
-    fontSize: 16,
+    fontSize: Platform.OS === "ios" ? 16 : 14,
   },
   deleteButton: {
     backgroundColor: "#141216",
@@ -268,6 +260,6 @@ const styles = StyleSheet.create({
   deleteButtonText: {
     color: "#FF005C",
     fontWeight: "bold",
-    fontSize: 16,
+    fontSize: Platform.OS === "ios" ? 16 : 14,
   },
 });
