@@ -2,10 +2,10 @@ import React, { useRef, useState, useEffect, useMemo, useCallback } from "react"
 import { StyleSheet, View, Dimensions, Text } from "react-native";
 import MapView, { LatLng } from "react-native-maps";
 import { useRouter } from "expo-router";
-import * as GPSLocation from 'expo-location';
-import BottomSheet from '@gorhom/bottom-sheet';
+import * as GPSLocation from "expo-location";
+import BottomSheet from "@gorhom/bottom-sheet";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { GooglePlaceDetail } from 'react-native-google-places-autocomplete';
+import { GooglePlaceDetail } from "react-native-google-places-autocomplete";
 
 // Import components
 import Map from "@/src/components/map/map";
@@ -13,7 +13,6 @@ import SearchBar from "@/src/components/map/SearchBar";
 import TabButtons from "@/src/components/map/TabButtons";
 import ActionButtons from "@/src/components/map/ActionButtons";
 import PlaceDetailsBottomSheet from "@/src/components/map/PlaceDetails/PlaceDetails";
-
 
 export default function Location() {
   const [origin, setOrigin] = useState<LatLng | null>(null);
@@ -25,7 +24,6 @@ export default function Location() {
   const [isCrimeDataVisible, setIsCrimeDataVisible] = useState(false);
   const [selectedPlaceDetails, setSelectedPlaceDetails] = useState<GooglePlaceDetail | null>(null);
   const [isBottomSheetVisible, setIsBottomSheetVisible] = useState(false);
-
 
   const mapRef = useRef<MapView>(null);
   const router = useRouter();
@@ -51,8 +49,8 @@ export default function Location() {
   useEffect(() => {
     (async () => {
       let { status } = await GPSLocation.requestForegroundPermissionsAsync();
-      if (status !== 'granted') {
-        setErrorMsg('Permission to access location was denied');
+      if (status !== "granted") {
+        setErrorMsg("Permission to access location was denied");
         return;
       }
 
@@ -159,14 +157,7 @@ export default function Location() {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-
-      <Map
-        origin={origin}
-        destination={destination}
-        showDirections={showDirections}
-        onDirectionsReady={handleTraceRouteOnReady}
-        mapRef={mapRef}
-      />
+      <Map origin={origin} destination={destination} showDirections={showDirections} onDirectionsReady={handleTraceRouteOnReady} mapRef={mapRef} />
 
       <View style={styles.searchContainer}>
         <SearchBar
@@ -181,20 +172,9 @@ export default function Location() {
 
       <TabButtons onTabPress={handleTabPress} />
 
-      <ActionButtons
-        onCenterGPS={handleCenterGPS}
-        onCrimeDataToggle={handleCrimeDataToggle}
-        isCrimeDataVisible={isCrimeDataVisible}
-        onSOS={() => router.push("/sos")}
-      />
+      <ActionButtons onCenterGPS={handleCenterGPS} onCrimeDataToggle={handleCrimeDataToggle} isCrimeDataVisible={isCrimeDataVisible} onSOS={() => router.push("/sos")} />
 
-      <PlaceDetailsBottomSheet
-        placeDetails={selectedPlaceDetails}
-        isVisible={isBottomSheetVisible}
-        bottomSheetRef={bottomSheetRef}
-        snapPoints={snapPoints}
-        onTraceRoute={handleTraceRoute}
-      />
+      <PlaceDetailsBottomSheet placeDetails={selectedPlaceDetails} isVisible={isBottomSheetVisible} bottomSheetRef={bottomSheetRef} snapPoints={snapPoints} onTraceRoute={handleTraceRoute} />
     </GestureHandlerRootView>
   );
 }
@@ -216,4 +196,3 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
 });
-

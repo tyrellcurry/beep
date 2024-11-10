@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { useRouter } from "expo-router";
 import { Audio, InterruptionModeIOS, InterruptionModeAndroid } from "expo-av";
-import { sendLocationSms } from "@/src/components/sendLocationSms";
+import { sendLocationSms } from "@/src/components/sms/sendLocationSms";
 import { CountdownCircleTimer } from "react-native-countdown-circle-timer";
 
 export default function EmergencyScreen() {

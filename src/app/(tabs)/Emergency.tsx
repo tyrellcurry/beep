@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, TouchableOpacity, Image, Alert, Platform } from
 import { Ionicons } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
 import { useRouter } from "expo-router";
-import { sendLocationSms } from "@/src/components/sendLocationSms";
+import { sendLocationSms } from "@/src/components/sms/sendLocationSms";
 
 const EmergencyScreen: React.FC = () => {
   const router = useRouter();
@@ -27,9 +27,13 @@ const EmergencyScreen: React.FC = () => {
       <Text style={styles.subtitle}>Sound a loud alarm and send your location to emergency contacts.</Text>
 
       <TouchableOpacity style={styles.sosButton} onPress={handleDoubleTap}>
-        <Text style={styles.sosText}>SOS</Text>
+        <View style={styles.sosTextContainer}>
+          <Text style={styles.sosText}>SOS</Text>
+        </View>
+        <View style={styles.sosButtonOuterCircle} />
+        <View style={styles.sosButtonMiddleCircle} />
+        <View style={styles.sosButtonInnerCircle} />
       </TouchableOpacity>
-
       <Text style={styles.instructions}>Tap 2 times on button to activate</Text>
 
       <Text style={styles.optionTitle}>SMS option</Text>
@@ -87,24 +91,51 @@ const styles = StyleSheet.create({
     marginTop: 15,
   },
   sosButton: {
-    width: 180,
-    height: 180,
+    width: 200,
+    height: 200,
     borderRadius: 90,
-    backgroundColor: "#F7185B",
     alignItems: "center",
     justifyContent: "center",
     alignSelf: "center",
-    marginBottom: 10,
-    marginTop: 10,
-    shadowColor: "#F7185B",
-    shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 1,
-    shadowRadius: 20,
-    elevation: 50,
+    position: "relative",
+    marginBottom: 20,
+  },
+  sosButtonOuterCircle: {
+    width: 200,
+    height: 200,
+    borderRadius: 100,
+    backgroundColor: "rgba(247, 24, 91, 0.3)",
+    position: "absolute",
+    top: 0,
+    left: 0,
+  },
+  sosButtonMiddleCircle: {
+    width: 180,
+    height: 180,
+    borderRadius: 90,
+    backgroundColor: "rgba(247, 24, 91, 0.5)",
+    position: "absolute",
+    top: 10,
+    left: 10,
+  },
+  sosButtonInnerCircle: {
+    width: 150,
+    height: 150,
+    borderRadius: 75,
+    backgroundColor: "#F7185B",
+    position: "absolute",
+    top: 25,
+    left: 25,
+  },
+  sosTextContainer: {
+    position: "absolute",
+    alignItems: "center",
+    justifyContent: "center",
+    zIndex: 1,
   },
   sosText: {
     color: "#FFFFFF",
-    fontSize: 36,
+    fontSize: 34,
     fontWeight: "bold",
   },
   instructions: {
@@ -135,13 +166,13 @@ const styles = StyleSheet.create({
     paddingBottom: 15,
     paddingTop: 15,
     paddingRight: 50,
-    height: Platform.OS === "ios" ? 150 : 200,
+    height: Platform.OS === "ios" ? 150 : 170,
   },
   optionButtonText: {
     color: "#FFFFFF",
-    fontSize: 26,
+    fontSize: 24,
     fontWeight: "bold",
-    marginBottom: 8,
+    marginBottom: Platform.OS === "ios" ? 8 : 0,
   },
   optionDescription: {
     color: "#cccccc",
