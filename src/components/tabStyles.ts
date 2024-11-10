@@ -2,8 +2,8 @@ import { StyleSheet, Platform } from "react-native";
 
 const TabStyles = StyleSheet.create({
   tabBarStyle: {
-    height: Platform.OS === "ios" ? 85 : 60,
-    paddingVertical: Platform.OS === "ios" ? 15 : 8,
+    height: Platform.OS === "ios" ? 70 : 60,
+    paddingVertical: Platform.OS === "ios" ? 20 : 8,
     paddingHorizontal: 5,
     justifyContent: "center",
     alignItems: "center",
@@ -24,6 +24,10 @@ const TabStyles = StyleSheet.create({
     width: 24,
     height: 24,
     resizeMode: "contain",
+  },
+  tabBarLabelStyle: {
+    bottom: Platform.OS === "ios" ? -15 : 0,
+    fontSize: Platform.OS === "ios" ? 12 : 10,
   },
 });
 

@@ -41,6 +41,7 @@ export default function TabLayout() {
           backgroundColor: getTabBarBackgroundColor(),
         },
         tabBarItemStyle: TabStyles.tabBarItemStyle,
+        tabBarLabelStyle: TabStyles.tabBarLabelStyle,
       }}
     >
       <Tabs.Screen
