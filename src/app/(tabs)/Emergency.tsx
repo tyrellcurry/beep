@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
   },
   optionsContainer: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "center",
     marginBottom: 40,
     marginTop: 15,
   },
