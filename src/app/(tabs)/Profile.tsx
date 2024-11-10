@@ -1,9 +1,12 @@
-import { StyleSheet, Image, TouchableOpacity, ScrollView } from "react-native";
-import { Text, View } from "@/src/components/Themed";
+import React from "react";
+import { StyleSheet, Image, TouchableOpacity, ScrollView, View } from "react-native";
+import { Text } from "@/src/components/Themed";
 import { useRouter } from "expo-router";
+import { FontAwesome5, MaterialIcons, Ionicons } from "@expo/vector-icons"; // 아이콘 라이브러리 추가
 
 export default function ProfileScreen() {
   const router = useRouter();
+
   return (
     <ScrollView contentContainerStyle={{ paddingBottom: 100 }} style={styles.container}>
       <View style={styles.editHeader}>
@@ -11,6 +14,7 @@ export default function ProfileScreen() {
           <Text style={styles.editButtonText}>Edit</Text>
         </TouchableOpacity>
       </View>
+
       <View style={styles.header}>
         <Image source={{ uri: "https://i.pravatar.cc/300" }} style={styles.profileImage} />
         <View style={styles.profileInfo}>
@@ -53,19 +57,34 @@ export default function ProfileScreen() {
         </View>
       </View>
 
+      {/* Settings Section */}
       <Text style={styles.sectionTitle}>⚙️ Settings</Text>
       <View style={styles.settingContainer}>
-        {["Notifications", "Parental Control", "Theme", "Content Policy", "Privacy Policy", "User Agreement", "Our Team", "Report Issue"].map((setting, index) => (
+        {[
+          { icon: <FontAwesome5 name="user" size={24} color="white" />, title: "   Profile & Account" },
+          { icon: <MaterialIcons name="brush" size={24} color="white" />, title: "   Customizations" },
+          { icon: <Ionicons name="notifications-outline" size={24} color="white" />, title: "   Notifications" },
+          { icon: <FontAwesome5 name="baby" size={24} color="white" />, title: "   Parental Control" },
+          { icon: <FontAwesome5 name="file-alt" size={24} color="white" />, title: "   Policies & Legal" },
+          { icon: <Ionicons name="chatbox-ellipses-outline" size={24} color="white" />, title: "  Support & Feedback" },
+        ].map((setting, index) => (
           <TouchableOpacity key={index} style={styles.settingsRow}>
-            <Text style={styles.settingsText}>{setting}</Text>
-            <Text style={styles.settingsArrow}>→</Text>
+            {/* 아이콘과 텍스트를 함께 보여주는 구조 */}
+            <View style={styles.iconAndText}>
+              {setting.icon}
+              <Text style={styles.settingsText}>{setting.title}</Text>
+            </View>
+            {/* 화살표 */}
+            <Ionicons name="chevron-forward-outline" size={20} color="#AAA" />
           </TouchableOpacity>
         ))}
       </View>
 
+      {/* Sign Out and Delete Buttons */}
       <TouchableOpacity style={styles.signOutButton} onPress={() => router.push("/")}>
         <Text style={styles.signOutText}>Sign Out</Text>
       </TouchableOpacity>
+
       <TouchableOpacity style={styles.deleteButton}>
         <Text style={styles.deleteButtonText}>Delete account</Text>
       </TouchableOpacity>
@@ -121,7 +140,7 @@ const styles = StyleSheet.create({
   editButton: {
     backgroundColor: "#333",
     borderRadius: 12,
-    paddingHorizontal: 12,
+    alignItems: "center",
     paddingVertical: 5,
     width: 55,
   },
@@ -131,16 +150,15 @@ const styles = StyleSheet.create({
   },
   sectionContainer: {
     backgroundColor: "#333",
-    borderRadius: 10,
+    borderRadius: 25,
     padding: 16,
     marginTop: 10,
     marginBottom: 20,
   },
   settingContainer: {
     backgroundColor: "#141216",
-    borderRadius: 10,
-    padding: 16,
     marginBottom: 10,
+    marginTop: 5,
   },
   sectionTitle: {
     color: "#FFF",
@@ -209,10 +227,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     paddingVertical: 15,
-    borderRadius: 10,
+    borderRadius: 20,
     backgroundColor: "#444",
-    paddingHorizontal: 16,
+    paddingHorizontal: 30,
     marginVertical: 5,
+  },
+  iconAndText: {
+    flexDirection: "row",
+    alignItems: "center",
   },
   settingsText: {
     fontSize: 16,

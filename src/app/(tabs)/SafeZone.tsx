@@ -3,8 +3,9 @@ import { View, Text, TouchableOpacity, StyleSheet, Button, Platform } from "reac
 import MapView, { Marker } from "react-native-maps";
 import { Ionicons, FontAwesome } from "@expo/vector-icons";
 import { useCameraPermissions } from "expo-camera";
-import CameraComponent from "@/src/components/Camera";
+import CameraComponent from "@/src/components/camera/Camera";
 import { useNavigation } from "@react-navigation/native";
+import TabStyles from "@/src/components/tabStyles";
 
 const SafeZoneScreen: React.FC = () => {
   const [permission, requestPermission] = useCameraPermissions();
@@ -32,29 +33,7 @@ const SafeZoneScreen: React.FC = () => {
 
   const handleCloseCamera = () => {
     setIsCameraOpen(false);
-    navigation.setOptions({
-      tabBarStyle: {
-        height: Platform.OS === "ios" ? 70 : 60,
-        paddingVertical: Platform.OS === "ios" ? 12 : 8,
-        paddingHorizontal: 5,
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: "#FFF",
-        borderRadius: 50,
-        borderWidth: 0,
-        position: "absolute",
-        bottom: Platform.OS === "ios" ? 15 : 10,
-        left: "5%",
-        right: "5%",
-        width: "90%",
-        alignSelf: "center",
-        zIndex: 1,
-        display: "flex",
-      },
-      tabBarItemStyle: {
-        marginBottom: Platform.OS === "ios" ? 0 : 10,
-      },
-    });
+    navigation.setOptions({ tabBarStyle: TabStyles.tabBarStyle });
   };
 
   return (
@@ -68,13 +47,11 @@ const SafeZoneScreen: React.FC = () => {
         />
       ) : (
         <>
-          {/* Header */}
           <View style={styles.header}>
             <Text style={styles.headerTitle}>Safe Zone</Text>
             <Text style={styles.headerSubtitle}>Share your location or record surroundings, and access saved media easily.</Text>
           </View>
 
-          {/* Map Section with Overlay */}
           <View style={styles.mapContainer}>
             <MapView
               style={styles.map}
@@ -98,7 +75,6 @@ const SafeZoneScreen: React.FC = () => {
             </View>
           </View>
 
-          {/* Features Section */}
           <View style={styles.featuresContainer}>
             <TouchableOpacity style={styles.featureBoxPurple} onPress={handleOpenCamera}>
               <Text style={styles.featureTitle}>Snap & Record</Text>
@@ -209,7 +185,7 @@ const styles = StyleSheet.create({
   },
   featureTitle: {
     color: "white",
-    fontSize: 16,
+    fontSize: 20,
     fontWeight: "bold",
   },
   featureSubtitle: {

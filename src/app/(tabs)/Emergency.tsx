@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, TouchableOpacity, Image, Alert, Platform } from
 import { Ionicons } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
 import { useRouter } from "expo-router";
-import { sendLocationSms } from "@/src/components/sendLocationSms";
+import { sendLocationSms } from "@/src/components/sms/sendLocationSms";
 
 const EmergencyScreen: React.FC = () => {
   const router = useRouter();
@@ -98,6 +98,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignSelf: "center",
     position: "relative",
+    marginBottom: 20,
   },
   sosButtonOuterCircle: {
     width: 200,
@@ -169,7 +170,7 @@ const styles = StyleSheet.create({
   },
   optionButtonText: {
     color: "#FFFFFF",
-    fontSize: 26,
+    fontSize: 24,
     fontWeight: "bold",
     marginBottom: Platform.OS === "ios" ? 8 : 0,
   },

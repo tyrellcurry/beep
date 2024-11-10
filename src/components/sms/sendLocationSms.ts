@@ -1,6 +1,6 @@
 import * as Location from "expo-location";
 import { Alert } from "react-native";
-import { sendSms } from "@/src/components/sendSms";
+import { sendSms } from "@/src/components/sms/sendSms";
 
 export const sendLocationSms = async () => {
   const { status } = await Location.requestForegroundPermissionsAsync();
