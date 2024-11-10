@@ -1,5 +1,13 @@
 import React, { useRef } from "react";
-import { StyleSheet, Text, View, TouchableOpacity, Image, Alert, Platform } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Image,
+  Alert,
+  Platform,
+} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
 import { useRouter } from "expo-router";
@@ -24,7 +32,9 @@ const EmergencyScreen: React.FC = () => {
     <View style={styles.container}>
       <Text style={styles.header}>📍BCIT School of Business + Media</Text>
       <Text style={styles.title}>Activate Alarm</Text>
-      <Text style={styles.subtitle}>Sound a loud alarm and send your location to emergency contacts.</Text>
+      <Text style={styles.subtitle}>
+        Sound a loud alarm and send your location to emergency contacts.
+      </Text>
 
       <TouchableOpacity style={styles.sosButton} onPress={handleDoubleTap}>
         <Text style={styles.sosText}>SOS</Text>
@@ -48,12 +58,17 @@ const EmergencyScreen: React.FC = () => {
         </View>
 
         <View style={styles.option}>
-          <TouchableOpacity style={styles.optionButton} onPress={sendLocationSms}>
+          <TouchableOpacity
+            style={styles.optionButton}
+            onPress={() => sendLocationSms("1234567890", "Dora")}
+          >
             <View style={styles.optionTitleSet}>
               <Text style={styles.optionTitle}>Contacts</Text>
             </View>
             <Text style={styles.optionButtonText}>SMS Friend</Text>
-            <Text style={styles.optionDescription}>Send alert to your emergency contacts</Text>
+            <Text style={styles.optionDescription}>
+              Send alert to your emergency contacts
+            </Text>
             <View style={styles.contactIcons}>
               <View style={styles.contactCircle}>
                 <Text style={styles.contactInitial}>D</Text>

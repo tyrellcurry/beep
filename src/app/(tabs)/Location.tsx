@@ -1,6 +1,19 @@
 import MapView, { LatLng, Marker, PROVIDER_GOOGLE } from "react-native-maps";
-import { StyleSheet, View, Dimensions, Text, TouchableOpacity, ScrollView, Image, Platform } from "react-native";
-import { GooglePlaceDetail, GooglePlacesAutocomplete, GooglePlacesAutocompleteRef } from "react-native-google-places-autocomplete";
+import {
+  StyleSheet,
+  View,
+  Dimensions,
+  Text,
+  TouchableOpacity,
+  ScrollView,
+  Image,
+  Platform,
+} from "react-native";
+import {
+  GooglePlaceDetail,
+  GooglePlacesAutocomplete,
+  GooglePlacesAutocompleteRef,
+} from "react-native-google-places-autocomplete";
 import { GOOGLE_API_KEY } from "@/environments";
 import Constants from "expo-constants";
 import { useRef, useState } from "react";
@@ -34,7 +47,12 @@ type InputAutocompleteProps = {
   clearDestination: () => void;
 };
 
-function InputAutocomplete({ label, placeholder, onPlaceSelected, clearDestination }: InputAutocompleteProps) {
+function InputAutocomplete({
+  label,
+  placeholder,
+  onPlaceSelected,
+  clearDestination,
+}: InputAutocompleteProps) {
   const [inputText, setInputText] = useState("");
   const autocompleteRef = useRef<any>(null);
 
@@ -121,7 +139,10 @@ export default function App() {
     }
   };
 
-  const onPlaceSelected = (details: GooglePlaceDetail | null, flag: "destination") => {
+  const onPlaceSelected = (
+    details: GooglePlaceDetail | null,
+    flag: "destination"
+  ) => {
     const position = {
       latitude: details?.geometry.location.lat || 0,
       longitude: details?.geometry.location.lng || 0,
@@ -147,7 +168,16 @@ export default function App() {
       >
         {origin && <Marker coordinate={origin} title="3700 Willingdon Ave" />}
         {destination && <Marker coordinate={destination} />}
-        {showDirections && origin && destination && <MapViewDirections origin={origin} destination={destination} apikey={GOOGLE_API_KEY} strokeColor="#651FD7" strokeWidth={4} onReady={traceRouteOnReady} />}
+        {showDirections && origin && destination && (
+          <MapViewDirections
+            origin={origin}
+            destination={destination}
+            apikey={GOOGLE_API_KEY}
+            strokeColor="#651FD7"
+            strokeWidth={4}
+            onReady={traceRouteOnReady}
+          />
+        )}
       </MapView>
 
       {/* Search bar */}
@@ -165,35 +195,59 @@ export default function App() {
 
       {/* Scrollable tabs */}
       <View style={styles.tabButtonsContainer}>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.tabButtonsContent}>
-          {["Open Now", "Nearby", "Safe Zones", "Public Service"].map((label) => (
-            <TouchableOpacity key={label} style={styles.tabButton}>
-              <Text style={styles.tabButtonText}>{label}</Text>
-            </TouchableOpacity>
-          ))}
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.tabButtonsContent}
+        >
+          {["Open Now", "Nearby", "Safe Zones", "Public Service"].map(
+            (label) => (
+              <TouchableOpacity key={label} style={styles.tabButton}>
+                <Text style={styles.tabButtonText}>{label}</Text>
+              </TouchableOpacity>
+            )
+          )}
         </ScrollView>
       </View>
 
       {/* Action Buttons in Bottom Right */}
       <View style={styles.actionButtonsContainer}>
         <TouchableOpacity style={styles.traceButton} onPress={traceRoute}>
-          <Image source={require("../../../assets/map/locationArrowWhite.png")} style={styles.iconImage} />
+          <Image
+            source={require("../../../assets/map/locationArrowWhite.png")}
+            style={styles.iconImage}
+          />
         </TouchableOpacity>
 
         {/* Center GPS button */}
-        <TouchableOpacity style={styles.centerGPSButton} onPress={() => moveTo(STATIC_ORIGIN)}>
-          <Image source={require("../../../assets/map/Black.png")} style={styles.iconImageSmall} />
+        <TouchableOpacity
+          style={styles.centerGPSButton}
+          onPress={() => moveTo(STATIC_ORIGIN)}
+        >
+          <Image
+            source={require("../../../assets/map/Black.png")}
+            style={styles.iconImageSmall}
+          />
         </TouchableOpacity>
 
         {/* Toggle Layers button */}
         {/* TODO: Add functionality to have layer options. onPress={ } */}
         <TouchableOpacity style={styles.layerButton}>
-          <Image source={require("../../../assets/map/layerBlack.png")} style={styles.iconImageSmall} />
+          <Image
+            source={require("../../../assets/map/layerBlack.png")}
+            style={styles.iconImageSmall}
+          />
         </TouchableOpacity>
 
         {/* SOS button */}
-        <TouchableOpacity style={styles.SOSButton} onPress={() => router.push("/sos")}>
-          <Image source={require("../../../assets/map/SOSWhiteHollow.png")} style={styles.SOSiconImageSmall} />
+        <TouchableOpacity
+          style={styles.SOSButton}
+          onPress={() => router.push("/sos")}
+        >
+          <Image
+            source={require("../../../assets/map/SOSWhiteHollow.png")}
+            style={styles.SOSiconImageSmall}
+          />
           <Text style={styles.SOSText}>SOS</Text>
         </TouchableOpacity>
       </View>

@@ -1,5 +1,13 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Dimensions, Image } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+  Dimensions,
+  Image,
+} from "react-native";
 import { Link } from "expo-router";
 import { useRouter } from "expo-router";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
@@ -12,24 +20,24 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 const { width } = Dimensions.get("window");
 
 const SignInPage = () => {
-  const [showLogo, setShowLogo] = useState(true);
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const handleSignIn = async () => {
-    if (!email || !password) {
-      alert("Please enter both email and password.");
-      return;
-    }
-    try {
-      await signInWithEmailAndPassword(FIREBASE_AUTH, email, password);
-      console.log("Login successful!");
-      router.push("/(tabs)/Location");
-    } catch (error) {
-      console.error("Login failed:", error);
-      alert("Login failed. Please check your email and password.");
-    }
+    router.push("/(tabs)/Location");
+    // if (!email || !password) {
+    //   alert("Please enter both email and password.");
+    //   return;
+    // }
+    // try {
+    //   await signInWithEmailAndPassword(FIREBASE_AUTH, email, password);
+    //   console.log("Login successful!");
+    //   router.push("/(tabs)/Location");
+    // } catch (error) {
+    //   console.error("Login failed:", error);
+    //   alert("Login failed. Please check your email and password.");
+    // }
   };
 
   return (
@@ -38,8 +46,21 @@ const SignInPage = () => {
       <View style={styles.loginContainer}>
         <Text style={styles.title}>Hey,{"\n"}Welcome Back 💜</Text>
 
-        <TextInput style={styles.input} placeholder="Email" placeholderTextColor="#A0A0A0" value={email} onChangeText={setEmail} />
-        <TextInput style={styles.input} placeholder="Password" placeholderTextColor="#A0A0A0" secureTextEntry value={password} onChangeText={setPassword} />
+        <TextInput
+          style={styles.input}
+          placeholder="Email"
+          placeholderTextColor="#A0A0A0"
+          value={email}
+          onChangeText={setEmail}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Password"
+          placeholderTextColor="#A0A0A0"
+          secureTextEntry
+          value={password}
+          onChangeText={setPassword}
+        />
         <TouchableOpacity>
           <Text style={styles.forgotPassword}>Forgot password?</Text>
         </TouchableOpacity>
@@ -68,7 +89,8 @@ const SignInPage = () => {
 
         <TouchableOpacity onPress={() => router.push("/(auth)/name")}>
           <Text style={styles.signupText}>
-            Don’t have an account? <Text style={styles.signupLink}>Create your account</Text>
+            Don’t have an account?{" "}
+            <Text style={styles.signupLink}>Create your account</Text>
           </Text>
         </TouchableOpacity>
       </View>
