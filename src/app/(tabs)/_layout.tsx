@@ -1,25 +1,35 @@
 import React from "react";
-import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { Link, Tabs } from "expo-router";
-import { Pressable, Image } from "react-native";
-import Ionicons from "@expo/vector-icons/Ionicons";
-import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-import AntDesign from "@expo/vector-icons/AntDesign";
+import { Tabs } from "expo-router";
+import { Image } from "react-native";
 import { Platform } from "react-native";
+import { useNavigationState } from "@react-navigation/native";
 
 import Colors from "@/src/constants/Colors";
 import { useColorScheme } from "@/src/components/useColorScheme";
 import { useClientOnlyValue } from "@/src/components/useClientOnlyValue";
-
-// You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
-function TabBarIcon(props: { name: React.ComponentProps<typeof FontAwesome>["name"]; color: string }) {
-  return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
-}
+import TabStyles from "@/src/components/tabStyles";
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
-  // need to change real user info
+
+  // TODO: need to change real user info
   const profileImageUrl = "https://i.pravatar.cc/300";
+
+  // TODO: change tab background color based on which screen it is on but the route is showing (tab)
+  const currentRouteName = useNavigationState((state) => {
+    const route = state.routes[state.index];
+    return route.name;
+  });
+  // console.log(currentRouteName);
+
+  const getTabBarBackgroundColor = () => {
+    switch (currentRouteName) {
+      case "Location":
+        return "#000"; // Background color for Location screen
+      default:
+        return "#FFF"; // Default background color
+    }
+  };
 
   return (
     <Tabs
@@ -27,30 +37,26 @@ export default function TabLayout() {
         tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
         headerShown: useClientOnlyValue(false, false),
         tabBarStyle: {
-          height: Platform.OS === "ios" ? 90 : 65,
-          paddingVertical: Platform.OS === "ios" ? 10 : 5,
-          paddingHorizontal: 5,
-          justifyContent: "center",
-          alignItems: "center",
-          backgroundColor: "#F4F0F1",
-          borderRadius: 50,
-          position: "absolute",
-          bottom: Platform.OS === "ios" ? 15 : 10,
-          width: "90%",
-          alignSelf: "center",
-          left: 20,
+          ...TabStyles.tabBarStyle,
+          backgroundColor: getTabBarBackgroundColor(),
         },
+        tabBarItemStyle: TabStyles.tabBarItemStyle,
+        tabBarLabelStyle: TabStyles.tabBarLabelStyle,
       }}
     >
       <Tabs.Screen
         name="Location"
         options={{
           title: "Location",
-          tabBarIcon: ({ color }) => <Ionicons name="location-outline" size={24} color="black" />,
-          headerRight: () => (
-            <Link href="/modal" asChild>
-              <Pressable>{({ pressed }) => <FontAwesome name="info-circle" size={25} color={Colors[colorScheme ?? "light"].text} style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }} />}</Pressable>
-            </Link>
+          tabBarIcon: ({ focused }) => (
+            <Image
+              source={
+                focused
+                  ? require("../../../assets/icons/LocationNavPinkFilled.png") // Image for active state
+                  : require("../../../assets/icons/LocationNavBlack.png") // Image for inactive state
+              }
+              style={TabStyles.tabIcon}
+            />
           ),
         }}
       />
@@ -58,14 +64,32 @@ export default function TabLayout() {
         name="Emergency"
         options={{
           title: "Emergency",
-          tabBarIcon: ({ color }) => <MaterialIcons name="emergency" size={24} color="black" />,
+          tabBarIcon: ({ focused }) => (
+            <Image
+              source={
+                focused
+                  ? require("../../../assets/icons/SOSPinkFilled.png") // Image for active state
+                  : require("../../../assets/icons/SOSBlackHollow.png") // Image for inactive state
+              }
+              style={TabStyles.tabIcon}
+            />
+          ),
         }}
       />
       <Tabs.Screen
         name="SafeZone"
         options={{
           title: "SafeZone",
-          tabBarIcon: ({ color }) => <AntDesign name="Safety" size={24} color="black" />,
+          tabBarIcon: ({ focused }) => (
+            <Image
+              source={
+                focused
+                  ? require("../../../assets/icons/EmergencyPinkFilled.png") // Image for active state
+                  : require("../../../assets/icons/EmergencyBlack.png") // Image for inactive state
+              }
+              style={{ width: 30, height: 25, resizeMode: "contain" }}
+            />
+          ),
         }}
       />
       <Tabs.Screen
@@ -73,6 +97,11 @@ export default function TabLayout() {
         options={{
           title: "Profile",
           tabBarIcon: () => <Image source={{ uri: profileImageUrl }} style={{ width: 24, height: 24, borderRadius: 12 }} />,
+          tabBarItemStyle: {
+            flex: 1,
+            marginLeft: -5,
+            marginBottom: Platform.OS === "ios" ? 0 : 10,
+          },
         }}
       />
     </Tabs>

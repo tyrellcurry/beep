@@ -1,13 +1,14 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { useRouter } from "expo-router";
 import { Audio, InterruptionModeIOS, InterruptionModeAndroid } from "expo-av";
-import { sendLocationSms } from "@/src/components/sendLocationSms";
+import { sendLocationSms } from "@/src/components/sms/sendLocationSms";
+import { CountdownCircleTimer } from "react-native-countdown-circle-timer";
 
 export default function EmergencyScreen() {
   const router = useRouter();
   const [sound, setSound] = useState<Audio.Sound | null>(null);
-  const smsTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const [isPlaying, setIsPlaying] = useState(true); // Controls the countdown
 
   useEffect(() => {
     const initializeSound = async () => {
@@ -25,11 +26,6 @@ export default function EmergencyScreen() {
       await sound.setIsLoopingAsync(true);
       setSound(sound);
       await sound.playAsync();
-
-      // Set up the 2-minute timer to send SMS
-      smsTimerRef.current = setTimeout(() => {
-        sendLocationSms();
-      }, 60 * 1000);
     };
 
     initializeSound();
@@ -37,9 +33,6 @@ export default function EmergencyScreen() {
     return () => {
       if (sound) {
         sound.stopAsync().then(() => sound.unloadAsync());
-      }
-      if (smsTimerRef.current) {
-        clearTimeout(smsTimerRef.current);
       }
     };
   }, []);
@@ -49,16 +42,17 @@ export default function EmergencyScreen() {
       await sound.stopAsync();
       await sound.unloadAsync();
     }
-    if (smsTimerRef.current) {
-      clearTimeout(smsTimerRef.current);
-    }
   };
 
-  const notifyContactsImmediately = () => {
-    sendLocationSms();
-    if (smsTimerRef.current) {
-      clearTimeout(smsTimerRef.current);
-    }
+  const sendSmsImmediately = async () => {
+    setIsPlaying(false);
+    await sendLocationSms();
+  };
+
+  const handleCancelSOS = async () => {
+    setIsPlaying(false);
+    await stopSound();
+    router.back();
   };
 
   return (
@@ -66,27 +60,35 @@ export default function EmergencyScreen() {
       <View style={styles.topContainer}>
         <Text style={styles.alarmText}>Alarm Activated</Text>
         <Text style={styles.alarmSubText}>Loud alarm triggered</Text>
-        <Text style={styles.alarmSubText}>Contact emergency contacts if needed</Text>
       </View>
 
       <View style={styles.sosWrapper}>
-        <TouchableOpacity style={styles.sosButton}>
-          <Text style={styles.sosText}>SOS</Text>
-        </TouchableOpacity>
+        <View style={styles.sosButton}>
+          <CountdownCircleTimer
+            isPlaying={isPlaying}
+            duration={15}
+            colors={["#651fd7", "#f7185b", "#A30000"]}
+            colorsTime={[7, 5, 0]}
+            onComplete={() => {
+              sendLocationSms();
+              return { shouldRepeat: false };
+            }}
+          >
+            {({ remainingTime }) => <Text style={styles.sosText}>{remainingTime}</Text>}
+          </CountdownCircleTimer>
+        </View>
+        <Text style={styles.sosButtonText}>SOS Timer</Text>
+        <Text style={styles.sosButtonSubText}>
+          In <Text style={styles.boldText}>15 seconds</Text>,, an SOS Message with your live location will be sent to your selected emergency contacts. Tap the button below to cancel if you're safe.
+        </Text>
       </View>
 
       <View style={styles.buttonContainer}>
-        <TouchableOpacity
-          style={styles.cancelButton}
-          onPress={async () => {
-            await stopSound();
-            router.push("/(tabs)/Emergency");
-          }}
-        >
+        <TouchableOpacity style={styles.cancelButton} onPress={handleCancelSOS}>
           <Text style={styles.cancelText}>Cancel SOS</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.notifyButton} onPress={notifyContactsImmediately}>
-          <Text style={styles.notifyText}>Notify Contacts</Text>
+        <TouchableOpacity style={styles.notifyButton} onPress={sendSmsImmediately}>
+          <Text style={styles.notifyText}>Send SMS Now</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -102,11 +104,11 @@ const styles = StyleSheet.create({
   topContainer: {
     alignItems: "center",
     justifyContent: "flex-start",
-    marginTop: 50,
+    marginTop: 100,
   },
   alarmText: {
     color: "#FFFFFF",
-    fontSize: 20,
+    fontSize: 26,
     fontWeight: "bold",
     textAlign: "center",
     marginBottom: 5,
@@ -119,8 +121,25 @@ const styles = StyleSheet.create({
   },
   sosWrapper: {
     flex: 1,
-    justifyContent: "center",
+    top: 60,
     alignItems: "center",
+  },
+  sosButtonText: {
+    color: "white",
+    fontSize: 20,
+    textAlign: "center",
+    fontWeight: "bold",
+    marginTop: 30,
+  },
+  sosButtonSubText: {
+    color: "#cccccc",
+    fontSize: 13,
+    textAlign: "center",
+    marginBottom: 2,
+    padding: 10,
+  },
+  boldText: {
+    fontWeight: "bold",
   },
   sosButton: {
     width: 200,
@@ -151,8 +170,8 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
     borderColor: "#FFFFFF",
     borderWidth: 1,
-    borderRadius: 20,
-    paddingVertical: 10,
+    borderRadius: 30,
+    paddingVertical: 15,
     paddingHorizontal: 20,
     alignItems: "center",
     justifyContent: "center",
@@ -160,8 +179,8 @@ const styles = StyleSheet.create({
   },
   notifyButton: {
     backgroundColor: "#000000",
-    borderRadius: 20,
-    paddingVertical: 10,
+    borderRadius: 30,
+    paddingVertical: 15,
     paddingHorizontal: 20,
     alignItems: "center",
     justifyContent: "center",

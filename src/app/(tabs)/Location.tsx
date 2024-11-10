@@ -97,16 +97,76 @@ function InputAutocomplete({
   );
 }
 
-export default function App() {
-  const [origin, setOrigin] = useState<LatLng>(STATIC_ORIGIN);
+export default function Location() {
+  const [origin, setOrigin] = useState<LatLng | null>(null);
   const [destination, setDestination] = useState<LatLng | null>(null);
   const [showDirections, setShowDirections] = useState(false);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [distance, setDistance] = useState(0);
   const [duration, setDuration] = useState(0);
+  const [isCrimeDataVisible, setIsCrimeDataVisible] = useState(false);
+  const [selectedPlaceDetails, setSelectedPlaceDetails] = useState<GooglePlaceDetail | null>(null);
+  const [isBottomSheetVisible, setIsBottomSheetVisible] = useState(false);
+
   const mapRef = useRef<MapView>(null);
   const router = useRouter();
 
-  const moveTo = async (position: LatLng) => {
+  const snapPoints = useMemo(() => ["40%", "50%"], []);
+
+  // This is used for GPS location tracking
+  // useEffect(() => {
+  //   (async () => {
+  //     let { status } = await GPSLocation.requestForegroundPermissionsAsync();
+  //     if (status !== 'granted') {
+  //       setErrorMsg('Permission to access location was denied');
+  //       return;
+  //     }
+
+  //     let location = await GPSLocation.getCurrentPositionAsync({});
+  //     const { latitude, longitude } = location.coords;
+  //     setOrigin({ latitude, longitude });
+  //     console.log("Location:", location)
+  //   })();
+  // }, []);
+
+  useEffect(() => {
+    (async () => {
+      let { status } = await GPSLocation.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        setErrorMsg("Permission to access location was denied");
+        return;
+      }
+
+      const locationSubscription = await GPSLocation.watchPositionAsync(
+        {
+          accuracy: GPSLocation.Accuracy.High,
+          timeInterval: 100000, // Update every second
+          distanceInterval: 1, // Update for every meter moved
+        },
+        (location) => {
+          const { latitude, longitude } = location.coords;
+          setOrigin({ latitude, longitude });
+        }
+      );
+
+      return () => locationSubscription.remove(); // Cleanup on component unmount
+    })();
+  }, []);
+
+  // Function to center map on the user's current GPS location
+  const handleCenterGPS = async () => {
+    try {
+      const location = await GPSLocation.getCurrentPositionAsync({});
+      const { latitude, longitude } = location.coords;
+      setOrigin({ latitude, longitude });
+      handleMoveTo({ latitude, longitude });
+    } catch (error) {
+      console.error("Error getting current location:", error);
+      setErrorMsg("Failed to get current location.");
+    }
+  };
+
+  const handleMoveTo = async (position: LatLng) => {
     const camera = await mapRef.current?.getCamera();
     if (camera) {
       camera.center = position;
@@ -114,28 +174,36 @@ export default function App() {
     }
   };
 
-  const edgePaddingValue = 70;
-
-  const edgePadding = {
-    top: edgePaddingValue,
-    right: edgePaddingValue,
-    bottom: edgePaddingValue,
-    left: edgePaddingValue,
+  const handlePlaceSelected = (details: any) => {
+    const position = {
+      latitude: details?.geometry.location.lat || 0,
+      longitude: details?.geometry.location.lng || 0,
+    };
+    setDestination(position);
+    setSelectedPlaceDetails(details); // Store the place details
+    setIsBottomSheetVisible(true); // Show BottomSheet when a place is selected
+    handleMoveTo(position);
   };
 
-  const traceRouteOnReady = (args: any) => {
+  const handleClearDestination = () => {
+    setDestination(null);
+    setIsBottomSheetVisible(false);
+    bottomSheetRef.current?.close();
+    handleCenterGPS();
+    setShowDirections(false);
+  };
+
+  const handleTraceRouteOnReady = (args: any) => {
     if (args) {
-      // args.distance
-      // args.duration
       setDistance(args.distance);
       setDuration(args.duration);
     }
   };
 
-  const traceRoute = () => {
+  const handleTraceRoute = () => {
     if (origin && destination) {
       setShowDirections(true);
-      mapRef.current?.fitToCoordinates([origin, destination], { edgePadding });
+      mapRef.current?.fitToCoordinates([origin, destination], { edgePadding: { top: 70, right: 70, bottom: 70, left: 70 } });
     }
   };
 
@@ -182,14 +250,13 @@ export default function App() {
 
       {/* Search bar */}
       <View style={styles.searchContainer}>
-        <InputAutocomplete
-          label=""
+        <SearchBar
           placeholder="Search Maps"
           onPlaceSelected={(details) => {
-            onPlaceSelected(details, "destination");
-            traceRoute();
+            handlePlaceSelected(details);
+            handleTraceRoute();
           }}
-          clearDestination={clearDestination}
+          clearDestination={handleClearDestination}
         />
       </View>
 
@@ -267,208 +334,16 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  map: {
-    width: Dimensions.get("window").width,
-    height: Dimensions.get("window").height,
   },
   searchContainer: {
     marginTop: 50,
     position: "absolute",
     width: "90%",
     alignSelf: "center",
-    flexDirection: "row",
-    alignItems: "center",
     top: 10,
-    backgroundColor: "#fff",
-    justifyContent: "space-between",
+    backgroundColor: "#141216",
     borderRadius: 24,
     paddingHorizontal: 15,
-    shadowColor: "#000",
-    shadowOffset: { width: 5, height: 5 },
-    shadowOpacity: 0.7,
-    shadowRadius: 4,
-    elevation: 3,
     zIndex: 1,
-  },
-  input: {
-    flex: 1,
-    fontSize: 16,
-    height: 40,
-    backgroundColor: "transparent",
-    textAlignVertical: "center",
-    marginTop: 4,
-  },
-  icon: {
-    marginLeft: 10,
-    marginBottom: 7,
-  },
-  tabButtonsContainer: {
-    position: "absolute",
-    top: 100,
-    flexDirection: "row",
-    justifyContent: "flex-start",
-    width: "100%",
-    marginTop: 20,
-    height: 40,
-  },
-  tabButtonsContent: {
-    paddingLeft: 20,
-    alignItems: "center",
-  },
-  tabButton: {
-    backgroundColor: "#fff",
-    paddingHorizontal: 15,
-    paddingVertical: 5,
-    borderRadius: 24,
-    marginRight: 10,
-    shadowColor: "#000",
-    shadowOffset: { width: 2, height: 2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 4,
-    elevation: 5,
-    height: 30,
-  },
-  tabButtonText: {
-    color: "#000",
-    fontSize: 14,
-  },
-  traceButton: {
-    position: "absolute",
-    bottom: 210,
-    width: 70,
-    height: 70,
-    borderRadius: 35,
-    backgroundColor: "#651FD7",
-    alignItems: "center",
-    justifyContent: "center",
-    shadowColor: "#000",
-    shadowOffset: { width: 2, height: 2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  centerGPSButton: {
-    position: "absolute",
-    bottom: 150,
-    width: 50,
-    height: 50,
-    borderRadius: 30,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-    shadowColor: "#000",
-    shadowOffset: { width: 2, height: 2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  layerButton: {
-    position: "absolute",
-    bottom: 90,
-    width: 50,
-    height: 50,
-    borderRadius: 30,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-    shadowColor: "#000",
-    shadowOffset: { width: 2, height: 2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  buttonText: {
-    color: "#fff",
-    fontSize: 18,
-    fontWeight: "bold",
-  },
-  centerGPSButtonText: {
-    color: "#000",
-    fontSize: 18,
-    fontWeight: "bold",
-  },
-  layerButtonText: {
-    color: "#000",
-    fontSize: 18,
-    fontWeight: "bold",
-  },
-  distanceNduration: {
-    position: "absolute",
-    top: 150,
-    left: 20,
-    backgroundColor: "#fff",
-    padding: 10,
-    borderRadius: 10,
-    shadowColor: "#000",
-    shadowOffset: { width: 2, height: 2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  dNdContainer: {
-    backgroundColor: "#fff",
-  },
-  actionButtonsContainer: {
-    position: "absolute",
-    bottom: Platform.OS === "ios" ? 25 : 0,
-    right: 0,
-    alignItems: "center",
-  },
-  iconImage: {
-    width: 30,
-    height: 30,
-    resizeMode: "contain",
-  },
-  iconImageSmall: {
-    width: 25,
-    height: 25,
-    resizeMode: "contain",
-  },
-  SOSiconImageSmall: {
-    width: 20,
-    height: 20,
-    marginRight: 8,
-  },
-  SOSButton: {
-    bottom: 90,
-    right: 250,
-    height: 52,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#FF3B5F",
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    borderRadius: 25,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  SOSText: {
-    color: "#FFF",
-    fontSize: 16,
-    fontWeight: "900",
-  },
-  autocompleteContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    position: "relative",
-  },
-  inputContainer: {
-    flex: 1,
-    paddingRight: 30,
-  },
-  clearIcon: {
-    position: "absolute",
-    right: 10,
-    top: 8,
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 5,
   },
 });

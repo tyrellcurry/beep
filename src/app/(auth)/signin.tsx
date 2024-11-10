@@ -25,19 +25,19 @@ const SignInPage = () => {
   const [password, setPassword] = useState("");
 
   const handleSignIn = async () => {
-    router.push("/(tabs)/Location");
-    // if (!email || !password) {
-    //   alert("Please enter both email and password.");
-    //   return;
-    // }
-    // try {
-    //   await signInWithEmailAndPassword(FIREBASE_AUTH, email, password);
-    //   console.log("Login successful!");
-    //   router.push("/(tabs)/Location");
-    // } catch (error) {
-    //   console.error("Login failed:", error);
-    //   alert("Login failed. Please check your email and password.");
-    // }
+    // router.push("/(tabs)/Location");
+    if (!email || !password) {
+      alert("Please enter both email and password.");
+      return;
+    }
+    try {
+      await signInWithEmailAndPassword(FIREBASE_AUTH, email, password);
+      console.log("Login successful!");
+      router.push("/(tabs)/Location");
+    } catch (error) {
+      console.error("Login failed:", error);
+      alert("Login failed. Please check your email and password.");
+    }
   };
 
   return (

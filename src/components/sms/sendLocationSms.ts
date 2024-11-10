@@ -1,6 +1,7 @@
 import * as Location from "expo-location";
 import * as SMS from "expo-sms";
 import { Alert } from "react-native";
+import { sendSms } from "@/src/components/sms/sendSms";
 
 //TODO: fetch username 
 export const sendLocationSms = async (phoneNumber: string, username: string = "Dora") => {
