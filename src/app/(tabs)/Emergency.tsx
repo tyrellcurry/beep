@@ -49,7 +49,8 @@ const EmergencyScreen: React.FC = () => {
       <Text style={styles.optionTitle}>SMS option</Text>
       <View style={styles.optionsContainer}>
         <View style={styles.option}>
-          <TouchableOpacity style={styles.optionButton} onPress={sendLocationSms}>
+        <TouchableOpacity style={styles.optionButton} onPress={() => sendLocationSms("1234567890", "Dora")}>
+
             <Text style={styles.optionButtonText}>Emergency Alert</Text>
             <Text style={styles.optionDescription}>Send the default emergency message and your live location to all selected contacts</Text>
             <View style={styles.contactIcons}>
