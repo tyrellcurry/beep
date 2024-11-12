@@ -52,7 +52,7 @@ export default function TabLayout() {
             <Image
               source={
                 focused
-                  ? require("../../../assets/icons/LocationNavPinkFilled.png") // Image for active state
+                  ? require("../../../assets/icons/LocationNavPurpleFilled.png") // Image for active state
                   : require("../../../assets/icons/LocationNavBlack.png") // Image for inactive state
               }
               style={TabStyles.tabIcon}
@@ -68,7 +68,7 @@ export default function TabLayout() {
             <Image
               source={
                 focused
-                  ? require("../../../assets/icons/SOSPinkFilled.png") // Image for active state
+                  ? require("../../../assets/icons/SOSPurpleFilled.png") // Image for active state
                   : require("../../../assets/icons/SOSBlackHollow.png") // Image for inactive state
               }
               style={TabStyles.tabIcon}
@@ -84,7 +84,7 @@ export default function TabLayout() {
             <Image
               source={
                 focused
-                  ? require("../../../assets/icons/EmergencyPinkFilled.png") // Image for active state
+                  ? require("../../../assets/icons/EmergencyPurpleFilled.png") // Image for active state
                   : require("../../../assets/icons/EmergencyBlack.png") // Image for inactive state
               }
               style={{ width: 30, height: 25, resizeMode: "contain" }}
