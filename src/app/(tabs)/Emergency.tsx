@@ -55,7 +55,7 @@ const EmergencyScreen: React.FC = () => {
                 />
             </View>
             <TouchableOpacity style={styles.arrowButton}>
-              <Ionicons name="arrow-forward" size={35} color="white" />
+              <Ionicons name="arrow-forward" size={23} color="white" />
             </TouchableOpacity>
           </TouchableOpacity>
         </View>
@@ -196,6 +196,10 @@ const styles = StyleSheet.create({
     right: 10,
     backgroundColor: "#F7185B",
     borderRadius: 50,
+    width: 50,
+    height: 50,
+    alignItems: "center",
+    justifyContent: "center",
     padding: 6,
   },
   contactInfo: {
