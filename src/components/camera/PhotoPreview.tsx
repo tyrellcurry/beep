@@ -1,6 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, TouchableOpacity, StyleSheet, Text, Image, TextInput, Platform } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { FIREBASE_DB } from "@/firebaseConfig";
+import { useUser } from "../auth/userContext";
+import { doc, setDoc } from "firebase/firestore";
+import { router } from "expo-router";
 
 interface PhotoPreviewProps {
   photo: string;
@@ -8,6 +12,27 @@ interface PhotoPreviewProps {
 }
 
 const PhotoPreview: React.FC<PhotoPreviewProps> = ({ photo, onRetake }) => {
+  const { user } = useUser();
+  const [title, setTitle] = useState("");
+
+  const savePhoto = async (photoUri: string) => {
+    if (!user) {
+      console.log("no user to save photo");
+      return;
+    }
+    try {
+      await setDoc(doc(FIREBASE_DB, "media", `${user.uid}_${Date.now()}`), {
+        photo: photoUri,
+        userId: user.uid,
+        title: title,
+        timestamp: new Date(),
+      });
+      console.log(photoUri, "saved! title:", title);
+      onRetake();
+    } catch (error) {
+      console.error("Error saving photo:", error);
+    }
+  };
   return (
     <View style={styles.preview}>
       <Image source={{ uri: photo }} style={styles.previewImage} />
@@ -22,11 +47,11 @@ const PhotoPreview: React.FC<PhotoPreviewProps> = ({ photo, onRetake }) => {
       </View>
 
       <View style={styles.titleContainer}>
-        <TextInput placeholder="Add title" placeholderTextColor="white" style={styles.titleInput} />
+        <TextInput placeholder="Add title" placeholderTextColor="white" style={styles.titleInput} value={title} onChangeText={setTitle} />
       </View>
 
       <View style={styles.actionButtons}>
-        <TouchableOpacity style={styles.saveButton}>
+        <TouchableOpacity style={styles.saveButton} onPress={() => savePhoto(photo)}>
           <Text style={styles.saveButtonText}>Save to Media History</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.deleteButton} onPress={onRetake}>

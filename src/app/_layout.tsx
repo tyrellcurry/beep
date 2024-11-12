@@ -7,7 +7,9 @@ import { useEffect } from "react";
 import "react-native-reanimated";
 import "react-native-get-random-values";
 import { useColorScheme } from "@/src/components/useColorScheme";
-import SignupPage from "./(auth)/signup";
+import { UserProvider } from "../components/auth/userContext";
+
+// import SignupPage from "./(auth)/signup";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -50,24 +52,26 @@ function RootLayoutNav() {
   const colorScheme = useColorScheme();
 
   return (
-    <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="index" options={{ headerShown: false }} />
+    <UserProvider>
+      <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+        <Stack>
+          <Stack.Screen name="index" options={{ headerShown: false }} />
 
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
 
-        <Stack.Screen name="(auth)/signin" options={{ headerShown: false }} />
-        <Stack.Screen name="(auth)/name" options={{ headerShown: false }} />
-        <Stack.Screen name="(auth)/phone" options={{ headerShown: false }} />
-        <Stack.Screen name="(auth)/email" options={{ headerShown: false }} />
-        <Stack.Screen name="(auth)/password" options={{ headerShown: false }} />
-        <Stack.Screen name="(auth)/address" options={{ headerShown: false }} />
-        <Stack.Screen name="(auth)/signupDone" options={{ headerShown: false }} />
+          <Stack.Screen name="(auth)/signin" options={{ headerShown: false }} />
+          <Stack.Screen name="(auth)/name" options={{ headerShown: false }} />
+          <Stack.Screen name="(auth)/phone" options={{ headerShown: false }} />
+          <Stack.Screen name="(auth)/email" options={{ headerShown: false }} />
+          <Stack.Screen name="(auth)/password" options={{ headerShown: false }} />
+          <Stack.Screen name="(auth)/address" options={{ headerShown: false }} />
+          <Stack.Screen name="(auth)/signupDone" options={{ headerShown: false }} />
 
-        <Stack.Screen name="sos/index" options={{ headerShown: false }} />
+          <Stack.Screen name="sos/index" options={{ headerShown: false }} />
 
-        <Stack.Screen name="modal" options={{ presentation: "modal" }} />
-      </Stack>
-    </ThemeProvider>
+          <Stack.Screen name="modal" options={{ presentation: "modal" }} />
+        </Stack>
+      </ThemeProvider>
+    </UserProvider>
   );
 }
