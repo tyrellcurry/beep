@@ -49,10 +49,13 @@ const EmergencyScreen: React.FC = () => {
               <View style={styles.contactCircle}>
                 <Text style={styles.contactInitial}>M</Text>
               </View>
-              <Ionicons name="add-circle" size={34} color="#141216" />
+                <Image
+                  source={require('../../../assets/icons/add-icon.png')}
+                  style={{ width: 30, height: 30 }}
+                />
             </View>
             <TouchableOpacity style={styles.arrowButton}>
-              <Ionicons name="arrow-forward" size={20} color="white" />
+              <Ionicons name="arrow-forward" size={35} color="white" />
             </TouchableOpacity>
           </TouchableOpacity>
         </View>
@@ -78,17 +81,20 @@ const styles = StyleSheet.create({
   },
   title: {
     color: "#FFFFFF",
-    fontSize: 24,
+    fontSize: 35,
     fontWeight: "bold",
     textAlign: "center",
     marginTop: 20,
+    marginLeft: 5,
   },
   subtitle: {
     color: "#CCCCCC",
-    fontSize: 14,
+    fontSize: 18,
     textAlign: "center",
     marginBottom: 30,
     marginTop: 15,
+    marginLeft: 25,
+    width: "85%",
   },
   sosButton: {
     width: 200,
@@ -135,57 +141,61 @@ const styles = StyleSheet.create({
   },
   sosText: {
     color: "#FFFFFF",
-    fontSize: 34,
+    fontSize: 50,
     fontWeight: "bold",
   },
   instructions: {
     color: "#AAAAAA",
-    fontSize: 14,
+    fontSize: 16,
     textAlign: "center",
     marginBottom: 20,
+    fontWeight: "bold",
   },
   optionsContainer: {
     flexDirection: "row",
     justifyContent: "center",
     marginBottom: 40,
-    marginTop: 15,
+    marginTop: 8,
   },
   option: {
-    width: "95%",
+    width: "100%",
   },
   optionTitle: {
     color: "#F4F0F1",
-    fontSize: 18,
+    fontSize: 22,
     textAlign: "left",
     marginTop: 15,
+    marginLeft: 5,
+    fontWeight: "bold",
   },
   optionButton: {
     backgroundColor: "#651Fd7",
     borderRadius: 15,
-    paddingLeft: 15,
+    paddingLeft: 20,
     paddingBottom: 15,
-    paddingTop: 15,
+    paddingTop: 18,
     paddingRight: 50,
     height: Platform.OS === "ios" ? 150 : 170,
   },
   optionButtonText: {
     color: "#FFFFFF",
-    fontSize: 24,
+    fontSize: 35,
     fontWeight: "bold",
     marginBottom: Platform.OS === "ios" ? 8 : 0,
   },
   optionDescription: {
     color: "#cccccc",
-    fontSize: 12,
-    marginBottom: 10,
+    fontSize: 13,
+    marginBottom: 15,
     textAlign: "left",
+    width: "85%",
   },
   arrowButton: {
     position: "absolute",
     bottom: 10,
     right: 10,
-    backgroundColor: "#FF4D4D",
-    borderRadius: 15,
+    backgroundColor: "#F7185B",
+    borderRadius: 50,
     padding: 6,
   },
   contactInfo: {
@@ -206,6 +216,7 @@ const styles = StyleSheet.create({
   contactIcons: {
     flexDirection: "row",
     alignItems: "center",
+    gap: 1,
   },
   contactCircle: {
     width: 30,
@@ -218,6 +229,6 @@ const styles = StyleSheet.create({
   },
   contactInitial: {
     color: "#FFFFFF",
-    fontSize: 12,
+    fontSize: 16,
   },
 });
