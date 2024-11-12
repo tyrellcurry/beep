@@ -5,14 +5,17 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { FIREBASE_AUTH, FIREBASE_DB } from "@/firebaseConfig";
 import { doc, updateDoc } from "firebase/firestore";
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import { useUser } from "@/src/components/auth/userContext";
 
 const { width } = Dimensions.get("window");
 
 const SignUpPage = () => {
+  const { setUser } = useUser();
   const router = useRouter();
 
   const { userId, email } = useLocalSearchParams<{ userId: string; email: string }>();
   const [password, setPassword] = React.useState("");
+
   const handleCompleteRegistration = async () => {
     // if (!password.trim() || password.length < 6) {
     //   Alert.alert("Required", "Please enter a password with at least 6 characters.");
@@ -24,6 +27,7 @@ const SignUpPage = () => {
     }
     try {
       const userCredential = await createUserWithEmailAndPassword(FIREBASE_AUTH, email, password);
+      setUser(userCredential.user);
       const authUser = userCredential.user;
 
       await updateDoc(doc(FIREBASE_DB, "users", userId), { authUid: authUser.uid });

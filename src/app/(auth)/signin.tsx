@@ -8,6 +8,8 @@ import Colors from "../../constants/Colors";
 import { FIREBASE_AUTH } from "@/firebaseConfig";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import CameraComponent from "@/src/components/camera/Camera";
+import { useUser } from "@/src/components/auth/userContext";
 
 const { width } = Dimensions.get("window");
 
@@ -15,6 +17,7 @@ const SignInPage = () => {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { user } = useUser();
 
   const handleSignIn = async () => {
     // router.push("/(tabs)/Location");
@@ -24,7 +27,7 @@ const SignInPage = () => {
     }
     try {
       await signInWithEmailAndPassword(FIREBASE_AUTH, email, password);
-      console.log("Login successful!");
+      console.log(email, "Login successful!");
       router.push("/(tabs)/Location");
     } catch (error) {
       console.error("Login failed:", error);
@@ -47,7 +50,6 @@ const SignInPage = () => {
         <TouchableOpacity style={styles.signInButton} onPress={handleSignIn}>
           <Text style={styles.signInText}>Sign In</Text>
         </TouchableOpacity>
-
         <View style={styles.separatorContainer}>
           <View style={styles.separator} />
           <Text style={styles.orText}>or</Text>

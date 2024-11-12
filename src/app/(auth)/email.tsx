@@ -12,6 +12,7 @@ const SignUpPage = () => {
 
   const { userId } = useLocalSearchParams<{ userId: string }>();
   const [email, setEmail] = React.useState("");
+
   const handleContinue = async () => {
     // if (!email.trim()) {
     //   Alert.alert("Required", "Please enter your name.");

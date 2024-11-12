@@ -3,6 +3,9 @@ import { View, TouchableOpacity, StyleSheet, SafeAreaView } from "react-native";
 import { CameraView, CameraType } from "expo-camera";
 import { Ionicons } from "@expo/vector-icons";
 import PhotoPreview from "./PhotoPreview";
+import { doc, setDoc } from "firebase/firestore";
+import { FIREBASE_DB } from "@/firebaseConfig";
+import { useUser } from "../auth/userContext";
 
 interface CameraComponentProps {
   onClose: () => void;
@@ -13,6 +16,7 @@ const CameraComponent: React.FC<CameraComponentProps> = ({ onClose, onCapture })
   const [facing, setFacing] = useState<CameraType>("back");
   const [photo, setPhoto] = useState<string | null>(null);
   const cameraRef = useRef<CameraView>(null);
+  const { user } = useUser();
 
   const toggleCameraFacing = () => {
     setFacing((current) => (current === "back" ? "front" : "back"));
@@ -25,6 +29,7 @@ const CameraComponent: React.FC<CameraComponentProps> = ({ onClose, onCapture })
         if (photo && photo.uri) {
           setPhoto(photo.uri);
           onCapture(photo.uri);
+          // await savePhoto(photo.uri);
         } else {
           console.log("Failed to capture photo: photo or photo.uri is undefined");
         }
@@ -33,6 +38,23 @@ const CameraComponent: React.FC<CameraComponentProps> = ({ onClose, onCapture })
       }
     }
   };
+
+  // const savePhoto = async (photoUri: string) => {
+  //   if (!user) {
+  //     console.log("no user to save photo");
+  //     return;
+  //   }
+  //   try {
+  //     await setDoc(doc(FIREBASE_DB, "media", `${user.uid}_${Date.now()}`), {
+  //       photo: photoUri,
+  //       userId: user.uid,
+  //       timestamp: new Date(),
+  //     });
+  //     console.log(photoUri, "saved!");
+  //   } catch (error) {
+  //     console.error("Error saving photo:", error);
+  //   }
+  // };
 
   return (
     <SafeAreaView style={styles.container}>
