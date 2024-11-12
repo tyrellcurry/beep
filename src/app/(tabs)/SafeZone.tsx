@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, TouchableOpacity, StyleSheet, Button, Platform } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, Button, Image, Platform } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import { Ionicons, FontAwesome } from "@expo/vector-icons";
 import { useCameraPermissions } from "expo-camera";
@@ -70,7 +70,7 @@ const SafeZoneScreen: React.FC = () => {
                 <Text style={styles.mapOverlaySubtitle}>Share your location with emergency contacts.</Text>
               </View>
               <TouchableOpacity style={styles.mapOverlayButton}>
-                <Ionicons name="arrow-forward" size={20} color="white" />
+                <Ionicons name="arrow-forward" size={23} color="white" />
               </TouchableOpacity>
             </View>
           </View>
@@ -80,8 +80,14 @@ const SafeZoneScreen: React.FC = () => {
               <Text style={styles.featureTitle}>Snap & Record</Text>
               <Text style={styles.featureSubtitle}>Snap photos or record videos for safety</Text>
               <View style={styles.featureIcons}>
-                <FontAwesome name="camera" size={20} color="white" style={styles.iconSpacing} />
-                <FontAwesome name="video-camera" size={20} color="white" />
+                <Image
+                  source={require('../../../assets/icons/camera-emoji.png')}
+                  style={{ width: 30, height: 30 }}
+                />
+                <Image
+                  source={require('../../../assets/icons/camera2-emoji.png')}
+                  style={{ width: 30, height: 30 }}
+                />
               </View>
               <TouchableOpacity style={styles.arrowButtonPurple}>
                 <Ionicons name="arrow-forward" size={20} color="white" />
@@ -91,7 +97,12 @@ const SafeZoneScreen: React.FC = () => {
             <TouchableOpacity style={styles.featureBoxBlack}>
               <Text style={styles.featureTitle}>Media History</Text>
               <Text style={styles.featureSubtitle}>Access past photos and videos</Text>
-              <FontAwesome name="file-image-o" size={20} color="white" style={styles.mediaIcon} />
+              <View style={styles.featureIcons}>
+                <Image
+                  source={require('../../../assets/icons/media-emoji.png')}
+                  style={{ width: 30, height: 30 }}
+                />
+              </View>
               <TouchableOpacity style={styles.arrowButtonBlack}>
                 <Ionicons name="arrow-forward" size={20} color="white" />
               </TouchableOpacity>
@@ -114,17 +125,18 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     color: "white",
-    fontSize: 28,
+    fontSize: 45,
     fontWeight: "bold",
   },
   headerSubtitle: {
     color: "white",
-    fontSize: 14,
+    fontSize: 16,
     marginTop: 5,
   },
   mapContainer: {
-    height: 200,
+    height: 300,
     margin: 16,
+    marginTop: 0,
     borderRadius: 10,
     overflow: "hidden",
     backgroundColor: "#1C1C1C",
@@ -138,7 +150,8 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    height: 110,
+    backgroundColor: "rgba(0, 0, 0, 0.65)",
     paddingVertical: 12,
     paddingHorizontal: 16,
     flexDirection: "row",
@@ -149,53 +162,68 @@ const styles = StyleSheet.create({
   },
   mapOverlayTitle: {
     color: "white",
-    fontSize: 16,
+    fontSize: 34,
     fontWeight: "bold",
   },
   mapOverlaySubtitle: {
     color: "white",
-    fontSize: 12,
+    fontSize: 16,
     marginTop: 4,
   },
   mapOverlayButton: {
-    backgroundColor: "#FF4D4D",
+    backgroundColor: "#F7185B",
     borderRadius: 25,
     padding: 10,
+    marginBottom: 110,
+    position: "relative",
+    width: 50,
+    height: 50,
+    alignItems: "center",
+    justifyContent: "center",
+    zIndex: 1000,
   },
   featuresContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
     margin: 16,
+    marginTop: 5,
   },
   featureBoxPurple: {
     width: "48%",
+    height: 190,
     backgroundColor: "#651Fd7",
-    padding: 16,
+    padding: 10,
     borderRadius: 20,
     position: "relative",
+    flexDirection: "column",
   },
   featureBoxBlack: {
     width: "48%",
     backgroundColor: "#000",
-    padding: 16,
+    padding: 10,
     borderRadius: 20,
     borderColor: "#FFFFFF",
-    borderWidth: 1,
+    borderWidth: 3,
     position: "relative",
   },
   featureTitle: {
     color: "white",
-    fontSize: 20,
+    fontSize: 34,
     fontWeight: "bold",
   },
   featureSubtitle: {
     color: "white",
-    fontSize: 12,
+    fontSize: 16,
     marginTop: 5,
+    width: "90%",
   },
   featureIcons: {
     flexDirection: "row",
-    marginTop: 10,
+    marginTop: 25,
+    gap: 5,
+    position: "absolute",
+    bottom: 10,
+    left: 10,
   },
   iconSpacing: {
     marginRight: 8,
@@ -209,8 +237,12 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 10,
     right: 10,
-    backgroundColor: "#FF4D4D",
-    borderRadius: 15,
+    backgroundColor: "#F7185B",
+    borderRadius: 50,
+    width: 50,
+    height: 50,
+    alignItems: "center",
+    justifyContent: "center",
     padding: 6,
   },
   arrowButtonBlack: {
@@ -218,7 +250,11 @@ const styles = StyleSheet.create({
     bottom: 10,
     right: 10,
     backgroundColor: "#651Fd7",
-    borderRadius: 15,
+    borderRadius: 50,
+    width: 50,
+    height: 50,
+    alignItems: "center",
+    justifyContent: "center",
     padding: 6,
   },
   permissionContainer: {

@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "flex-start",
     width: "100%",
-    left: Platform.OS === "ios" ? "3%" : 0,
+    left: Platform.OS === "ios" ? "0.5%" : 0,
     height: 40,
   },
   tabButtonsContent: {
@@ -81,13 +81,15 @@ const styles = StyleSheet.create({
     borderRadius: 24,
     marginRight: 10,
     height: 30,
+    alignItems: "center",
+    justifyContent: "center",
   },
   tabButtonText: {
     color: "#fff",
     fontSize: 14,
   },
   activeTabButton: {
-    backgroundColor: "purple",
+    backgroundColor: "#651FD7",
   },
   activeTabButtonText: {
     color: "#fff",

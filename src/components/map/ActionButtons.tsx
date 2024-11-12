@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
   },
   layerButton: {
     position: "absolute",
-    bottom: 90,
+    bottom: 80,
     right: 0,
     width: 50,
     height: 50,
@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#FF3B5F",
+    backgroundColor: "#F7185B",
     paddingHorizontal: 20,
     paddingVertical: 10,
     borderRadius: 25,
