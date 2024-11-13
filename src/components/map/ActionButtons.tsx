@@ -34,7 +34,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({ onCenterGPS, onCrimeDataT
 const styles = StyleSheet.create({
   actionButtonsContainer: {
     position: "absolute",
-    bottom: Platform.OS === "ios" ? "9%" : 60,
+    bottom: Platform.OS === "ios" ? "10%" : 60,
     right: "5%",
     left: "5%",
     alignItems: "center",

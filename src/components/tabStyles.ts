@@ -10,7 +10,7 @@ const TabStyles = StyleSheet.create({
     borderRadius: 50,
     borderWidth: 0,
     position: "absolute",
-    bottom: Platform.OS === "ios" ? 15 : 10,
+    bottom: Platform.OS === "ios" ? 30 : 10,
     left: "5%",
     right: "5%",
     width: "90%",

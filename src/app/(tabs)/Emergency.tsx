@@ -49,13 +49,10 @@ const EmergencyScreen: React.FC = () => {
               <View style={styles.contactCircle}>
                 <Text style={styles.contactInitial}>M</Text>
               </View>
-                <Image
-                  source={require('../../../assets/icons/add-icon.png')}
-                  style={{ width: 30, height: 30 }}
-                />
+              <Image source={require("../../../assets/icons/add-icon.png")} style={{ width: 30, height: 30 }} />
             </View>
             <TouchableOpacity style={styles.arrowButton}>
-              <Ionicons name="arrow-forward" size={23} color="white" />
+              <Ionicons name="arrow-forward" size={20} color="white" />
             </TouchableOpacity>
           </TouchableOpacity>
         </View>
@@ -75,13 +72,13 @@ const styles = StyleSheet.create({
   header: {
     marginTop: 50,
     color: "#cccccc",
-    fontSize: 16,
+    fontSize: Platform.OS === "ios" ? 16 : 14,
     fontWeight: "600",
     marginBottom: 10,
   },
   title: {
     color: "#FFFFFF",
-    fontSize: 35,
+    fontSize: Platform.OS === "ios" ? 30 : 24,
     fontWeight: "bold",
     textAlign: "center",
     marginTop: 20,
@@ -89,7 +86,7 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     color: "#CCCCCC",
-    fontSize: 18,
+    fontSize: Platform.OS === "ios" ? 14 : 12,
     textAlign: "center",
     marginBottom: 30,
     marginTop: 15,
@@ -141,12 +138,12 @@ const styles = StyleSheet.create({
   },
   sosText: {
     color: "#FFFFFF",
-    fontSize: 50,
+    fontSize: 34,
     fontWeight: "bold",
   },
   instructions: {
     color: "#AAAAAA",
-    fontSize: 16,
+    fontSize: 14,
     textAlign: "center",
     marginBottom: 20,
     fontWeight: "bold",
@@ -155,14 +152,14 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     marginBottom: 40,
-    marginTop: 8,
+    marginTop: 15,
   },
   option: {
     width: "100%",
   },
   optionTitle: {
     color: "#F4F0F1",
-    fontSize: 22,
+    fontSize: 18,
     textAlign: "left",
     marginTop: 15,
     marginLeft: 5,
@@ -175,18 +172,18 @@ const styles = StyleSheet.create({
     paddingBottom: 15,
     paddingTop: 18,
     paddingRight: 50,
-    height: Platform.OS === "ios" ? 150 : 170,
+    height: Platform.OS === "ios" ? 160 : 180,
   },
   optionButtonText: {
     color: "#FFFFFF",
-    fontSize: 35,
+    fontSize: Platform.OS === "ios" ? 30 : 26,
     fontWeight: "bold",
     marginBottom: Platform.OS === "ios" ? 8 : 0,
   },
   optionDescription: {
     color: "#cccccc",
-    fontSize: 13,
-    marginBottom: 15,
+    fontSize: Platform.OS === "ios" ? 12 : 11,
+    marginBottom: 10,
     textAlign: "left",
     width: "85%",
   },
@@ -233,6 +230,6 @@ const styles = StyleSheet.create({
   },
   contactInitial: {
     color: "#FFFFFF",
-    fontSize: 16,
+    fontSize: 12,
   },
 });

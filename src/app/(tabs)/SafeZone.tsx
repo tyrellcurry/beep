@@ -70,7 +70,7 @@ const SafeZoneScreen: React.FC = () => {
                 <Text style={styles.mapOverlaySubtitle}>Share your location with emergency contacts.</Text>
               </View>
               <TouchableOpacity style={styles.mapOverlayButton}>
-                <Ionicons name="arrow-forward" size={23} color="white" />
+                <Ionicons name="arrow-forward" size={20} color="white" />
               </TouchableOpacity>
             </View>
           </View>
@@ -80,14 +80,8 @@ const SafeZoneScreen: React.FC = () => {
               <Text style={styles.featureTitle}>Snap & Record</Text>
               <Text style={styles.featureSubtitle}>Snap photos or record videos for safety</Text>
               <View style={styles.featureIcons}>
-                <Image
-                  source={require('../../../assets/icons/camera-emoji.png')}
-                  style={{ width: 30, height: 30 }}
-                />
-                <Image
-                  source={require('../../../assets/icons/camera2-emoji.png')}
-                  style={{ width: 30, height: 30 }}
-                />
+                <Image source={require("../../../assets/icons/camera-emoji.png")} style={{ width: 30, height: 30 }} />
+                <Image source={require("../../../assets/icons/camera2-emoji.png")} style={{ width: 30, height: 30 }} />
               </View>
               <TouchableOpacity style={styles.arrowButtonPurple}>
                 <Ionicons name="arrow-forward" size={20} color="white" />
@@ -98,10 +92,7 @@ const SafeZoneScreen: React.FC = () => {
               <Text style={styles.featureTitle}>Media History</Text>
               <Text style={styles.featureSubtitle}>Access past photos and videos</Text>
               <View style={styles.featureIcons}>
-                <Image
-                  source={require('../../../assets/icons/media-emoji.png')}
-                  style={{ width: 30, height: 30 }}
-                />
+                <Image source={require("../../../assets/icons/media-emoji.png")} style={{ width: 30, height: 30 }} />
               </View>
               <TouchableOpacity style={styles.arrowButtonBlack}>
                 <Ionicons name="arrow-forward" size={20} color="white" />
@@ -150,7 +141,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    height: 110,
+    height: 80,
     backgroundColor: "rgba(0, 0, 0, 0.65)",
     paddingVertical: 12,
     paddingHorizontal: 16,
@@ -162,25 +153,27 @@ const styles = StyleSheet.create({
   },
   mapOverlayTitle: {
     color: "white",
-    fontSize: 34,
+    fontSize: 24,
     fontWeight: "bold",
   },
   mapOverlaySubtitle: {
     color: "white",
-    fontSize: 16,
+    fontSize: 12,
     marginTop: 4,
   },
   mapOverlayButton: {
     backgroundColor: "#F7185B",
     borderRadius: 25,
     padding: 10,
-    marginBottom: 110,
+    marginBottom: Platform.OS === "ios" ? 75 : 80,
+    marginEnd: 10,
     position: "relative",
     width: 50,
     height: 50,
     alignItems: "center",
     justifyContent: "center",
     zIndex: 1000,
+    right: Platform.OS === "ios" ? 0 : 15,
   },
   featuresContainer: {
     flexDirection: "row",
@@ -208,13 +201,12 @@ const styles = StyleSheet.create({
   },
   featureTitle: {
     color: "white",
-    fontSize: 34,
+    fontSize: Platform.OS === "ios" ? 26 : 22,
     fontWeight: "bold",
   },
   featureSubtitle: {
     color: "white",
-    fontSize: 16,
-    marginTop: 5,
+    fontSize: Platform.OS === "ios" ? 14 : 12,
     width: "90%",
   },
   featureIcons: {
