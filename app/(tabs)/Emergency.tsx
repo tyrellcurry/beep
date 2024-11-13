@@ -1,7 +1,8 @@
-import React, { useRef } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { StyleSheet, Text, View, TouchableOpacity, Image, Alert, Platform } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
+import * as Location from "expo-location";
 import { useRouter } from "expo-router";
 import { useLocation } from "@/components/map/LocationContext";
 import { sendLocationSms } from "@/components/sms/sendLocationSms";
@@ -10,6 +11,29 @@ const EmergencyScreen: React.FC = () => {
   const router = useRouter();
   const { destination } = useLocation();
   const lastTap = useRef(0);
+  const [currentAddress, setCurrentAddress] = useState("Fetching location...");
+
+  useEffect(() => {
+    (async () => {
+      const { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        Alert.alert("Permission Denied", "Permission to access location was denied");
+        setCurrentAddress("Location permission denied");
+        return;
+      }
+
+      const location = await Location.getCurrentPositionAsync({});
+      const { latitude, longitude } = location.coords;
+
+      const reverseGeocode = await Location.reverseGeocodeAsync({ latitude, longitude });
+      if (reverseGeocode.length > 0) {
+        const { name, city, region } = reverseGeocode[0];
+        setCurrentAddress(name ? `${name}, ${city}` : `${city}, ${region}`);
+      } else {
+        setCurrentAddress("Unable to fetch location");
+      }
+    })();
+  }, []);
 
   const handleDoubleTap = () => {
     const now = Date.now();
@@ -25,7 +49,6 @@ const EmergencyScreen: React.FC = () => {
   const handleSendSms = () => {
     if (destination) {
       sendLocationSms(destination);
-      console.log("Destination in EmergencyScreen:", destination);
     } else {
       Alert.alert("Error", "No destination set");
     }
@@ -33,7 +56,7 @@ const EmergencyScreen: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>📍BCIT School of Business + Media</Text>
+      <Text style={styles.header}>📍 {currentAddress}</Text>
       <Text style={styles.title}>Activate Alarm</Text>
       <Text style={styles.subtitle}>Sound a loud alarm and send your location to emergency contacts.</Text>
 
@@ -71,7 +94,6 @@ const EmergencyScreen: React.FC = () => {
     </View>
   );
 };
-
 export default EmergencyScreen;
 
 const styles = StyleSheet.create({
