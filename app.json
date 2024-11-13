@@ -4,6 +4,7 @@
     "slug": "IDSP2_Beep",
     "version": "1.0.0",
     "newArchEnabled": true,
+    "jsEngine": "hermes",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "myapp",
@@ -15,6 +16,7 @@
     },
     "ios": {
       "supportsTablet": true,
+      "jsEngine": "jsc",
       "config": {
         "googleMapsApiKey": "AIzaSyBulEPkGED3kRHue-LK3nJwgSPWnrpgh_Q"
       },
