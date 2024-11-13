@@ -1,101 +1,24 @@
-import MapView, { LatLng, Marker, PROVIDER_GOOGLE } from "react-native-maps";
-import {
-  StyleSheet,
-  View,
-  Dimensions,
-  Text,
-  TouchableOpacity,
-  ScrollView,
-  Image,
-  Platform,
-} from "react-native";
-import {
-  GooglePlaceDetail,
-  GooglePlacesAutocomplete,
-  GooglePlacesAutocompleteRef,
-} from "react-native-google-places-autocomplete";
-import { GOOGLE_API_KEY } from "@/environments";
-import Constants from "expo-constants";
-import { useRef, useState } from "react";
-import MapViewDirections from "react-native-maps-directions";
-import Colors from "@/src/constants/Colors";
-import EvilIcons from "@expo/vector-icons/EvilIcons";
+import React, {
+  useRef,
+  useState,
+  useEffect,
+  useMemo,
+  useCallback,
+} from "react";
+import { StyleSheet, View, Dimensions, Text } from "react-native";
+import MapView, { LatLng } from "react-native-maps";
 import { useRouter } from "expo-router";
+import * as GPSLocation from "expo-location";
+import BottomSheet from "@gorhom/bottom-sheet";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { GooglePlaceDetail } from "react-native-google-places-autocomplete";
 
-const { width, height } = Dimensions.get("window");
-
-const ASPECT_RATIO = width / height;
-const LATITUDE_DELTA = 0.02;
-const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
-const INITIAL_POSITION = {
-  latitude: 49.2488,
-  longitude: -123.0016,
-  latitudeDelta: LATITUDE_DELTA,
-  longitudeDelta: LONGITUDE_DELTA,
-};
-
-// TODO: Static coordinates for 3700 Willingdon Ave, Burnaby, BC V5G 3H2 (This is only for midterm presentation)
-const STATIC_ORIGIN = {
-  latitude: 49.2488,
-  longitude: -123.0016,
-};
-
-type InputAutocompleteProps = {
-  label: string;
-  placeholder?: string;
-  onPlaceSelected: (details: GooglePlaceDetail | null) => void;
-  clearDestination: () => void;
-};
-
-function InputAutocomplete({
-  label,
-  placeholder,
-  onPlaceSelected,
-  clearDestination,
-}: InputAutocompleteProps) {
-  const [inputText, setInputText] = useState("");
-  const autocompleteRef = useRef<any>(null);
-
-  const handleClearInput = () => {
-    setInputText("");
-    autocompleteRef.current?.setAddressText("");
-    clearDestination();
-  };
-
-  return (
-    <View style={styles.autocompleteContainer}>
-      {label ? <Text>{label}</Text> : null}
-      <GooglePlacesAutocomplete
-        ref={autocompleteRef}
-        styles={{
-          textInput: styles.input,
-          container: styles.inputContainer,
-        }}
-        placeholder={placeholder || "Search Maps"}
-        fetchDetails
-        textInputProps={{
-          value: inputText,
-          onChangeText: (text) => setInputText(text),
-        }}
-        onPress={(data, details = null) => {
-          onPlaceSelected(details);
-          setInputText(details?.name || "");
-        }}
-        query={{
-          key: GOOGLE_API_KEY,
-          language: "pt-BR",
-        }}
-      />
-
-      {/* Conditionally Render "X" Icon */}
-      {inputText.length > 0 && (
-        <TouchableOpacity onPress={handleClearInput} style={styles.clearIcon}>
-          <EvilIcons name="close" size={24} color="black" />
-        </TouchableOpacity>
-      )}
-    </View>
-  );
-}
+// Import components
+import Map from "@/src/components/map/map";
+import SearchBar from "@/src/components/map/SearchBar";
+import TabButtons from "@/src/components/map/TabButtons";
+import ActionButtons from "@/src/components/map/ActionButtons";
+import PlaceDetailsBottomSheet from "@/src/components/map/PlaceDetails/PlaceDetails";
 
 export default function Location() {
   const [origin, setOrigin] = useState<LatLng | null>(null);
@@ -105,7 +28,8 @@ export default function Location() {
   const [distance, setDistance] = useState(0);
   const [duration, setDuration] = useState(0);
   const [isCrimeDataVisible, setIsCrimeDataVisible] = useState(false);
-  const [selectedPlaceDetails, setSelectedPlaceDetails] = useState<GooglePlaceDetail | null>(null);
+  const [selectedPlaceDetails, setSelectedPlaceDetails] =
+    useState<GooglePlaceDetail | null>(null);
   const [isBottomSheetVisible, setIsBottomSheetVisible] = useState(false);
 
   const mapRef = useRef<MapView>(null);
@@ -203,52 +127,53 @@ export default function Location() {
   const handleTraceRoute = () => {
     if (origin && destination) {
       setShowDirections(true);
-      mapRef.current?.fitToCoordinates([origin, destination], { edgePadding: { top: 70, right: 70, bottom: 70, left: 70 } });
+      mapRef.current?.fitToCoordinates([origin, destination], {
+        edgePadding: { top: 70, right: 70, bottom: 70, left: 70 },
+      });
     }
   };
 
-  const onPlaceSelected = (
-    details: GooglePlaceDetail | null,
-    flag: "destination"
-  ) => {
-    const position = {
-      latitude: details?.geometry.location.lat || 0,
-      longitude: details?.geometry.location.lng || 0,
-    };
-    setDestination(position);
-    moveTo(position);
+  const handleTabPress = (label: string) => {
+    console.log(`Tab pressed: ${label}`);
   };
 
-  const clearDestination = () => {
-    setDestination(null);
-    moveTo(STATIC_ORIGIN);
-    setShowDirections(false);
+  const bottomSheetRef = useRef<BottomSheet>(null);
+
+  const handleCrimeDataToggle = () => {
+    setIsCrimeDataVisible(!isCrimeDataVisible);
+    console.log("Toggle layers");
   };
+
+  const adjustCameraPosition = () => {
+    if (mapRef.current && origin) {
+      mapRef.current.animateCamera({
+        center: {
+          latitude: origin.latitude,
+          longitude: origin.longitude,
+        },
+        pitch: 0,
+        heading: 0,
+        zoom: 14,
+      });
+    }
+  };
+
+  useEffect(() => {
+    if (origin) {
+      adjustCameraPosition();
+    }
+  }, [origin]);
 
   return (
-    <View style={styles.container}>
-      {/* The Map View */}
-      <MapView
-        ref={mapRef}
-        style={styles.map}
-        // provider={PROVIDER_GOOGLE}
-        initialRegion={INITIAL_POSITION}
-      >
-        {origin && <Marker coordinate={origin} title="3700 Willingdon Ave" />}
-        {destination && <Marker coordinate={destination} />}
-        {showDirections && origin && destination && (
-          <MapViewDirections
-            origin={origin}
-            destination={destination}
-            apikey={GOOGLE_API_KEY}
-            strokeColor="#651FD7"
-            strokeWidth={4}
-            onReady={traceRouteOnReady}
-          />
-        )}
-      </MapView>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <Map
+        origin={origin}
+        destination={destination}
+        showDirections={showDirections}
+        onDirectionsReady={handleTraceRouteOnReady}
+        mapRef={mapRef}
+      />
 
-      {/* Search bar */}
       <View style={styles.searchContainer}>
         <SearchBar
           placeholder="Search Maps"
@@ -260,73 +185,23 @@ export default function Location() {
         />
       </View>
 
-      {/* Scrollable tabs */}
-      <View style={styles.tabButtonsContainer}>
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.tabButtonsContent}
-        >
-          {["Open Now", "Nearby", "Safe Zones", "Public Service"].map(
-            (label) => (
-              <TouchableOpacity key={label} style={styles.tabButton}>
-                <Text style={styles.tabButtonText}>{label}</Text>
-              </TouchableOpacity>
-            )
-          )}
-        </ScrollView>
-      </View>
+      <TabButtons onTabPress={handleTabPress} />
 
-      {/* Action Buttons in Bottom Right */}
-      <View style={styles.actionButtonsContainer}>
-        <TouchableOpacity style={styles.traceButton} onPress={traceRoute}>
-          <Image
-            source={require("../../../assets/map/locationArrowWhite.png")}
-            style={styles.iconImage}
-          />
-        </TouchableOpacity>
+      <ActionButtons
+        onCenterGPS={handleCenterGPS}
+        onCrimeDataToggle={handleCrimeDataToggle}
+        isCrimeDataVisible={isCrimeDataVisible}
+        onSOS={() => router.push("/sos")}
+      />
 
-        {/* Center GPS button */}
-        <TouchableOpacity
-          style={styles.centerGPSButton}
-          onPress={() => moveTo(STATIC_ORIGIN)}
-        >
-          <Image
-            source={require("../../../assets/map/Black.png")}
-            style={styles.iconImageSmall}
-          />
-        </TouchableOpacity>
-
-        {/* Toggle Layers button */}
-        {/* TODO: Add functionality to have layer options. onPress={ } */}
-        <TouchableOpacity style={styles.layerButton}>
-          <Image
-            source={require("../../../assets/map/layerBlack.png")}
-            style={styles.iconImageSmall}
-          />
-        </TouchableOpacity>
-
-        {/* SOS button */}
-        <TouchableOpacity
-          style={styles.SOSButton}
-          onPress={() => router.push("/sos")}
-        >
-          <Image
-            source={require("../../../assets/map/SOSWhiteHollow.png")}
-            style={styles.SOSiconImageSmall}
-          />
-          <Text style={styles.SOSText}>SOS</Text>
-        </TouchableOpacity>
-      </View>
-
-      {/* Distance and Duration Information */}
-      {showDirections && distance && duration ? (
-        <View style={styles.distanceNduration}>
-          <Text>Distance: {distance.toFixed(2)}</Text>
-          <Text>Duration: {Math.ceil(duration)} min</Text>
-        </View>
-      ) : null}
-    </View>
+      <PlaceDetailsBottomSheet
+        placeDetails={selectedPlaceDetails}
+        isVisible={isBottomSheetVisible}
+        bottomSheetRef={bottomSheetRef}
+        snapPoints={snapPoints}
+        onTraceRoute={handleTraceRoute}
+      />
+    </GestureHandlerRootView>
   );
 }
 

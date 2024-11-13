@@ -22,7 +22,9 @@ export default function EmergencyScreen() {
         staysActiveInBackground: true,
       });
 
-      const { sound } = await Audio.Sound.createAsync(require("../../assets/police.wav"));
+      const { sound } = await Audio.Sound.createAsync(
+        require("../../assets/police.wav")
+      );
       await sound.setIsLoopingAsync(true);
       setSound(sound);
       await sound.playAsync();
@@ -44,9 +46,12 @@ export default function EmergencyScreen() {
     }
   };
 
+  // TODO: change to dynamic later
+  const phoneNumber = "1234567890";
+  const username = "Dora";
   const sendSmsImmediately = async () => {
     setIsPlaying(false);
-    await sendLocationSms();
+    await sendLocationSms(phoneNumber, username);
   };
 
   const handleCancelSOS = async () => {
@@ -70,16 +75,20 @@ export default function EmergencyScreen() {
             colors={["#651fd7", "#f7185b", "#A30000"]}
             colorsTime={[7, 5, 0]}
             onComplete={() => {
-              sendLocationSms();
+              sendLocationSms(phoneNumber, username);
               return { shouldRepeat: false };
             }}
           >
-            {({ remainingTime }) => <Text style={styles.sosText}>{remainingTime}</Text>}
+            {({ remainingTime }) => (
+              <Text style={styles.sosText}>{remainingTime}</Text>
+            )}
           </CountdownCircleTimer>
         </View>
         <Text style={styles.sosButtonText}>SOS Timer</Text>
         <Text style={styles.sosButtonSubText}>
-          In <Text style={styles.boldText}>15 seconds</Text>,, an SOS Message with your live location will be sent to your selected emergency contacts. Tap the button below to cancel if you're safe.
+          In <Text style={styles.boldText}>15 seconds</Text>,, an SOS Message
+          with your live location will be sent to your selected emergency
+          contacts. Tap the button below to cancel if you're safe.
         </Text>
       </View>
 
@@ -87,7 +96,10 @@ export default function EmergencyScreen() {
         <TouchableOpacity style={styles.cancelButton} onPress={handleCancelSOS}>
           <Text style={styles.cancelText}>Cancel SOS</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.notifyButton} onPress={sendSmsImmediately}>
+        <TouchableOpacity
+          style={styles.notifyButton}
+          onPress={sendSmsImmediately}
+        >
           <Text style={styles.notifyText}>Send SMS Now</Text>
         </TouchableOpacity>
       </View>

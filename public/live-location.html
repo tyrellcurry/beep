@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Location</title>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
+    <script>
+      // Your Firebase configuration here
+      const firebaseConfig = {
+        apiKey: "AIzaSyCieVsJI5fUrXozxa0lWM3lCue9xDf_CVo",
+        authDomain: "idsp2-beep.firebaseapp.com",
+        projectId: "idsp2-beep",
+        storageBucket: "idsp2-beep.firebasestorage.app",
+        messagingSenderId: "771158328730",
+        appId: "1:771158328730:web:3bb3e288f4515e10942623",
+        measurementId: "G-7XC252E45P"
+      };
+      firebase.initializeApp(firebaseConfig);
+      const db = firebase.firestore();
+
+      async function loadLocation() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const userId = urlParams.get("userId");
+        if (!userId) return alert("User ID not found");
+
+        const docRef = db.collection("userLocations").doc(userId);
+        docRef.onSnapshot((doc) => {
+     
+            if (doc.exists) {
+            const data = doc.data();
+            document.getElementById("location").innerText = `Latitude: ${data.latitude}, Longitude: ${data.longitude}`;
+          } else {
+            alert("No location data found for this user.");
+          }
+        });
+      }
+    </script>
+</head>
+<body onload="loadLocation()">
+    <h1>Live Location</h1>
+    <p id="location">Loading...</p>
+</body>
+</html>
