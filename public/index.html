@@ -8,7 +8,7 @@
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
     <!-- Google Maps API -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBulEPkGED3kRHue-LK3nJwgSPWnrpgh_Q" async></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=YAIzaSyBulEPkGED3kRHue-LK3nJwgSPWnrpgh_Q" async></script>
     <style>
         #map {
             height: 100vh;
@@ -21,22 +21,20 @@
     <div id="map"></div>
 
     <script>
-        // Initialize Firebase
         document.addEventListener("DOMContentLoaded", function() {
             console.log("Initializing Firebase...");
             const firebaseConfig = {
-                apiKey: "AIzaSyCieVsJI5fUrXozxa0lWM3lCue9xDf_CVo",
-                authDomain: "idsp2-beep.firebaseapp.com",
-                projectId: "idsp2-beep",
-                storageBucket: "idsp2-beep.firebaseapp.com",
-                messagingSenderId: "771158328730",
-                appId: "1:771158328730:web:3bb3e288f4515e10942623",
-                measurementId: "G-7XC252E45P"
+            apiKey: "AIzaSyCieVsJI5fUrXozxa0lWM3lCue9xDf_CVo",
+            authDomain: "idsp2-beep.firebaseapp.com",
+            projectId: "idsp2-beep",
+            storageBucket: "idsp2-beep.firebasestorage.app",
+            messagingSenderId: "771158328730",
+            appId: "1:771158328730:web:3bb3e288f4515e10942623",
+            measurementId: "G-7XC252E45P"
             };
             firebase.initializeApp(firebaseConfig);
             const db = firebase.firestore();
 
-            // Initialize Map
             let map, marker;
             function initMap(latitude, longitude) {
                 map = new google.maps.Map(document.getElementById("map"), {
@@ -50,36 +48,51 @@
                 });
             }
 
-            // Load user location from Firestore
             async function loadLocation() {
                 const urlParams = new URLSearchParams(window.location.search);
-                const userId = urlParams.get("name");
-                if (!userId) {
-                    console.error("User ID not found in the URL parameters.");
-                    alert("User ID not found.");
+                const authUid = urlParams.get("authUid");
+                if (!authUid) {
+                    console.error("authUid not found in the URL parameters.");
+                    alert("authUid not found.");
                     return;
                 }
 
-                const docRef = db.collection("userLocations").doc(userId);
-                docRef.onSnapshot((doc) => {
-                    if (doc.exists) {
-                        const data = doc.data();
-                        const { latitude, longitude } = data;
-                        console.log("Location data fetched from Firestore:", latitude, longitude);
-                        if (!map) {
-                            initMap(latitude, longitude);
-                        } else {
-                            marker.setPosition({ lat: latitude, lng: longitude });
-                            map.setCenter({ lat: latitude, lng: longitude });
-                        }
-                    } else {
-                        console.error("No location data found for this user.");
-                        alert("No location data found for this user.");
+                try {
+                    // Step 1: Find the document with the matching authUid in the 'users' collection
+                    const usersQuerySnapshot = await db.collection("users").where("authUid", "==", authUid).get();
+
+                    if (usersQuerySnapshot.empty) {
+                        console.error("No user found with this authUid.");
+                        alert("No user found with this authUid.");
+                        return;
                     }
-                }, (error) => {
-                    console.error("Error fetching document:", error);
+
+                    // Assuming each authUid is unique, so we use the first matched document
+                    const userDoc = usersQuerySnapshot.docs[0];
+                    const userId = userDoc.id;
+
+                    // Step 2: Use the userId to get the live location from the 'userLocations' collection
+                    const locationDocRef = db.collection("userLocations").doc(userId);
+                    locationDocRef.onSnapshot((doc) => {
+                        if (doc.exists) {
+                            const data = doc.data();
+                            const { latitude, longitude } = data;
+                            console.log("Location data fetched from Firestore:", latitude, longitude);
+                            if (!map) {
+                                initMap(latitude, longitude);
+                            } else {
+                                marker.setPosition({ lat: latitude, lng: longitude });
+                                map.setCenter({ lat: latitude, lng: longitude });
+                            }
+                        } else {
+                            console.error("No location data found for this user.");
+                            alert("No location data found for this user.");
+                        }
+                    });
+                } catch (error) {
+                    console.error("Error fetching user or location data:", error);
                     alert("Failed to load location data.");
-                });
+                }
             }
 
             loadLocation();
