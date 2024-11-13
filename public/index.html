@@ -53,7 +53,7 @@
             // Load user location from Firestore
             async function loadLocation() {
                 const urlParams = new URLSearchParams(window.location.search);
-                const userId = urlParams.get("userId");
+                const userId = urlParams.get("name");
                 if (!userId) {
                     console.error("User ID not found in the URL parameters.");
                     alert("User ID not found.");

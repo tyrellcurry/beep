@@ -21,7 +21,7 @@ export const startLiveLocationSharing = async (userId: string) => {
       const { latitude, longitude } = location.coords;
 
       // Update Firestore with the user's current location
-      await setDoc(doc(FIREBASE_DB, "userLocations", userId), {
+      await setDoc(doc(FIREBASE_DB, "userLocations", ), {
         userId,
         latitude,
         longitude,
