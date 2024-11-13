@@ -31,7 +31,7 @@ export const startLiveLocationSharing = async (userId: string) => {
     } catch (error) {
       console.error("Error updating location:", error);
     }
-  }, 300000); // Update every 5 minutes
+  }, 60000); // Update every minute
 
   // Optional: Stop location sharing after a period (e.g., 30 minutes)
   setTimeout(() => {

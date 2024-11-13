@@ -5,16 +5,6 @@
       "firebase.json",
       "**/.*",
       "**/node_modules/**"
-    ],
-    "rewrites": [
-      {
-        "source": "/live-location.html",
-        "destination": "/live-location.html"
-      },
-      {
-        "source": "**",
-        "destination": "/index.html"
-      }
     ]
   }
 }

@@ -8,7 +8,8 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "test": "jest --watchAll",
-    "go": "expo start --tunnel"
+    "go": "expo start --tunnel",
+    "build": "echo 'No build step required'"
   },
   "jest": {
     "preset": "jest-expo"
