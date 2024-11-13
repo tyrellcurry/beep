@@ -6,8 +6,8 @@
     <title>Live Location</title>
 
     <!-- Firebase App and Firestore (non-modular scripts) -->
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
     
     <!-- Google Maps API with async loading for improved performance -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBulEPkGED3kRHue-LK3nJwgSPWnrpgh_Q" async defer></script>
@@ -24,79 +24,53 @@
     <div id="map"></div>
 
     <script>
-        // Initialize Firebase and set up Firestore
         document.addEventListener("DOMContentLoaded", function() {
-            try {
-                console.log("Initializing Firebase...");
-                
-                const firebaseConfig = {
-                    apiKey: "AIzaSyCieVsJI5fUrXozxa0lWM3lCue9xDf_CVo",
-                    authDomain: "idsp2-beep.firebaseapp.com",
-                    projectId: "idsp2-beep",
-                    storageBucket: "idsp2-beep.appspot.com",
-                    messagingSenderId: "771158328730",
-                    appId: "1:771158328730:web:3bb3e288f4515e10942623",
-                    measurementId: "G-7XC252E45P"
-                };
-                
-                firebase.initializeApp(firebaseConfig);
-                const db = firebase.firestore();
-                console.log("Firebase initialized successfully");
-
-                // Initialize the Google Map with a fallback location
-                let map, marker;
-                function initMap(latitude, longitude) {
-                    map = new google.maps.Map(document.getElementById("map"), {
-                        center: { lat: latitude, lng: longitude },
-                        zoom: 15,
-                    });
-                    marker = new google.maps.Marker({
-                        position: { lat: latitude, lng: longitude },
-                        map: map,
-                        title: "User's Location",
-                    });
-                    console.log("Map initialized at coordinates:", latitude, longitude);
-                }
-
-                // Load user location from Firestore in real-time
-                async function loadLocation() {
-                    const urlParams = new URLSearchParams(window.location.search);
-                    const userId = urlParams.get("userId");
-                    if (!userId) {
-                        console.error("User ID not found in URL");
-                        alert("User ID not found.");
-                        return;
-                    }
-
-                    const docRef = db.collection("userLocations").doc(userId);
-                    docRef.onSnapshot((doc) => {
-                        if (doc.exists) {
-                            const data = doc.data();
-                            const { latitude, longitude } = data;
-                            console.log("Fetched location:", latitude, longitude);
-                            
-                            if (!map) {
-                                initMap(latitude, longitude);
-                            } else {
-                                marker.setPosition({ lat: latitude, lng: longitude });
-                                map.setCenter({ lat: latitude, lng: longitude });
-                            }
-                        } else {
-                            console.error("No location data found for user:", userId);
-                            alert("No location data found for this user.");
-                        }
-                    }, (error) => {
-                        console.error("Error fetching document:", error);
-                        alert("Failed to load location data.");
-                    });
-                }
-
-                loadLocation();
-            } catch (error) {
-                console.error("Error initializing Firebase:", error);
-                alert("Failed to initialize Firebase. Check console for details.");
-            }
+            console.log("Initializing Firebase...");
+    
+            const firebaseConfig = {
+                apiKey: "AIzaSyCieVsJI5fUrXozxa0lWM3lCue9xDf_CVo",
+                authDomain: "idsp2-beep.firebaseapp.com",
+                projectId: "idsp2-beep",
+                storageBucket: "idsp2-beep.firebaseapp.com",
+                messagingSenderId: "771158328730",
+                appId: "1:771158328730:web:3bb3e288f4515e10942623",
+                measurementId: "G-7XC252E45P"
+            };
+    
+            firebase.initializeApp(firebaseConfig);
+            const db = firebase.firestore();
+    
+            console.log("Firebase initialized successfully!");
+    
+            // Load the user's location after Firebase has initialized
+            loadLocation();
         });
+    
+        function loadLocation() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const userId = urlParams.get("userId");
+            if (!userId) {
+                alert("User ID not found.");
+                return;
+            }
+    
+            const docRef = firebase.firestore().collection("userLocations").doc(userId);
+            docRef.onSnapshot((doc) => {
+                if (doc.exists) {
+                    const data = doc.data();
+                    const { latitude, longitude } = data;
+                    if (!map) {
+                        initMap(latitude, longitude);
+                    } else {
+                        marker.setPosition({ lat: latitude, lng: longitude });
+                        map.setCenter({ lat: latitude, lng: longitude });
+                    }
+                } else {
+                    alert("No location data found for this user.");
+                }
+            });
+        }
     </script>
+    
 </body>
 </html>
