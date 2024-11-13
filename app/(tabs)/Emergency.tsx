@@ -3,10 +3,12 @@ import { StyleSheet, Text, View, TouchableOpacity, Image, Alert, Platform } from
 import { Ionicons } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
 import { useRouter } from "expo-router";
+import { useLocation } from "@/components/map/LocationContext";
 import { sendLocationSms } from "@/components/sms/sendLocationSms";
 
 const EmergencyScreen: React.FC = () => {
   const router = useRouter();
+  const { destination } = useLocation();
   const lastTap = useRef(0);
 
   const handleDoubleTap = () => {
@@ -17,6 +19,15 @@ const EmergencyScreen: React.FC = () => {
     } else {
       lastTap.current = now;
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
+    }
+  };
+
+  const handleSendSms = () => {
+    if (destination) {
+      sendLocationSms(destination);
+      console.log("Destination in EmergencyScreen:", destination);
+    } else {
+      Alert.alert("Error", "No destination set");
     }
   };
 
@@ -39,7 +50,7 @@ const EmergencyScreen: React.FC = () => {
       <Text style={styles.optionTitle}>SMS option</Text>
       <View style={styles.optionsContainer}>
         <View style={styles.option}>
-          <TouchableOpacity style={styles.optionButton} onPress={sendLocationSms}>
+          <TouchableOpacity style={styles.optionButton} onPress={handleSendSms}>
             <Text style={styles.optionButtonText}>Emergency Alert</Text>
             <Text style={styles.optionDescription}>Send the default emergency message and your live location to all selected contacts</Text>
             <View style={styles.contactIcons}>

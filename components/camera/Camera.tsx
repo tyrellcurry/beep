@@ -39,23 +39,6 @@ const CameraComponent: React.FC<CameraComponentProps> = ({ onClose, onCapture })
     }
   };
 
-  // const savePhoto = async (photoUri: string) => {
-  //   if (!user) {
-  //     console.log("no user to save photo");
-  //     return;
-  //   }
-  //   try {
-  //     await setDoc(doc(FIREBASE_DB, "media", `${user.uid}_${Date.now()}`), {
-  //       photo: photoUri,
-  //       userId: user.uid,
-  //       timestamp: new Date(),
-  //     });
-  //     console.log(photoUri, "saved!");
-  //   } catch (error) {
-  //     console.error("Error saving photo:", error);
-  //   }
-  // };
-
   return (
     <SafeAreaView style={styles.container}>
       {photo ? (

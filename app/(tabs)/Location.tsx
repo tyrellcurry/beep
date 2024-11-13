@@ -14,10 +14,12 @@ import SearchBar from "@/components/map/SearchBar";
 import TabButtons from "@/components/map/TabButtons";
 import ActionButtons from "@/components/map/ActionButtons";
 import PlaceDetailsBottomSheet from "@/components/map/PlaceDetails/PlaceDetails";
+import { useLocation } from "@/components/map/LocationContext";
 
 export default function Location() {
   const [origin, setOrigin] = useState<LatLng | null>(null);
-  const [destination, setDestination] = useState<LatLng | null>(null);
+  // const [destination, setDestination] = useState<LatLng | null>(null);
+  const { destination, setDestination } = useLocation();
   const [showDirections, setShowDirections] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [distance, setDistance] = useState(0);
@@ -111,6 +113,7 @@ export default function Location() {
       longitude: details?.geometry.location.lng || 0,
     };
     setDestination(position);
+    console.log(position, "p");
     setSelectedPlaceDetails(details); // Store the place details
     setIsBottomSheetVisible(true); // Show BottomSheet when a place is selected
     handleMoveTo(position);
