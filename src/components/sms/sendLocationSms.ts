@@ -1,9 +1,8 @@
 import * as SMS from "expo-sms";
 import { Alert } from "react-native";
-import { sendSms } from "@/src/components/sms/sendSms";
 
 // Define the Firebase-hosted page link to view live locations
-const FIREBASE_DYNAMIC_LINK = "https://beep-a485b/live-location?userId=";
+const FIREBASE_DYNAMIC_LINK = "https://beep-a485b/live-location.html?userId=";
 
 export const sendLocationSms = async (phoneNumber: string, userId: string, username: string = "User") => {
   // Check if SMS is available on the device
