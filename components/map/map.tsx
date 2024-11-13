@@ -77,6 +77,7 @@ import React, { useState } from "react";
 import MapView, { Marker, Region } from "react-native-maps";
 import { StyleSheet, Dimensions } from "react-native";
 import CustomCrimeMarker from "./CustomCrimeMarker";
+import CustomGroupedCrimeMarker from "./CustomGroupedCrimeMarker";
 import { CrimeData } from "@/db/services/crimeDataService";
 import { useClusters, Cluster } from "@/db/services/useClusters"; // Adjust the path as needed
 
@@ -118,7 +119,7 @@ const Map: React.FC<MapProps> = ({ crimeData }) => {
               coordinate={{ latitude, longitude }}
               title={`Cluster of ${pointCount} crimes`}
             >
-              <CustomCrimeMarker size={Math.min(40, 10 + pointCount * 2)} />
+              <CustomGroupedCrimeMarker size={Math.min(40, 10 + pointCount * 2)} />
             </Marker>
           );
         } else {
