@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, Image, TouchableOpacity, ScrollView, View, Platform } from "react-native";
-import { Text } from "@/src/components/Themed";
+import { Text } from "@/components/Themed";
 import { useRouter } from "expo-router";
 import { FontAwesome5, Ionicons, AntDesign, FontAwesome6, Foundation, Entypo, MaterialCommunityIcons } from "@expo/vector-icons";
 

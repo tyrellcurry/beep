@@ -6,8 +6,8 @@ import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 import "react-native-reanimated";
 import "react-native-get-random-values";
-import { useColorScheme } from "@/src/components/useColorScheme";
-import { UserProvider } from "../components/auth/userContext";
+import { useColorScheme } from "@/components/useColorScheme";
+import { UserProvider } from "@/components/auth/userContext";
 
 // import SignupPage from "./(auth)/signup";
 
@@ -26,7 +26,7 @@ SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const [loaded, error] = useFonts({
-    SpaceMono: require("../../assets/fonts/SpaceMono-Regular.ttf"),
+    SpaceMono: require("@/assets/fonts/SpaceMono-Regular.ttf"),
     ...FontAwesome.font,
   });
 

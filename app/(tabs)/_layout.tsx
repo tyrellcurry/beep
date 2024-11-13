@@ -4,10 +4,10 @@ import { Image } from "react-native";
 import { Platform } from "react-native";
 import { useNavigationState } from "@react-navigation/native";
 
-import Colors from "@/src/constants/Colors";
-import { useColorScheme } from "@/src/components/useColorScheme";
-import { useClientOnlyValue } from "@/src/components/useClientOnlyValue";
-import TabStyles from "@/src/components/tabStyles";
+import Colors from "@/constants/Colors";
+import { useColorScheme } from "@/components/useColorScheme";
+import { useClientOnlyValue } from "@/components/useClientOnlyValue";
+import TabStyles from "@/components/tabStyles";
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -52,8 +52,8 @@ export default function TabLayout() {
             <Image
               source={
                 focused
-                  ? require("../../../assets/icons/LocationNavPurpleFilled.png") // Image for active state
-                  : require("../../../assets/icons/LocationNavBlack.png") // Image for inactive state
+                  ? require("@/assets/icons/LocationNavPurpleFilled.png") // Image for active state
+                  : require("@/assets/icons/LocationNavBlack.png") // Image for inactive state
               }
               style={TabStyles.tabIcon}
             />
@@ -68,8 +68,8 @@ export default function TabLayout() {
             <Image
               source={
                 focused
-                  ? require("../../../assets/icons/SOSPurpleFilled.png") // Image for active state
-                  : require("../../../assets/icons/SOSBlackHollow.png") // Image for inactive state
+                  ? require("@/assets/icons/SOSPurpleFilled.png") // Image for active state
+                  : require("@/assets/icons/SOSBlackHollow.png") // Image for inactive state
               }
               style={TabStyles.tabIcon}
             />
@@ -84,8 +84,8 @@ export default function TabLayout() {
             <Image
               source={
                 focused
-                  ? require("../../../assets/icons/EmergencyPurpleFilled.png") // Image for active state
-                  : require("../../../assets/icons/EmergencyBlack.png") // Image for inactive state
+                  ? require("@/assets/icons/EmergencyPurpleFilled.png") // Image for active state
+                  : require("@/assets/icons/EmergencyBlack.png") // Image for inactive state
               }
               style={{ width: 30, height: 25, resizeMode: "contain" }}
             />

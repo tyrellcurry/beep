@@ -14,17 +14,17 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({ onCenterGPS, onCrimeDataT
     <View style={styles.actionButtonsContainer}>
       {/* Center GPS Button */}
       <TouchableOpacity style={styles.centerGPSButton} onPress={onCenterGPS}>
-        <Image source={require("../../../assets/icons/GPSWhite.png")} style={styles.iconImageSmall} />
+        <Image source={require("../../assets/icons/GPSWhite.png")} style={styles.iconImageSmall} />
       </TouchableOpacity>
 
       {/* Layer Toggle Button */}
       <TouchableOpacity style={styles.layerButton} onPress={onCrimeDataToggle}>
-        <Image source={isCrimeDataVisible ? require("../../../assets/icons/ExclaimationMarkWhiteFilled.png") : require("../../../assets/icons/ExclaimationMarkWhite.png")} style={styles.iconImageSmall} />
+        <Image source={isCrimeDataVisible ? require("../../assets/icons/ExclaimationMarkWhiteFilled.png") : require("../../assets/icons/ExclaimationMarkWhite.png")} style={styles.iconImageSmall} />
       </TouchableOpacity>
 
       {/* SOS Button */}
       <TouchableOpacity style={styles.SOSButton} onPress={onSOS}>
-        <Image source={require("../../../assets/icons/SOSWhiteHollow.png")} style={styles.SOSiconImageSmall} />
+        <Image source={require("../../assets/icons/SOSWhiteHollow.png")} style={styles.SOSiconImageSmall} />
         <Text style={styles.SOSText}>SOS</Text>
       </TouchableOpacity>
     </View>
@@ -34,7 +34,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({ onCenterGPS, onCrimeDataT
 const styles = StyleSheet.create({
   actionButtonsContainer: {
     position: "absolute",
-    bottom: Platform.OS === "ios" ? "10%" : 60,
+    bottom: Platform.OS === "ios" ? "9%" : 60,
     right: "5%",
     left: "5%",
     alignItems: "center",

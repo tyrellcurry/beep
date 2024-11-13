@@ -3,9 +3,9 @@ import { View, Text, TouchableOpacity, StyleSheet, Button, Image, Platform } fro
 import MapView, { Marker } from "react-native-maps";
 import { Ionicons, FontAwesome } from "@expo/vector-icons";
 import { useCameraPermissions } from "expo-camera";
-import CameraComponent from "@/src/components/camera/Camera";
+import CameraComponent from "@/components/camera/Camera";
 import { useNavigation } from "@react-navigation/native";
-import TabStyles from "@/src/components/tabStyles";
+import TabStyles from "@/components/tabStyles";
 
 const SafeZoneScreen: React.FC = () => {
   const [permission, requestPermission] = useCameraPermissions();
@@ -80,8 +80,8 @@ const SafeZoneScreen: React.FC = () => {
               <Text style={styles.featureTitle}>Snap & Record</Text>
               <Text style={styles.featureSubtitle}>Snap photos or record videos for safety</Text>
               <View style={styles.featureIcons}>
-                <Image source={require("../../../assets/icons/camera-emoji.png")} style={{ width: 30, height: 30 }} />
-                <Image source={require("../../../assets/icons/camera2-emoji.png")} style={{ width: 30, height: 30 }} />
+                <Image source={require("@/assets/icons/camera-emoji.png")} style={{ width: 30, height: 30 }} />
+                <Image source={require("@/assets/icons/camera2-emoji.png")} style={{ width: 30, height: 30 }} />
               </View>
               <TouchableOpacity style={styles.arrowButtonPurple}>
                 <Ionicons name="arrow-forward" size={20} color="white" />
@@ -92,7 +92,7 @@ const SafeZoneScreen: React.FC = () => {
               <Text style={styles.featureTitle}>Media History</Text>
               <Text style={styles.featureSubtitle}>Access past photos and videos</Text>
               <View style={styles.featureIcons}>
-                <Image source={require("../../../assets/icons/media-emoji.png")} style={{ width: 30, height: 30 }} />
+                <Image source={require("@/assets/icons/media-emoji.png")} style={{ width: 30, height: 30 }} />
               </View>
               <TouchableOpacity style={styles.arrowButtonBlack}>
                 <Ionicons name="arrow-forward" size={20} color="white" />

@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, TouchableOpacity, Image, Alert, Platform } from
 import { Ionicons } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
 import { useRouter } from "expo-router";
-import { sendLocationSms } from "@/src/components/sms/sendLocationSms";
+import { sendLocationSms } from "@/components/sms/sendLocationSms";
 
 const EmergencyScreen: React.FC = () => {
   const router = useRouter();
@@ -49,7 +49,7 @@ const EmergencyScreen: React.FC = () => {
               <View style={styles.contactCircle}>
                 <Text style={styles.contactInitial}>M</Text>
               </View>
-              <Image source={require("../../../assets/icons/add-icon.png")} style={{ width: 30, height: 30 }} />
+              <Image source={require("../../assets/icons/add-icon.png")} style={{ width: 30, height: 30 }} />
             </View>
             <TouchableOpacity style={styles.arrowButton}>
               <Ionicons name="arrow-forward" size={20} color="white" />

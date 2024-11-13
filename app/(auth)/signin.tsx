@@ -8,8 +8,8 @@ import Colors from "../../constants/Colors";
 import { FIREBASE_AUTH } from "@/firebaseConfig";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import CameraComponent from "@/src/components/camera/Camera";
-import { useUser } from "@/src/components/auth/userContext";
+import CameraComponent from "@/components/camera/Camera";
+import { useUser } from "@/components/auth/userContext";
 
 const { width } = Dimensions.get("window");
 

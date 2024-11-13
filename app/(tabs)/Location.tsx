@@ -1,18 +1,19 @@
 import React, { useRef, useState, useEffect, useMemo, useCallback } from "react";
 import { StyleSheet, View, Dimensions, Text } from "react-native";
-import MapView, { LatLng } from "react-native-maps";
+import MapView, { LatLng, Marker } from "react-native-maps";
 import { useRouter } from "expo-router";
 import * as GPSLocation from "expo-location";
 import BottomSheet from "@gorhom/bottom-sheet";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { GooglePlaceDetail } from "react-native-google-places-autocomplete";
+import { fetchCrimeData, CrimeData } from "@/db/services/crimeDataService";
 
 // Import components
-import Map from "@/src/components/map/map";
-import SearchBar from "@/src/components/map/SearchBar";
-import TabButtons from "@/src/components/map/TabButtons";
-import ActionButtons from "@/src/components/map/ActionButtons";
-import PlaceDetailsBottomSheet from "@/src/components/map/PlaceDetails/PlaceDetails";
+import Map from "@/components/map/map";
+import SearchBar from "@/components/map/SearchBar";
+import TabButtons from "@/components/map/TabButtons";
+import ActionButtons from "@/components/map/ActionButtons";
+import PlaceDetailsBottomSheet from "@/components/map/PlaceDetails/PlaceDetails";
 
 export default function Location() {
   const [origin, setOrigin] = useState<LatLng | null>(null);
@@ -24,6 +25,7 @@ export default function Location() {
   const [isCrimeDataVisible, setIsCrimeDataVisible] = useState(false);
   const [selectedPlaceDetails, setSelectedPlaceDetails] = useState<GooglePlaceDetail | null>(null);
   const [isBottomSheetVisible, setIsBottomSheetVisible] = useState(false);
+  const [crimeData, setCrimeData] = useState<CrimeData[]>([]);
 
   const mapRef = useRef<MapView>(null);
   const router = useRouter();
@@ -48,6 +50,18 @@ export default function Location() {
 
   useEffect(() => {
     (async () => {
+      try {
+        const data = await fetchCrimeData();
+        // console.log("Crime data fetched:", data); // Log to check if data is properly fetched
+        setCrimeData(data);
+      } catch (error) {
+        console.error("Failed to load crime data:", error);
+      }
+    })();
+  }, []);
+
+  useEffect(() => {
+    (async () => {
       let { status } = await GPSLocation.requestForegroundPermissionsAsync();
       if (status !== "granted") {
         setErrorMsg("Permission to access location was denied");
@@ -56,13 +70,13 @@ export default function Location() {
 
       const locationSubscription = await GPSLocation.watchPositionAsync(
         {
-          accuracy: GPSLocation.Accuracy.High,
-          timeInterval: 100000, // Update every second
-          distanceInterval: 1, // Update for every meter moved
+          // accuracy: GPSLocation.Accuracy.High,
+          // timeInterval: 100000, // Update every second
+          // distanceInterval: 1, // Update for every meter moved
         },
         (location) => {
           const { latitude, longitude } = location.coords;
-          setOrigin({ latitude, longitude });
+          setOrigin({ latitude, longitude }); // Update the state but don't adjust the camera automatically
         }
       );
 
@@ -76,7 +90,7 @@ export default function Location() {
       const location = await GPSLocation.getCurrentPositionAsync({});
       const { latitude, longitude } = location.coords;
       setOrigin({ latitude, longitude });
-      handleMoveTo({ latitude, longitude });
+      handleMoveTo({ latitude, longitude }); // Only move the camera when manually triggered
     } catch (error) {
       console.error("Error getting current location:", error);
       setErrorMsg("Failed to get current location.");
@@ -132,7 +146,7 @@ export default function Location() {
 
   const handleCrimeDataToggle = () => {
     setIsCrimeDataVisible(!isCrimeDataVisible);
-    console.log("Toggle layers");
+    // console.log("Toggle layers");
   };
 
   const adjustCameraPosition = () => {
@@ -157,7 +171,7 @@ export default function Location() {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <Map origin={origin} destination={destination} showDirections={showDirections} onDirectionsReady={handleTraceRouteOnReady} mapRef={mapRef} />
+      <Map origin={origin} destination={destination} showDirections={showDirections} onDirectionsReady={handleTraceRouteOnReady} mapRef={mapRef} crimeData={crimeData} />
 
       <View style={styles.searchContainer}>
         <SearchBar

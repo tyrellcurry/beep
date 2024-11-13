@@ -5,7 +5,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { FIREBASE_AUTH, FIREBASE_DB } from "@/firebaseConfig";
 import { doc, updateDoc } from "firebase/firestore";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { useUser } from "@/src/components/auth/userContext";
+import { useUser } from "@/components/auth/userContext";
 
 const { width } = Dimensions.get("window");
 
