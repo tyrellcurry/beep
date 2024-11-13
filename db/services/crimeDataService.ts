@@ -26,7 +26,13 @@ export const fetchCrimeData = async (): Promise<CrimeData[]> => {
 
     // console.log(`Fetching data for YEAR = ${targetYear} and MONTH = ${targetMonth}`);
 
-    const { data, error } = await supabase.from("crimes").select('"ID", "TYPE", "YEAR", "MONTH", "DAY", "HOUR", "MINUTE", "NEIGHBOURHOOD", "X", "Y"').eq("YEAR", targetYear).eq("MONTH", targetMonth);
+    const { data, error } = await supabase
+      .from("crimes")
+      .select(
+        '"ID", "TYPE", "YEAR", "MONTH", "DAY", "HOUR", "MINUTE", "NEIGHBOURHOOD", "X", "Y"'
+      )
+      .eq("YEAR", targetYear)
+      .eq("MONTH", targetMonth);
 
     // console.log("Fetched data:", data); // Log the raw data
 
@@ -43,7 +49,10 @@ export const fetchCrimeData = async (): Promise<CrimeData[]> => {
     // Map and convert data to match your application structure
     return data.map((crime: any) => {
       // Convert projected coordinates to latitude/longitude
-      const [longitude, latitude] = proj4("EPSG:26910", "WGS84", [crime["X"], crime["Y"]]);
+      const [longitude, latitude] = proj4("EPSG:26910", "WGS84", [
+        crime["X"],
+        crime["Y"],
+      ]);
 
       return {
         id: crime["ID"],
