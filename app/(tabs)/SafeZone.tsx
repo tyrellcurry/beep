@@ -75,7 +75,6 @@ const SafeZoneScreen: React.FC = () => {
                 onRegionChangeComplete={(newRegion) => setRegion(newRegion)}
               >
                 <Marker coordinate={{ latitude: region.latitude, longitude: region.longitude }}>
-                  {" "}
                   <CustomMarker />
                 </Marker>
               </MapView>

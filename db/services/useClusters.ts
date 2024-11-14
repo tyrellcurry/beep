@@ -35,12 +35,7 @@ export const useClusters = (crimeData: CrimeData[], region: Region) => {
   }, [crimeData, region]);
 
   const updateClusters = (region: Region) => {
-    const bounds: [number, number, number, number] = [
-      region.longitude - region.longitudeDelta / 2,
-      region.latitude - region.latitudeDelta / 2,
-      region.longitude + region.longitudeDelta / 2,
-      region.latitude + region.latitudeDelta / 2,
-    ];
+    const bounds: [number, number, number, number] = [region.longitude - region.longitudeDelta / 2, region.latitude - region.latitudeDelta / 2, region.longitude + region.longitudeDelta / 2, region.latitude + region.latitudeDelta / 2];
 
     const zoomLevel = Math.round(Math.log2(360 / region.longitudeDelta));
     const clusters = superclusterRef.current.getClusters(bounds, zoomLevel) as Cluster[];
