@@ -180,9 +180,7 @@ const Map: React.FC<MapProps> = ({
                 coordinate={{ latitude, longitude }}
                 title={`Cluster of ${pointCount} crimes`}
               >
-                <CustomGroupedCrimeMarker
-                  size={Math.min(40, 10 + pointCount * 2)}
-                />
+                <CustomGroupedCrimeMarker size={Math.min(40, 10 + pointCount * 2)} pointCount={pointCount} />
               </Marker>
             );
           } else {
