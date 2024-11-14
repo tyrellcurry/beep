@@ -25,9 +25,9 @@ export default function TabLayout() {
   const getTabBarBackgroundColor = () => {
     switch (currentRouteName) {
       case "Location":
-        return "#000"; // Background color for Location screen
+        return "#FFF"; // Background color for Location screen
       default:
-        return "#FFF"; // Default background color
+        return "rgba(29, 27, 30, 0.9)"; // Default background color
     }
   };
 
@@ -53,7 +53,7 @@ export default function TabLayout() {
               source={
                 focused
                   ? require("@/assets/icons/LocationNavPurpleFilled.png") // Image for active state
-                  : require("@/assets/icons/LocationNavBlack.png") // Image for inactive state
+                  : require("@/assets/icons/LocationNavWhite.png") // Image for inactive state
               }
               style={TabStyles.tabIcon}
             />
@@ -69,7 +69,7 @@ export default function TabLayout() {
               source={
                 focused
                   ? require("@/assets/icons/SOSPurpleFilled.png") // Image for active state
-                  : require("@/assets/icons/SOSBlackHollow.png") // Image for inactive state
+                  : require("@/assets/icons/SOSWhiteHollow.png") // Image for inactive state
               }
               style={TabStyles.tabIcon}
             />
@@ -84,8 +84,8 @@ export default function TabLayout() {
             <Image
               source={
                 focused
-                  ? require("@/assets/icons/EmergencyPurpleFilled.png") // Image for active state
-                  : require("@/assets/icons/EmergencyBlack.png") // Image for inactive state
+                  ? require("@/assets/icons/EmergencyPurple-Filled.png") // Image for active state
+                  : require("@/assets/icons/EmergencyWhite.png") // Image for inactive state
               }
               style={{ width: 30, height: 25, resizeMode: "contain" }}
             />

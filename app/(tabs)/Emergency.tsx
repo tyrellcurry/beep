@@ -167,7 +167,7 @@ const styles = StyleSheet.create({
   },
   optionButton: {
     backgroundColor: "#651Fd7",
-    borderRadius: 15,
+    borderRadius: 25,
     paddingLeft: 20,
     paddingBottom: 15,
     paddingTop: 18,
@@ -218,6 +218,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     gap: 1,
+    position: "absolute",
+    bottom: 20,
+    left: 17,
   },
   contactCircle: {
     width: 30,
