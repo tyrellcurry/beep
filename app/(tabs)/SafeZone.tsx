@@ -1,32 +1,47 @@
-import React, { useState } from "react";
-import { View, Text, TouchableOpacity, StyleSheet, Button, Image, Platform } from "react-native";
+import React, { useState, useEffect } from "react";
+import { View, Text, TouchableOpacity, StyleSheet, Alert, Image, Platform } from "react-native";
 import MapView, { Marker } from "react-native-maps";
-import { Ionicons, FontAwesome } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 import { useCameraPermissions } from "expo-camera";
 import CameraComponent from "@/components/camera/Camera";
 import { useNavigation } from "@react-navigation/native";
 import TabStyles from "@/components/tabStyles";
+import * as Location from "expo-location";
+import CustomMarker from "@/components/map/CustomMarker";
 
 const SafeZoneScreen: React.FC = () => {
   const [permission, requestPermission] = useCameraPermissions();
   const [isCameraOpen, setIsCameraOpen] = useState(false);
+  const [region, setRegion] = useState<{ latitude: number; longitude: number; latitudeDelta: number; longitudeDelta: number } | null>(null);
   const navigation = useNavigation();
 
-  if (!permission) return <View />;
+  useEffect(() => {
+    const requestLocationPermission = async () => {
+      const { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        Alert.alert("Permission Denied", "Permission to access location was denied");
+        return;
+      }
+      const currentLocation = await Location.getCurrentPositionAsync({});
+      setRegion({
+        latitude: currentLocation.coords.latitude,
+        longitude: currentLocation.coords.longitude,
+        latitudeDelta: 0.01,
+        longitudeDelta: 0.01,
+      });
+    };
 
-  if (!permission.granted) {
-    return (
-      <View style={styles.permissionContainer}>
-        <Text style={styles.permissionTitle}>Camera Access Needed</Text>
-        <Text style={styles.permissionMessage}>We need access to your camera to enable you to take photos for your safety.</Text>
-        <TouchableOpacity style={styles.permissionButton} onPress={requestPermission}>
-          <Text style={styles.permissionButtonText}>Grant Permission</Text>
-        </TouchableOpacity>
-      </View>
-    );
-  }
+    requestLocationPermission();
+  }, []);
 
-  const handleOpenCamera = () => {
+  const handleOpenCamera = async () => {
+    if (!permission?.granted) {
+      const { granted } = await requestPermission();
+      if (!granted) {
+        Alert.alert("Camera Permission Needed", "Please enable camera access to use this feature.");
+        return;
+      }
+    }
     setIsCameraOpen(true);
     navigation.setOptions({ tabBarStyle: { display: "none" } });
   };
@@ -53,17 +68,20 @@ const SafeZoneScreen: React.FC = () => {
           </View>
 
           <View style={styles.mapContainer}>
-            <MapView
-              style={styles.map}
-              initialRegion={{
-                latitude: 49.2835,
-                longitude: -123.1153,
-                latitudeDelta: 0.01,
-                longitudeDelta: 0.01,
-              }}
-            >
-              <Marker coordinate={{ latitude: 49.2835, longitude: -123.1153 }} />
-            </MapView>
+            {region ? (
+              <MapView
+                style={styles.map}
+                region={region} // Use `region` instead of `initialRegion` for dynamic updating
+                onRegionChangeComplete={(newRegion) => setRegion(newRegion)}
+              >
+                <Marker coordinate={{ latitude: region.latitude, longitude: region.longitude }}>
+                  {" "}
+                  <CustomMarker />
+                </Marker>
+              </MapView>
+            ) : (
+              <Text style={{ color: "white", textAlign: "center", marginTop: 20 }}>Loading map...</Text>
+            )}
             <View style={styles.mapOverlay}>
               <View>
                 <Text style={styles.mapOverlayTitle}>Live Location Sharing</Text>

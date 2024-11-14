@@ -48,7 +48,7 @@ export default function EmergencyScreen() {
 
   const sendSmsImmediately = async () => {
     setIsPlaying(false);
-    await sendLocationSms(destination);
+    if (destination) await sendLocationSms(destination);
   };
 
   const handleCancelSOS = async () => {

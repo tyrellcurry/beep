@@ -47,10 +47,10 @@ const EmergencyScreen: React.FC = () => {
   };
 
   const handleSendSms = () => {
-    if (destination) {
-      sendLocationSms(destination);
+    if (!destination) {
+      sendLocationSms();
     } else {
-      Alert.alert("Error", "No destination set");
+      sendLocationSms(destination);
     }
   };
 
@@ -105,8 +105,8 @@ const styles = StyleSheet.create({
   header: {
     marginTop: 50,
     color: "#cccccc",
-    fontSize: Platform.OS === "ios" ? 16 : 14,
-    fontWeight: "600",
+    fontSize: Platform.OS === "ios" ? 13 : 14,
+    fontWeight: "300",
     marginBottom: 10,
   },
   title: {

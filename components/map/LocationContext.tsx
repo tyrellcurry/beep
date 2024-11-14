@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState, ReactNode } from "react";
 import { LatLng } from "react-native-maps";
 
 interface LocationContextType {
@@ -8,9 +8,13 @@ interface LocationContextType {
   setDestination: (location: LatLng) => void;
 }
 
+interface LocationProviderProps {
+  children: ReactNode;
+}
+
 const LocationContext = createContext<LocationContextType | undefined>(undefined);
 
-export const LocationProvider: React.FC = ({ children }) => {
+export const LocationProvider = ({ children }: LocationProviderProps) => {
   const [origin, setOrigin] = useState<LatLng | null>(null);
   const [destination, setDestination] = useState<LatLng | null>(null);
 
