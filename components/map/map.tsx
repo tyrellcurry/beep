@@ -98,12 +98,13 @@ const INITIAL_POSITION = {
 };
 
 type MapProps = {
-  origin: LatLng;
+  origin: LatLng | null;
   destination: LatLng | null;
   showDirections: boolean;
   onDirectionsReady: (args: any) => void;
   mapRef: React.RefObject<MapView>;
   crimeData: CrimeData[];
+  isCrimeDataVisible: boolean;
 };
 
 const Map: React.FC<MapProps> = ({
@@ -113,14 +114,15 @@ const Map: React.FC<MapProps> = ({
   onDirectionsReady,
   mapRef,
   crimeData,
+  isCrimeDataVisible
 }) => {
   const [region, setRegion] = useState<Region>(
     origin
     ? {
         latitude: origin.latitude,
         longitude: origin.longitude,
-        latitudeDelta: 0.02,
-        longitudeDelta: 0.02 * (width / height),
+        latitudeDelta: LATITUDE_DELTA,
+        longitudeDelta: LONGITUDE_DELTA,
       }
     : INITIAL_POSITION
   );
@@ -164,36 +166,37 @@ const Map: React.FC<MapProps> = ({
         />
       )}
 
-      {/* Crime Pin */}
-      {clusters.map((cluster: Cluster, index: number) => {
-        const [longitude, latitude] = cluster.geometry.coordinates;
-        const isCluster = cluster.properties.cluster;
-        const pointCount = cluster.properties.point_count || 0; // Safely handle undefined
+      {/* Render Crime Data if Visible */}
+      {isCrimeDataVisible &&
+        clusters.map((cluster: Cluster, index: number) => {
+          const [longitude, latitude] = cluster.geometry.coordinates;
+          const isCluster = cluster.properties.cluster;
+          const pointCount = cluster.properties.point_count || 0; // Safely handle undefined
 
-        if (isCluster) {
-          return (
-            <Marker
-              key={`cluster-${index}`}
-              coordinate={{ latitude, longitude }}
-              title={`Cluster of ${pointCount} crimes`}
-            >
-              <CustomGroupedCrimeMarker
-                size={Math.min(40, 10 + pointCount * 2)}
-              />
-            </Marker>
-          );
-        } else {
-          return (
-            <Marker
-              key={cluster.properties.crimeId}
-              coordinate={{ latitude, longitude }}
-              title={cluster.properties.type}
-            >
-              <CustomCrimeMarker size={10} />
-            </Marker>
-          );
-        }
-      })}
+          if (isCluster) {
+            return (
+              <Marker
+                key={`cluster-${index}`}
+                coordinate={{ latitude, longitude }}
+                title={`Cluster of ${pointCount} crimes`}
+              >
+                <CustomGroupedCrimeMarker
+                  size={Math.min(40, 10 + pointCount * 2)}
+                />
+              </Marker>
+            );
+          } else {
+            return (
+              <Marker
+                key={cluster.properties.crimeId}
+                coordinate={{ latitude, longitude }}
+                title={cluster.properties.type}
+              >
+                <CustomCrimeMarker size={10} />
+              </Marker>
+            );
+          }
+        })}
     </MapView>
   );
 };

@@ -24,7 +24,7 @@ export default function Location() {
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [distance, setDistance] = useState(0);
   const [duration, setDuration] = useState(0);
-  const [isCrimeDataVisible, setIsCrimeDataVisible] = useState(false);
+  const [isCrimeDataVisible, setIsCrimeDataVisible] = useState(true);
   const [selectedPlaceDetails, setSelectedPlaceDetails] = useState<GooglePlaceDetail | null>(null);
   const [isBottomSheetVisible, setIsBottomSheetVisible] = useState(false);
   const [crimeData, setCrimeData] = useState<CrimeData[]>([]);
@@ -174,7 +174,7 @@ export default function Location() {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <Map origin={origin} destination={destination} showDirections={showDirections} onDirectionsReady={handleTraceRouteOnReady} mapRef={mapRef} crimeData={crimeData} />
+      <Map origin={origin} destination={destination} showDirections={showDirections} onDirectionsReady={handleTraceRouteOnReady} mapRef={mapRef} crimeData={crimeData} isCrimeDataVisible={isCrimeDataVisible}/>
 
       <View style={styles.searchContainer}>
         <SearchBar
