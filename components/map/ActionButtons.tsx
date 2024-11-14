@@ -10,6 +10,13 @@ type ActionButtonsProps = {
 };
 
 const ActionButtons: React.FC<ActionButtonsProps> = ({ onCenterGPS, onCrimeDataToggle, isCrimeDataVisible, onSOS }) => {
+  const [isButtonPressed, setIsButtonPressed] = useState(false);
+
+  const handleButtonPress = () => {
+    setIsButtonPressed(!isButtonPressed);
+    if (onCrimeDataToggle) onCrimeDataToggle(); 
+  };
+
   return (
     <View style={styles.actionButtonsContainer}>
       {/* Center GPS Button */}
@@ -17,9 +24,22 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({ onCenterGPS, onCrimeDataT
         <Image source={require("../../assets/icons/GPSWhite.png")} style={styles.iconImageSmall} />
       </TouchableOpacity>
 
-      {/* Layer Toggle Button */}
-      <TouchableOpacity style={styles.layerButton} onPress={onCrimeDataToggle}>
-        <Image source={isCrimeDataVisible ? require("../../assets/icons/ExclaimationMarkWhiteFilled.png") : require("../../assets/icons/ExclaimationMarkWhite.png")} style={styles.iconImageSmall} />
+      {/* Crime Heatmap Layer Toggle Button */}
+      <TouchableOpacity
+        style={[
+          styles.layerButton,
+          { backgroundColor: isButtonPressed ? 'rgba(29, 27, 30, 0.9)' : '#651FD7' },
+        ]}
+        onPress={handleButtonPress}
+      >
+        <Image
+          source={
+            isCrimeDataVisible
+              ? require("../../assets/icons/ExclaimationMarkWhite.png")
+              : require("../../assets/icons/ExclaimationMarkWhiteFilled.png")
+          }
+          style={styles.iconImageSmall}
+        />
       </TouchableOpacity>
 
       {/* SOS Button */}
@@ -34,7 +54,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({ onCenterGPS, onCrimeDataT
 const styles = StyleSheet.create({
   actionButtonsContainer: {
     position: "absolute",
-    bottom: Platform.OS === "ios" ? "9%" : 60,
+    bottom: Platform.OS === "ios" ? "9.5%" : 60,
     right: "5%",
     left: "5%",
     alignItems: "center",
@@ -46,7 +66,7 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 30,
-    backgroundColor: "#141216",
+    backgroundColor: "rgba(29, 27, 30, 0.9)",
     alignItems: "center",
     justifyContent: "center",
     shadowColor: "#000",
@@ -62,7 +82,7 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 30,
-    backgroundColor: "#141216",
+    backgroundColor: "rgba(29, 27, 30, 0.9) ",
     alignItems: "center",
     justifyContent: "center",
     shadowColor: "#000",

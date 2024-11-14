@@ -47,7 +47,7 @@ const SignInPage = () => {
     // <KeyboardAwareScrollView contentContainerStyle={styles.container} enableOnAndroid extraScrollHeight={0} bounces={false}>
     <View style={styles.container}>
       <View style={styles.loginContainer}>
-        <Text style={styles.title}>Hey,{"\n"}Welcome Back 💜</Text>
+        <Text style={styles.title}>Hey,{"\n"}Welcome back 💜</Text>
 
         <TextInput
           style={styles.input}
@@ -138,6 +138,7 @@ const styles = StyleSheet.create({
     alignSelf: "flex-end",
     marginRight: width * 0.1,
     marginVertical: 10,
+    marginLeft: 35,
   },
   signInButton: {
     backgroundColor: "#651FD7",

@@ -81,7 +81,7 @@ export default function EmergencyScreen() {
         </View>
         <Text style={styles.sosButtonText}>SOS Timer</Text>
         <Text style={styles.sosButtonSubText}>
-          In <Text style={styles.boldText}>15 seconds</Text>,, an SOS Message with your live location will be sent to your selected emergency contacts. Tap the button below to cancel if you're safe.
+          In <Text style={styles.boldText}>15 seconds</Text>, an SOS Message with your live location will be sent to your selected emergency contacts. Tap the button below to cancel if you're safe.
         </Text>
       </View>
 

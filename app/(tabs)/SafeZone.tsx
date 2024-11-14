@@ -134,12 +134,12 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     color: "white",
-    fontSize: 45,
+    fontSize: 40,
     fontWeight: "bold",
   },
   headerSubtitle: {
     color: "white",
-    fontSize: 16,
+    fontSize: 14,
     marginTop: 5,
   },
   mapContainer: {
@@ -201,7 +201,7 @@ const styles = StyleSheet.create({
   },
   featureBoxPurple: {
     width: "48%",
-    height: 190,
+    height: 180,
     backgroundColor: "#651Fd7",
     padding: 10,
     borderRadius: 20,
@@ -225,7 +225,7 @@ const styles = StyleSheet.create({
   featureSubtitle: {
     color: "white",
     fontSize: Platform.OS === "ios" ? 14 : 12,
-    width: "90%",
+    width: "95%",
   },
   featureIcons: {
     flexDirection: "row",
