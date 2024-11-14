@@ -4,8 +4,8 @@ import { LatLng } from "react-native-maps";
 interface LocationContextType {
   origin: LatLng | null;
   destination: LatLng | null;
-  setOrigin: (location: LatLng) => void;
-  setDestination: (location: LatLng) => void;
+  setOrigin: (location: LatLng | null) => void;
+  setDestination: (location: LatLng | null) => void;
 }
 
 interface LocationProviderProps {

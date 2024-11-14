@@ -12,6 +12,7 @@ interface PhotoPreviewProps {
 }
 
 const PhotoPreview: React.FC<PhotoPreviewProps> = ({ photo, onRetake }) => {
+
   const { user } = useUser();
   const [title, setTitle] = useState("");
 
@@ -47,6 +48,7 @@ const PhotoPreview: React.FC<PhotoPreviewProps> = ({ photo, onRetake }) => {
       </View>
 
       <View style={styles.titleContainer}>
+
         <TextInput placeholder="Add title" placeholderTextColor="white" style={styles.titleInput} value={title} onChangeText={setTitle} />
       </View>
 

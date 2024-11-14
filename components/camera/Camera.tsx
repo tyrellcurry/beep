@@ -7,6 +7,7 @@ import { doc, setDoc } from "firebase/firestore";
 import { FIREBASE_DB } from "@/firebaseConfig";
 import { useUser } from "../auth/userContext";
 
+
 interface CameraComponentProps {
   onClose: () => void;
   onCapture: (photo: string) => void;
@@ -17,6 +18,7 @@ const CameraComponent: React.FC<CameraComponentProps> = ({ onClose, onCapture })
   const [photo, setPhoto] = useState<string | null>(null);
   const cameraRef = useRef<CameraView>(null);
   const { user } = useUser();
+
 
   const toggleCameraFacing = () => {
     setFacing((current) => (current === "back" ? "front" : "back"));
@@ -29,7 +31,6 @@ const CameraComponent: React.FC<CameraComponentProps> = ({ onClose, onCapture })
         if (photo && photo.uri) {
           setPhoto(photo.uri);
           onCapture(photo.uri);
-          // await savePhoto(photo.uri);
         } else {
           console.log("Failed to capture photo: photo or photo.uri is undefined");
         }

@@ -120,7 +120,7 @@ export default function Location() {
   };
 
   const handleClearDestination = () => {
-    setDestination();
+    setDestination(null);
     setIsBottomSheetVisible(false);
     bottomSheetRef.current?.close();
     handleCenterGPS();
