@@ -74,8 +74,9 @@
 
 
 import React, { useState } from "react";
-import MapView, { Marker, Region } from "react-native-maps";
+import MapView, { Marker, Region, LatLng } from "react-native-maps";
 import { StyleSheet, Dimensions } from "react-native";
+import CustomMarker from "./CustomMarker";
 import CustomCrimeMarker from "./CustomCrimeMarker";
 import CustomGroupedCrimeMarker from "./CustomGroupedCrimeMarker";
 import { CrimeData } from "@/db/services/crimeDataService";
@@ -96,10 +97,15 @@ const INITIAL_POSITION = {
 };
 
 type MapProps = {
+  origin: LatLng | null;
+  destination: LatLng | null;
+  showDirections: boolean;
+  onDirectionsReady: (args: any) => void;
+  mapRef: React.RefObject<MapView>;
   crimeData: CrimeData[];
 };
 
-const Map: React.FC<MapProps> = ({ crimeData }) => {
+const Map: React.FC<MapProps> = ({ origin, destination, showDirections, onDirectionsReady, mapRef, crimeData }) => {
   const [region, setRegion] = useState<Region>({
     latitude: 49.2488,
     longitude: -123.0016,
@@ -118,7 +124,13 @@ const Map: React.FC<MapProps> = ({ crimeData }) => {
       style={styles.map}
       initialRegion={region}
       onRegionChangeComplete={onRegionChangeComplete}
-    >
+    >  
+      {origin && (
+        <Marker coordinate={origin} anchor={{ x: 0.5, y: 0.5 }} calloutAnchor={{ x: 0.5, y: 0.5 }}>
+          <CustomMarker />
+        </Marker>
+      )}
+
       {clusters.map((cluster: Cluster, index: number) => {
         const [longitude, latitude] = cluster.geometry.coordinates;
         const isCluster = cluster.properties.cluster;

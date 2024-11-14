@@ -16,7 +16,7 @@ export const useClusters = (crimeData: CrimeData[], region: Region) => {
   const superclusterRef = useRef(
     new Supercluster({
       radius: 60,
-      maxZoom: 16,
+      maxZoom: 14,
     })
   );
 
