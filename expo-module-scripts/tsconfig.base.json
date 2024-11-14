@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+      "target": "esnext",
+      "module": "esnext",
+      "lib": ["dom", "esnext"],
+      "jsx": "react",
+      "moduleResolution": "node",
+      "strict": true,
+      "esModuleInterop": true,
+      "skipLibCheck": true,
+      "forceConsistentCasingInFileNames": true,
+      "outDir": "./build",
+      "resolveJsonModule": true,
+      "allowSyntheticDefaultImports": true
+    },
+    "include": ["./src"],
+    "exclude": ["**/__mocks__/*", "**/__tests__/*"]
+  }
+  

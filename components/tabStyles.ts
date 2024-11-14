@@ -16,7 +16,8 @@ const TabStyles = StyleSheet.create({
     marginLeft: Platform.OS === "ios" ? 10 : 0,
     width: "95%",
     alignSelf: "center",
-    zIndex: 1,
+    zIndex: 100,
+    backgroundColor: "rgba(29, 27, 30, 0.9)", //hard coded for now
   },
   tabBarItemStyle: {
     marginBottom: Platform.OS === "ios" ? 0 : 10,
@@ -28,7 +29,7 @@ const TabStyles = StyleSheet.create({
   },
   tabBarLabelStyle: {
     bottom: Platform.OS === "ios" ? -5 : 0,
-    fontSize: Platform.OS === "ios" ? 12 : 10,
+    fontSize: Platform.OS === "ios" ? 11 : 10,
   },
 });
 

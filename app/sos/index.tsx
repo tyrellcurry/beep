@@ -2,11 +2,13 @@ import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { useRouter } from "expo-router";
 import { Audio, InterruptionModeIOS, InterruptionModeAndroid } from "expo-av";
+import { useLocation } from "@/components/map/LocationContext";
 import { sendLocationSms } from "@/components/sms/sendLocationSms";
 import { CountdownCircleTimer } from "react-native-countdown-circle-timer";
 
 export default function EmergencyScreen() {
   const router = useRouter();
+  const { destination } = useLocation();
   const [sound, setSound] = useState<Audio.Sound | null>(null);
   const [isPlaying, setIsPlaying] = useState(true); // Controls the countdown
 
@@ -46,7 +48,7 @@ export default function EmergencyScreen() {
 
   const sendSmsImmediately = async () => {
     setIsPlaying(false);
-    await sendLocationSms();
+    if (destination) await sendLocationSms(destination);
   };
 
   const handleCancelSOS = async () => {
@@ -79,7 +81,7 @@ export default function EmergencyScreen() {
         </View>
         <Text style={styles.sosButtonText}>SOS Timer</Text>
         <Text style={styles.sosButtonSubText}>
-          In <Text style={styles.boldText}>15 seconds</Text>,, an SOS Message with your live location will be sent to your selected emergency contacts. Tap the button below to cancel if you're safe.
+          In <Text style={styles.boldText}>15 seconds</Text>, an SOS Message with your live location will be sent to your selected emergency contacts. Tap the button below to cancel if you're safe.
         </Text>
       </View>
 

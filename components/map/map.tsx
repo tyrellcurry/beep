@@ -83,6 +83,18 @@ import { useClusters, Cluster } from "@/db/services/useClusters"; // Adjust the 
 
 const { width, height } = Dimensions.get("window");
 
+const ASPECT_RATIO = width / height;
+const LATITUDE_DELTA = 0.02;
+const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
+
+// This is only temp if GPS does not work.
+const INITIAL_POSITION = {
+  latitude: 49.2488,
+  longitude: -123.0016,
+  latitudeDelta: LATITUDE_DELTA,
+  longitudeDelta: LONGITUDE_DELTA,
+};
+
 type MapProps = {
   crimeData: CrimeData[];
 };

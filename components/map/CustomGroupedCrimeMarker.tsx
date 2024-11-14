@@ -17,7 +17,8 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   innerCircle: {
-    backgroundColor: '#F7185B',
+    backgroundColor: 'rgba(247, 24, 91, 0.8)',
+    borderColor: 'rgba(255, 255, 255, 0.5)',
     borderWidth: 0.5,
   },
 });

@@ -1,5 +1,13 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Dimensions, Image } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+  Dimensions,
+  Image,
+} from "react-native";
 import { Link } from "expo-router";
 import { useRouter } from "expo-router";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
@@ -39,10 +47,23 @@ const SignInPage = () => {
     // <KeyboardAwareScrollView contentContainerStyle={styles.container} enableOnAndroid extraScrollHeight={0} bounces={false}>
     <View style={styles.container}>
       <View style={styles.loginContainer}>
-        <Text style={styles.title}>Hey,{"\n"}Welcome Back 💜</Text>
+        <Text style={styles.title}>Hey,{"\n"}Welcome back 💜</Text>
 
-        <TextInput style={styles.input} placeholder="Email" placeholderTextColor="#A0A0A0" value={email} onChangeText={setEmail} />
-        <TextInput style={styles.input} placeholder="Password" placeholderTextColor="#A0A0A0" secureTextEntry value={password} onChangeText={setPassword} />
+        <TextInput
+          style={styles.input}
+          placeholder="Email"
+          placeholderTextColor="#A0A0A0"
+          value={email}
+          onChangeText={setEmail}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Password"
+          placeholderTextColor="#A0A0A0"
+          secureTextEntry
+          value={password}
+          onChangeText={setPassword}
+        />
         <TouchableOpacity>
           <Text style={styles.forgotPassword}>Forgot password?</Text>
         </TouchableOpacity>
@@ -70,7 +91,8 @@ const SignInPage = () => {
 
         <TouchableOpacity onPress={() => router.push("/(auth)/name")}>
           <Text style={styles.signupText}>
-            Don’t have an account? <Text style={styles.signupLink}>Create your account</Text>
+            Don’t have an account?{" "}
+            <Text style={styles.signupLink}>Create your account</Text>
           </Text>
         </TouchableOpacity>
       </View>
@@ -116,6 +138,7 @@ const styles = StyleSheet.create({
     alignSelf: "flex-end",
     marginRight: width * 0.1,
     marginVertical: 10,
+    marginLeft: 35,
   },
   signInButton: {
     backgroundColor: "#651FD7",
