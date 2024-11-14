@@ -72,9 +72,10 @@
 
 // export default Map;
 
-
 import React, { useState } from "react";
 import MapView, { Marker, Region, LatLng } from "react-native-maps";
+import MapViewDirections from "react-native-maps-directions";
+import { GOOGLE_API_KEY } from "@/environments";
 import { StyleSheet, Dimensions } from "react-native";
 import CustomMarker from "./CustomMarker";
 import CustomCrimeMarker from "./CustomCrimeMarker";
@@ -97,7 +98,7 @@ const INITIAL_POSITION = {
 };
 
 type MapProps = {
-  origin: LatLng | null;
+  origin: LatLng;
   destination: LatLng | null;
   showDirections: boolean;
   onDirectionsReady: (args: any) => void;
@@ -105,13 +106,24 @@ type MapProps = {
   crimeData: CrimeData[];
 };
 
-const Map: React.FC<MapProps> = ({ origin, destination, showDirections, onDirectionsReady, mapRef, crimeData }) => {
-  const [region, setRegion] = useState<Region>({
-    latitude: 49.2488,
-    longitude: -123.0016,
-    latitudeDelta: 0.02,
-    longitudeDelta: 0.02 * (width / height),
-  });
+const Map: React.FC<MapProps> = ({
+  origin,
+  destination,
+  showDirections,
+  onDirectionsReady,
+  mapRef,
+  crimeData,
+}) => {
+  const [region, setRegion] = useState<Region>(
+    origin
+    ? {
+        latitude: origin.latitude,
+        longitude: origin.longitude,
+        latitudeDelta: 0.02,
+        longitudeDelta: 0.02 * (width / height),
+      }
+    : INITIAL_POSITION
+  );
 
   const clusters = useClusters(crimeData, region);
 
@@ -124,13 +136,35 @@ const Map: React.FC<MapProps> = ({ origin, destination, showDirections, onDirect
       style={styles.map}
       initialRegion={region}
       onRegionChangeComplete={onRegionChangeComplete}
-    >  
+    >
+      {/* Current Location Pin */}
       {origin && (
-        <Marker coordinate={origin} anchor={{ x: 0.5, y: 0.5 }} calloutAnchor={{ x: 0.5, y: 0.5 }}>
+        <Marker
+          coordinate={origin}
+          anchor={{ x: 0.5, y: 0.5 }}
+          calloutAnchor={{ x: 0.5, y: 0.5 }}
+        >
           <CustomMarker />
         </Marker>
       )}
 
+      {/* Destination Pin */}
+      {destination && <Marker coordinate={destination} pinColor="red" />}
+
+      {/* Directions */}
+      {showDirections && origin && destination && (
+        <MapViewDirections
+          origin={origin}
+          destination={destination}
+          apikey={GOOGLE_API_KEY}
+          strokeColor="#651FD7"
+          strokeWidth={4}
+          onReady={onDirectionsReady}
+          mode="WALKING" // This line specifies the walking route
+        />
+      )}
+
+      {/* Crime Pin */}
       {clusters.map((cluster: Cluster, index: number) => {
         const [longitude, latitude] = cluster.geometry.coordinates;
         const isCluster = cluster.properties.cluster;
@@ -143,7 +177,9 @@ const Map: React.FC<MapProps> = ({ origin, destination, showDirections, onDirect
               coordinate={{ latitude, longitude }}
               title={`Cluster of ${pointCount} crimes`}
             >
-              <CustomGroupedCrimeMarker size={Math.min(40, 10 + pointCount * 2)} />
+              <CustomGroupedCrimeMarker
+                size={Math.min(40, 10 + pointCount * 2)}
+              />
             </Marker>
           );
         } else {
